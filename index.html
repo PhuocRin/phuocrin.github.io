@@ -1,0 +1,891 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Phước Rin: review iPhone, iPad, Mac bằng trải nghiệm và số đo thật. Tải hình nền Liquid Glass 4K miễn phí cho điện thoại và máy tính.">
+<meta name="theme-color" content="#edf1f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b0f17" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://phuocrin.github.io/">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Phước Rin">
+<meta property="og:title" content="Phước Rin · Dùng thật. Test thật. Nói thật.">
+<meta property="og:description" content="Hình nền Liquid Glass 4K miễn phí cho iPhone và máy tính, cùng video review Apple bằng số đo thật.">
+<meta property="og:url" content="https://phuocrin.github.io/">
+<meta property="og:image" content="https://phuocrin.github.io/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font:14px/1.5 system-ui,-apple-system,sans-serif}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Phước Rin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: one long page floating on a slow aurora; every surface is a sheet of frosted glass. Floating pill nav, hero with a tilted live iPhone, wallpaper rails, gear grid, channels, collaboration, coffee. */
+:root{
+  --bg:#edf1f7;
+  --ink:#0b1220;
+  --muted:#5a6477;
+  --accent:#2a6cf0;
+  --glass:rgba(255,255,255,.56);
+  --glass-solid:rgba(255,255,255,.9);
+  --glass-hi:rgba(255,255,255,.9);
+  --glass-line:rgba(18,30,55,.09);
+  --spec:rgba(255,255,255,.55);
+  --shadow:rgba(30,45,80,.28);
+  --seg-on:#ffffff;
+  --aura-1:#8fd0ff;
+  --aura-2:#c5b2ff;
+  --aura-3:#ffcfe3;
+  --aura-4:#9cecd2;
+  --lg-fill:rgba(255,255,255,.38);
+  --lg-hi:rgba(255,255,255,.95);
+  --lg-lo:rgba(20,30,60,.10);
+  --lg-sheen:.9;
+  --lg-rimop:.9;
+  --lg-coffee:rgba(255,170,90,.30);
+  --coffee-ink:#b2580c;
+  --btn-bg:#0b1220;
+  --btn-fg:#ffffff;
+  --frame-a:#e3e6eb;
+  --frame-b:#8b919a;
+  --bezel:#07080b;
+  --f-body:"Be Vietnam Pro",-apple-system,"Segoe UI",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+  --f-clock:-apple-system,"SF Pro Display","Be Vietnam Pro",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#05070d; --ink:#eef2f9; --muted:#98a2b6; --accent:#8cc6ff;
+  --glass:rgba(255,255,255,.065); --glass-solid:rgba(22,26,36,.92); --glass-hi:rgba(255,255,255,.22); --glass-line:rgba(255,255,255,.1);
+  --spec:rgba(255,255,255,.14); --shadow:rgba(0,0,0,.7); --seg-on:rgba(255,255,255,.16);
+  --aura-1:#1f4fd6; --aura-2:#6d35d8; --aura-3:#b8226f; --aura-4:#0c8a78;
+  --btn-bg:#eef2f9; --btn-fg:#05070d; --lg-fill:rgba(255,255,255,.09); --lg-hi:rgba(255,255,255,.38); --lg-lo:rgba(0,0,0,.45); --lg-sheen:.45; --lg-rimop:.5; --lg-coffee:rgba(255,160,80,.20); --coffee-ink:#ffb46e; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#05070d; --ink:#eef2f9; --muted:#98a2b6; --accent:#8cc6ff;
+  --glass:rgba(255,255,255,.065); --glass-solid:rgba(22,26,36,.92); --glass-hi:rgba(255,255,255,.22); --glass-line:rgba(255,255,255,.1);
+  --spec:rgba(255,255,255,.14); --shadow:rgba(0,0,0,.7); --seg-on:rgba(255,255,255,.16);
+  --aura-1:#1f4fd6; --aura-2:#6d35d8; --aura-3:#b8226f; --aura-4:#0c8a78;
+  --btn-bg:#eef2f9; --btn-fg:#05070d; --lg-fill:rgba(255,255,255,.09); --lg-hi:rgba(255,255,255,.38); --lg-lo:rgba(0,0,0,.45); --lg-sheen:.45; --lg-rimop:.5; --lg-coffee:rgba(255,160,80,.20); --coffee-ink:#ffb46e; color-scheme:dark}
+
+html{background:var(--bg);scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+
+/* aurora */
+.aura{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.aura i{position:absolute;width:70vmax;height:70vmax;border-radius:50%;opacity:.55;animation:drift 28s ease-in-out infinite alternate}
+.aura i:nth-child(1){background:radial-gradient(circle,var(--aura-1) 0%,transparent 62%);top:-30vmax;left:-20vmax}
+.aura i:nth-child(2){background:radial-gradient(circle,var(--aura-2) 0%,transparent 62%);top:-10vmax;right:-30vmax;animation-duration:34s}
+.aura i:nth-child(3){background:radial-gradient(circle,var(--aura-3) 0%,transparent 62%);bottom:-35vmax;left:10vmax;animation-duration:40s}
+.aura i:nth-child(4){background:radial-gradient(circle,var(--aura-4) 0%,transparent 62%);bottom:-20vmax;right:-25vmax;animation-duration:31s;opacity:.4}
+@keyframes drift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(6vmax,4vmax,0) scale(1.12)}}
+
+/* glass */
+.glass{position:relative;background:var(--glass);-webkit-backdrop-filter:blur(26px) saturate(170%);backdrop-filter:blur(26px) saturate(170%);
+  border:1px solid var(--glass-line);border-radius:30px;box-shadow:inset 0 1px 0 var(--glass-hi),0 24px 60px -30px var(--shadow)}
+.glass::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(180deg,var(--spec),transparent 38%)}
+.glass>*{position:relative}
+
+.page{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding-inline:16px;padding-block:14px 56px;display:grid;gap:clamp(56px,9vw,104px)}
+section{scroll-margin-top:96px}
+.page>*,.hero>*,.collab>*,.head>*{min-width:0}
+
+/* nav */
+.nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 10px);z-index:20;display:flex;justify-content:center}
+.nav .glass{display:flex;align-items:center;gap:2px;padding:6px;border-radius:999px;max-width:100%}
+.brand{flex:none;display:flex;align-items:center;gap:8px;padding:6px 12px 6px 8px;font-weight:700;font-size:15px;color:var(--ink);text-decoration:none;white-space:nowrap}
+.orb{width:24px;height:24px;border-radius:50%;flex:none;background:radial-gradient(circle at 32% 28%,#fff 0,rgba(255,255,255,.2) 38%,transparent 60%),conic-gradient(from 200deg,#6fd0ff,#9a7bff,#ff8fc6,#6fe3c1,#6fd0ff);box-shadow:inset 0 0 0 1px rgba(255,255,255,.55),0 4px 14px -4px rgba(90,140,255,.7)}
+.nav a.lnk{color:var(--ink);text-decoration:none;font-size:14px;font-weight:500;padding:8px 13px;border-radius:999px;white-space:nowrap;opacity:.82;transition:background .2s,opacity .2s}
+.nav a.lnk:hover{opacity:1}
+.nav a.lnk.on{opacity:1}
+.lnk-cf{opacity:1!important}
+.nav .glass{touch-action:pan-y;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+.nav a.lnk,.nav .brand{position:relative;z-index:1;-webkit-user-drag:none}
+@media (max-width:440px){.nav .lnk-hide{display:none}}
+@media (max-width:520px){.brand span:not(.orb){display:none}.brand{padding:6px}.nav a.lnk{font-size:13px;padding:8px 8px}}
+@media (max-width:390px){.nav .glass{gap:0;padding:5px}.nav a.lnk{font-size:12.5px;padding:7px 6px}.orb{width:22px;height:22px}}
+
+/* hero */
+.hero{display:grid;gap:40px;align-items:center;padding-top:clamp(20px,6vw,64px)}
+@media (min-width:880px){.hero{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr)}}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font:500 12px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:7px 14px;border-radius:999px;width:fit-content}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px rgba(90,140,255,.22);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 22%,transparent)}
+h1{margin:18px 0 0;font-weight:800;font-size:clamp(44px,8.6vw,88px);line-height:.98;letter-spacing:-.045em;text-wrap:balance}
+h1 em{font-style:normal;background:linear-gradient(95deg,#3d8bff 0%,#8b6bff 45%,#ff6fb1 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{margin:20px 0 0;font-size:clamp(17px,2.2vw,19px);color:var(--muted);max-width:46ch}
+.ctas{display:flex;flex-wrap:wrap;gap:10px;margin-top:28px}
+.btn{display:inline-flex;align-items:center;gap:8px;border-radius:999px;padding:14px 22px;font:600 15px var(--f-body);text-decoration:none;cursor:pointer;border:0;transition:transform .15s}
+.btn:active{transform:scale(.97)}
+.btn-solid{background:var(--btn-bg);color:var(--btn-fg);box-shadow:0 12px 30px -12px var(--shadow)}
+.btn-glass{color:var(--ink)}
+.handles{display:flex;flex-wrap:wrap;gap:6px 18px;margin-top:22px;font:500 13px var(--f-mono)}
+.handles a{color:var(--muted);text-decoration:none}.handles a:hover{color:var(--ink)}
+
+.stage{position:relative;display:flex;justify-content:center;perspective:1400px;padding-block:10px 20px}
+.device{position:relative;width:min(290px,64vw);aspect-ratio:1320/2868;border-radius:clamp(38px,9vw,50px);padding:clamp(7px,1.6vw,10px);
+  background:linear-gradient(145deg,var(--frame-a) 0%,var(--frame-b) 38%,var(--frame-a) 58%,var(--frame-b) 100%);
+  box-shadow:0 50px 90px -40px var(--shadow),0 0 0 1px rgba(0,0,0,.12);transform:rotateY(-16deg) rotateX(7deg) rotateZ(1deg);transform-style:preserve-3d;animation:float 7s ease-in-out infinite}
+@keyframes float{0%,100%{translate:0 0}50%{translate:0 -10px}}
+.screen{position:relative;width:100%;height:100%;border-radius:clamp(31px,7.4vw,41px);overflow:hidden;background:var(--bezel);container-type:inline-size}
+.screen canvas{position:absolute;inset:0;width:100%;height:100%;transition:opacity 1.1s ease}
+.lock{position:absolute;inset:0;pointer-events:none;display:flex;flex-direction:column;align-items:center;color:#fff;text-shadow:0 1px 14px rgba(0,0,0,.25)}
+.island{margin-top:3.4cqw;width:31cqw;height:9cqw;border-radius:99px;background:#000}
+.ldate{margin-top:9cqw;font:600 5.2cqw var(--f-clock)}
+.clock{font:700 25cqw/1 var(--f-clock);letter-spacing:-.02em}
+.float-chip{position:absolute;display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:18px;font-size:13px;font-weight:600;white-space:nowrap}
+.float-chip small{display:block;font:500 11px var(--f-mono);color:var(--muted)}
+.chip-a{left:max(0px,calc(50% - 250px));top:18%}
+.chip-b{position:absolute;right:max(0px,calc(50% - 250px));bottom:14%;padding:12px 18px;font-size:14px}
+.chip-a{color:var(--ink);text-decoration:none}
+#heroPhone{cursor:pointer}
+#heroImg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.thumb{position:relative}
+.newb{position:absolute;left:8px;top:8px;z-index:1;font:700 11px var(--f-body);letter-spacing:.02em;color:#fff;padding:4px 9px;border-radius:999px;background:linear-gradient(135deg,rgba(64,132,255,.92),rgba(138,98,255,.9));box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 4px 10px -4px rgba(60,80,200,.6)}
+@media (max-width:520px){.chip-a{left:0;top:10%}.chip-b{right:0;bottom:8%;padding:10px 14px;font-size:13px}.float-chip{font-size:12px;padding:8px 11px}}
+
+/* section heads */
+.head{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:16px;margin-bottom:24px}
+.head-t{display:grid;gap:8px;max-width:600px}
+.kicker{font:500 12px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h2{margin:0;font-weight:800;font-size:clamp(30px,5vw,46px);line-height:1.05;letter-spacing:-.035em;text-wrap:balance}
+.head p{margin:0;color:var(--muted)}
+.note{font-size:13px;color:var(--muted)}
+
+/* segmented control */
+.seg{display:inline-flex;padding:4px;border-radius:999px;gap:2px}
+.seg button{appearance:none;border:0;background:transparent;color:var(--ink);font:600 14px var(--f-body);padding:9px 16px;border-radius:999px;cursor:pointer;opacity:.7}
+.seg button[aria-selected="true"]{background:var(--seg-on);opacity:1;box-shadow:0 4px 14px -6px var(--shadow)}
+
+/* wallpaper rail */
+.rail-wrap{overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;margin-inline:-16px;padding-inline:16px;scrollbar-width:none}
+.rail-wrap::-webkit-scrollbar{display:none}
+.rail{display:flex;gap:14px;padding-block:6px 18px;width:max-content}
+.wp{appearance:none;border:0;background:none;padding:0;color:inherit;font:inherit;text-align:left;cursor:pointer;scroll-snap-align:start;display:grid;gap:10px;width:clamp(138px,30vw,172px)}
+.wp .thumb{display:block;aspect-ratio:1320/2868;border-radius:24px;overflow:hidden;background:var(--bezel);box-shadow:0 0 0 1px var(--glass-line),0 22px 40px -24px var(--shadow);transition:transform .25s}
+.wp:hover .thumb{transform:translateY(-5px)}
+.wp canvas,.wp img{display:block;width:100%;height:100%;max-width:100%;object-fit:cover}
+.wp b{font:500 12.5px var(--f-mono)}
+.wp span.sub{display:block;font-size:12.5px;color:var(--muted)}
+.wp:focus-visible{outline:none}.wp:focus-visible .thumb{outline:2px solid var(--accent);outline-offset:3px}
+
+/* gear */
+.gear{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (min-width:760px){.gear{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}}
+.item{padding:20px;display:grid;gap:14px;align-content:start;border-radius:26px;min-width:0}
+.ico{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;background:var(--seg-on);box-shadow:inset 0 1px 0 var(--glass-hi),0 8px 20px -12px var(--shadow)}
+.ico svg{width:24px;height:24px;stroke:var(--ink);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.item .cat{font:500 11.5px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.item h3{margin:2px 0 0;font-size:17px;line-height:1.25;font-weight:700;letter-spacing:-.01em}
+.soon{justify-self:start;font-size:12.5px;font-weight:600;padding:7px 12px;border-radius:999px;border:1px dashed var(--glass-line);color:var(--muted)}
+
+.acc{margin-top:28px;display:grid;gap:12px}
+.acc-t{margin:0;font-size:18px;letter-spacing:-.01em}
+.acc-row{display:flex;flex-wrap:wrap;gap:10px}
+.acc-row .glass{display:flex;align-items:center;gap:10px;padding:10px 16px 10px 10px;border-radius:999px;font-weight:600;font-size:14px}
+.acc-row .ico{width:34px;height:34px;border-radius:50%}
+.acc-row .ico svg{width:18px;height:18px}
+.acc-row small{font:500 11px var(--f-mono);color:var(--muted);margin-left:2px}
+.all-row{display:flex;justify-content:center;margin-top:6px}
+.sheet{position:fixed;inset:0;z-index:50;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding-inline:16px;padding-block:0 calc(env(safe-area-inset-bottom,0px) + 28px)}
+.sheet-head{position:sticky;top:0;z-index:2;max-width:1160px;margin:0 auto;display:grid;gap:12px;padding-top:calc(env(safe-area-inset-top,0px) + 14px);padding-bottom:14px;background:linear-gradient(var(--bg) 78%,transparent)}
+.sheet-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.sheet-top h2{font-size:clamp(24px,5vw,34px)}
+.sheet-top small{display:block;font:500 12px var(--f-mono);color:var(--muted);margin-top:4px}
+.x{width:44px;height:44px;flex:none;border-radius:50%;color:var(--ink);font-size:24px;line-height:1;cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--seg-on);opacity:1;box-shadow:0 4px 14px -6px var(--shadow)}
+.gal{max-width:1160px;margin:0 auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px 10px}
+@media (min-width:640px){.gal{grid-template-columns:repeat(4,minmax(0,1fr));gap:20px 14px}}
+@media (min-width:960px){.gal{grid-template-columns:repeat(6,minmax(0,1fr))}}
+.gal .wp{width:auto;min-width:0;gap:7px;grid-template-columns:minmax(0,1fr)}
+.gal .wp .thumb{width:100%}
+.gal .wp .thumb{border-radius:16px}
+.gal .wp b{font-size:11px}
+.gal .wp span.sub{font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+  .glass{background:var(--glass-solid)}
+}
+/* channels */
+.chan{display:grid;gap:12px}
+@media (min-width:760px){.chan{grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}}
+.ch{display:flex;align-items:center;gap:16px;padding:20px 22px;text-decoration:none;color:var(--ink);transition:transform .2s}
+.ch:hover{transform:translateY(-3px)}
+.ch .badge{width:52px;height:52px;border-radius:16px;display:grid;place-items:center;flex:none;color:#fff}
+.ch .badge svg{width:24px;height:24px;fill:currentColor}
+.b-yt{background:linear-gradient(145deg,#ff5a52,#d7192a)}
+.b-tt{background:linear-gradient(145deg,#2b2b33,#0b0b0f);box-shadow:inset 2px 0 0 #25f4ee,inset -2px 0 0 #fe2c55}
+.b-fb{background:linear-gradient(145deg,#4f8bff,#1f5fe0)}
+.ch b{display:block;font-size:17px}
+.ch span{font:500 13px var(--f-mono);color:var(--muted)}
+.ch .arrow{margin-left:auto;font-size:20px;color:var(--muted)}
+
+/* collab */
+.collab{padding:clamp(24px,5vw,48px);display:grid;gap:28px}
+@media (min-width:760px){.collab{grid-template-columns:minmax(0,300px) minmax(0,1fr);align-items:center}}
+.collab p{margin:14px 0 0;color:var(--muted);max-width:52ch}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+.pills span{font-size:14px;font-weight:600;padding:9px 15px;border-radius:999px;background:var(--seg-on);box-shadow:inset 0 1px 0 var(--glass-hi)}
+.mail{display:grid;gap:10px;padding:22px;border-radius:24px;background:var(--seg-on);box-shadow:inset 0 1px 0 var(--glass-hi)}
+.mail label{font:500 11.5px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.mail output{font-size:clamp(16px,2.4vw,19px);font-weight:700;user-select:all;overflow-wrap:anywhere}
+
+/* coffee */
+.coffee{display:grid;gap:20px;align-items:center;padding:24px;max-width:680px}
+.qr{aspect-ratio:1;max-width:100%;border-radius:20px;border:1.5px dashed var(--glass-line);display:grid;place-items:center;text-align:center;font-size:11.5px;line-height:1.35;color:var(--muted);padding:8px}
+.coffee h3{margin:0;font-size:20px;letter-spacing:-.02em}
+.coffee p{margin:6px 0 0;color:var(--muted);font-size:15px}
+
+ .cf-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.pp{padding:11px 18px;font-size:14px}
+.coffee p.cf-note{font-size:13px;margin-top:12px}
+.vrail{display:flex;gap:14px;padding-block:6px 18px;width:max-content}
+.vcard{width:clamp(240px,72vw,320px);padding:10px;border-radius:24px;display:grid;gap:12px;scroll-snap-align:start}
+.vthumb{position:relative;aspect-ratio:16/9;border-radius:16px;overflow:hidden;background:linear-gradient(135deg,var(--aura-1),var(--aura-2) 55%,var(--aura-3));opacity:.75}
+.vthumb::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.35) 50%,transparent 70%);background-size:220% 100%;animation:shimmer 2.4s linear infinite}
+@keyframes shimmer{from{background-position:120% 0}to{background-position:-120% 0}}
+.play{position:absolute;left:50%;top:50%;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;background:rgba(255,255,255,.35);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:inset 0 1px 0 rgba(255,255,255,.7);z-index:1}
+.play::before{content:"";position:absolute;left:21px;top:16px;border-left:15px solid #fff;border-top:10px solid transparent;border-bottom:10px solid transparent}
+.vtxt{display:grid;gap:8px;padding:0 6px 6px}
+.vtxt i{display:block;height:11px;border-radius:6px;background:var(--glass-line)}
+.vtxt i.short{width:58%}
+.vreal{color:inherit;text-decoration:none}.vreal .vthumb{opacity:1}.vreal .vthumb::after{display:none}
+.vreal .vthumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.vreal .vtxt b{font-weight:600;font-size:14.5px;line-height:1.35;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.vreal .vtxt small{font-size:12.5px;color:var(--muted)}
+.vfoot{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;margin-top:6px}
+footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;font-size:13px;color:var(--muted);padding-top:24px;border-top:1px solid var(--glass-line)}
+.demo{font:500 11.5px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px;border:1px solid var(--glass-line)}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+/* liquid glass controls */
+.btn,.x,.vclose,.vbar{
+  background:var(--lg-fill);-webkit-backdrop-filter:blur(18px) saturate(190%);backdrop-filter:blur(18px) saturate(190%);
+  border:0;isolation:isolate;
+  box-shadow:inset 0 1px 1px var(--lg-hi),inset 0 -1px 2px var(--lg-lo),0 10px 26px -12px var(--shadow);
+  transition:transform .2s cubic-bezier(.3,.7,.4,1.5),filter .2s}
+.btn,.x,.vbar{position:relative}
+.btn::before,.x::before,.vclose::before,.vbar::before{
+  content:"";position:absolute;inset:0;border-radius:inherit;z-index:-1;pointer-events:none;opacity:var(--lg-sheen);
+  background:radial-gradient(120% 75% at 28% 0%,rgba(255,255,255,.75),rgba(255,255,255,.12) 46%,transparent 62%),linear-gradient(180deg,transparent 62%,rgba(255,255,255,.2))}
+.btn::after,.lens::after,.x::after,.vclose::after,.vbar::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;opacity:var(--lg-rimop);
+  background:linear-gradient(140deg,rgba(255,255,255,.95),rgba(255,255,255,.18) 34%,rgba(255,255,255,.04) 62%,rgba(255,255,255,.6));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude}
+.btn:active,.x:active,.vclose:active{transform:scale(.94);filter:brightness(1.1) saturate(1.15)}
+@media (hover:hover){.btn:hover,.x:hover,.vclose:hover{filter:brightness(1.06)}}
+.btn-solid{background:linear-gradient(135deg,rgba(64,132,255,.9),rgba(138,98,255,.88));color:#fff;
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.7),inset 0 -1px 2px rgba(20,10,80,.3),0 14px 32px -12px rgba(90,100,255,.75)}
+.btn-glass{color:var(--ink)}
+.nav a.lnk-cf{color:var(--coffee-ink);font-weight:600}
+/* sliding glass lens (nav + segmented controls) */
+.seg{position:relative;touch-action:pan-y;-webkit-user-select:none;user-select:none;-webkit-tap-highlight-color:transparent}
+.seg button{position:relative;z-index:1}
+.seg button[aria-selected="true"],.seg button[aria-pressed="true"]{background:transparent!important;box-shadow:none!important;opacity:1}
+.viewer{--lg-fill:rgba(255,255,255,.1);--lg-hi:rgba(255,255,255,.4);--lg-lo:rgba(0,0,0,.45);--lg-sheen:.45;--lg-rimop:.55;--shadow:rgba(0,0,0,.6)}
+.vbar button:active{transform:scale(.92)}
+/* viewer */
+.viewer{position:fixed;inset:0;z-index:60;background:rgba(4,6,10,.88);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px);color:#eef2f9;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding-inline:16px;padding-block:calc(env(safe-area-inset-top,0px) + 58px) calc(env(safe-area-inset-bottom,0px) + 16px)}
+.vstage{display:flex;justify-content:center;width:100%}
+.vphone{position:relative;container-type:inline-size;width:min(calc(56vh * 1320 / 2868),calc(100vw - 48px),340px);width:min(calc(56svh * 1320 / 2868),calc(100vw - 48px),340px);
+  aspect-ratio:1320/2868;border-radius:40px;overflow:hidden;background:#07080b;box-shadow:0 0 0 1px rgba(255,255,255,.16),0 0 0 7px #0c0d12,0 0 0 8px rgba(255,255,255,.14),0 40px 80px -30px #000}
+.vphone img{display:block;width:100%;height:100%;object-fit:cover;-webkit-touch-callout:default}
+.vload{position:absolute;left:50%;bottom:7cqw;transform:translateX(-50%);font-size:12px;white-space:nowrap;background:rgba(0,0,0,.5);color:#fff;padding:6px 12px;border-radius:99px;pointer-events:none}
+.vinfo{font-size:13px;color:#a3acbf;text-align:center}.vinfo strong{font:500 13px var(--f-mono);color:#fff;margin-right:6px}
+.vbar{display:flex;gap:6px;padding:5px;border-radius:999px}
+.vbar button{appearance:none;min-width:44px;height:44px;border:0;border-radius:999px;background:transparent;color:#fff;font:600 15px var(--f-body);padding:0 16px;cursor:pointer}
+.vbar .nv{font-size:24px;line-height:1;padding:0 14px}
+#vlock[aria-pressed="true"]{background:rgba(255,255,255,.18)}
+.vclose{position:absolute;top:calc(env(safe-area-inset-top,0px) + 12px);right:16px;width:44px;height:44px;border-radius:50%;color:#fff;font-size:24px;line-height:1;cursor:pointer}
+.vdl{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}.vdl .btn{min-height:44px}.vdl .btn-glass{color:#fff}
+.vhint{margin:0;font-size:12.5px;color:#a3acbf;text-align:center;max-width:36ch}
+
+/* Apple-style tab lens: soft pill at rest, clear magnifying glass while dragging */
+:root{--lens-rest:rgba(15,25,50,.075);--lens-drag:rgba(250,252,255,.92)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--lens-rest:rgba(255,255,255,.13);--lens-drag:rgba(40,44,56,.92)}}
+:root[data-theme="dark"]{--lens-rest:rgba(255,255,255,.13);--lens-drag:rgba(40,44,56,.92)}
+.glass>.lens,.lens{position:absolute;left:0;top:0;z-index:0;border-radius:999px;pointer-events:none;overflow:hidden;
+  background:var(--lens-rest);box-shadow:inset 0 1px 0 rgba(255,255,255,.55);
+  -webkit-backdrop-filter:none;backdrop-filter:none;will-change:transform;transform-origin:50% 50%;
+  transition:transform .5s cubic-bezier(.3,1.18,.45,1),width .5s cubic-bezier(.3,1.18,.45,1),height .3s,background-color .25s,box-shadow .25s,opacity .2s}
+.lens::after{opacity:0;transition:opacity .2s}
+.lens.off{opacity:0}
+.lens.now,.lens.now .lens-inner{transition:none!important}
+.lens-inner{position:absolute;left:0;top:0;display:flex;box-sizing:border-box;pointer-events:none;opacity:0;will-change:transform;
+  transition:transform .5s cubic-bezier(.3,1.18,.45,1),opacity .2s}
+.lens-inner>*{white-space:nowrap;flex:none;opacity:1!important;text-shadow:-.5px 0 rgba(255,40,120,.4),.5px 0 rgba(0,170,255,.4)}
+.lens-fringe{position:absolute;inset:0;border-radius:inherit;padding:1.5px;pointer-events:none;opacity:0;
+  background:conic-gradient(from 210deg,#ff6b9d,#ffd36b,#7dffb2,#6bc8ff,#b38bff,#ff6b9d);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude;transition:opacity .2s}
+.lens.drag{z-index:3;background:var(--lens-drag);
+  box-shadow:inset 0 1px 1px #fff,inset 0 0 0 1px rgba(255,255,255,.7),inset 0 0 16px rgba(255,255,255,.55),inset 0 -10px 16px -10px rgba(10,30,90,.22),0 18px 36px -14px var(--shadow);
+  transition:width .3s cubic-bezier(.25,1.3,.4,1),height .2s,background-color .2s,box-shadow .2s}
+.lens.drag::after,.lens.drag .lens-inner{opacity:1}
+.lens.drag .lens-inner{transition:opacity .12s}
+.lens.drag .lens-fringe{opacity:.7}
+.nav a.lnk.on{color:var(--accent)}
+.nav a.lnk-cf.on{color:var(--coffee-ink)}
+.seg>button[aria-selected="true"],.seg>button[aria-pressed="true"]{color:var(--accent)}
+/* creator pill + portrait */
+.me{display:inline-flex;align-items:center;gap:12px;padding:6px 18px 6px 6px;border-radius:999px;width:fit-content;max-width:100%}
+.me-av{width:52px;height:52px;border-radius:50%;object-fit:cover;flex:none;box-shadow:0 0 0 2px rgba(255,255,255,.9),0 6px 16px -6px var(--shadow)}
+.me b{display:block;font-size:16px;line-height:1.2}
+.me small{display:block;font:500 12px var(--f-mono);letter-spacing:.04em;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.por{margin:0;position:relative;border-radius:26px;overflow:hidden;aspect-ratio:4/5;max-width:340px;width:100%;justify-self:center;
+  box-shadow:0 0 0 1px var(--glass-line),0 30px 60px -30px var(--shadow)}
+.por img{display:block;width:100%;height:100%;object-fit:cover}
+.por figcaption{position:absolute;left:12px;right:12px;bottom:12px;padding:12px 16px;border-radius:18px;color:#fff;font-weight:700;font-size:16px;
+  background:rgba(20,24,34,.38);-webkit-backdrop-filter:blur(16px) saturate(170%);backdrop-filter:blur(16px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
+.por figcaption small{display:block;font:500 12px var(--f-mono);letter-spacing:.04em;opacity:.85;margin-top:2px}
+.collab .mail{margin-top:22px}
+.socs{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.soc{padding:6px 13px 6px 6px;font-size:14px;gap:7px}
+@media (max-width:400px){.socs{gap:6px}.soc{padding:5px 11px 5px 5px;font-size:13px}}
+.si{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;color:#fff;flex:none}
+.si svg{width:15px;height:15px;fill:currentColor}
+.stage .chip-b{position:absolute;white-space:nowrap;width:auto}
+@media (max-width:520px){.stage .chip-a{top:44%}.stage .chip-b{bottom:9%}}
+.gear-links{display:flex;flex-wrap:wrap;gap:8px}
+.gl{padding:9px 14px;font-size:13.5px}
+.gl-note{font-size:12px;color:var(--muted);line-height:1.4}
+.coffee{max-width:760px}
+@media (min-width:560px){.coffee{grid-template-columns:180px minmax(0,1fr)}}
+.qrbox{margin:0;justify-self:center;width:100%;max-width:220px;display:grid;gap:8px;text-align:center}
+.qrbox img{display:block;width:100%;height:auto;aspect-ratio:1;border-radius:18px;background:#fff;padding:10px;box-sizing:border-box;box-shadow:0 0 0 1px var(--glass-line),0 14px 30px -16px var(--shadow)}
+.qrbox figcaption{font:500 12px var(--f-mono);color:var(--muted)}
+.coffee p.cf-note+p.cf-note{margin-top:4px}
+.aib{position:absolute;right:8px;top:8px;z-index:1;font:600 10.5px var(--f-body);color:#fff;padding:3px 8px;border-radius:999px;background:rgba(20,24,34,.45);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
+</style>
+</head>
+<body>
+
+<div class="aura" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<div class="page">
+  <nav class="nav" aria-label="Mục chính">
+    <div class="glass">
+      <a class="brand" href="#top"><span class="orb" aria-hidden="true"></span><span>Phước Rin</span></a>
+      <a class="lnk" href="#hinh-nen">Hình nền</a>
+      <a class="lnk lnk-cf" href="#cafe" aria-label="Mời Phước ly cà phê"><span aria-hidden="true">☕</span><span class="t"> Mời cà phê</span></a>
+      <a class="lnk" href="#video">Video</a>
+      <a class="lnk" href="#do-dung">Đồ dùng</a>
+      <a class="lnk lnk-hide" href="#hop-tac">Hợp tác</a>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div>
+      <div class="me glass"><img class="me-av" src="img/avatar.jpg" alt="Ảnh Phước Rin" width="52" height="52"><span><b>Phước Rin</b><small>iPhone · iPad · Mac · Phụ kiện</small></span></div>
+      <h1>Dùng thật. <em>Test thật.</em> Nói thật.</h1>
+      <p class="lede">Mình là Phước Rin. Mình làm video về iPhone, iPad, Mac, iOS và cả phụ kiện, đồ công nghệ mình dùng hằng ngày. Mọi thứ đều dựa trên trải nghiệm và số đo thật của mình, không đọc lại thông số.</p>
+      <div class="ctas">
+        <a class="btn btn-solid" href="#hinh-nen">Tải hình nền miễn phí</a>
+        <a class="btn btn-glass" href="#cafe"><span aria-hidden="true">☕</span> Mời Phước ly cà phê</a>
+      </div>
+      <div class="socs">
+        <a class="btn btn-glass soc" href="https://youtube.com/@phuocrin" target="_blank" rel="noopener"><span class="si b-yt" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 7.5v9l7.5-4.5z"/></svg></span>YouTube</a>
+        <a class="btn btn-glass soc" href="https://www.tiktok.com/@phuocrinrin" target="_blank" rel="noopener"><span class="si b-tt" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 4h2.6c.2 1.9 1.5 3.3 3.4 3.5V10a6 6 0 0 1-3.4-1.1V15a5 5 0 1 1-5-5v2.7a2.3 2.3 0 1 0 2.4 2.3z"/></svg></span>TikTok</a>
+        <a class="btn btn-glass soc" href="https://www.facebook.com/share/1FCWqZK4CT/" target="_blank" rel="noopener"><span class="si b-fb" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.6-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H8v3h2.5V21z"/></svg></span>Facebook</a>
+      </div>
+    </div>
+    <div class="stage">
+      <div class="device" id="heroPhone" role="button" tabindex="0" aria-label="Xem và tải hình nền mới nhất">
+        <div class="screen">
+          <canvas id="heroA" width="330" height="717"></canvas>
+          <img id="heroImg" alt="" hidden>
+          <div class="lock" aria-hidden="true"><div class="island"></div><div class="ldate" data-date></div><div class="clock" data-clock>9:41</div></div>
+        </div>
+      </div>
+      <a class="float-chip glass chip-a" id="heroVideo" href="https://www.youtube.com/@phuocrin/videos" target="_blank" rel="noopener"><span>Hình nền mới<small id="heroName">Kính Lụa</small></span></a>
+      <button class="btn btn-solid chip-b" type="button" id="heroGet">Tải hình này miễn phí</button>
+    </div>
+  </header>
+
+  <section id="hinh-nen" aria-labelledby="t-wp">
+    <div class="head">
+      <div class="head-t">
+        <span class="kicker">Hình nền</span>
+        <h2 id="t-wp">Hình nền 4K miễn phí</h2>
+        <p>Bộ Kính Lụa. Mỗi hình có bản cho điện thoại và bản cho máy tính, bấm vào để xem thử với giờ màn hình khóa rồi tải về.</p>
+      </div>
+    </div>
+    <div class="rail-wrap" id="p-kl" role="tabpanel" aria-labelledby="tab-kl"><div class="rail" id="railKL"></div></div>
+    <div class="all-row"><button class="btn btn-glass" type="button" id="openAll">Xem tất cả <span id="allCount"></span> hình nền</button></div>
+  </section>
+
+  <section class="coffee glass" id="cafe" aria-labelledby="t-cf">
+    <figure class="qrbox"><img src="img/qr.png" alt="Mã QR chuyển khoản ủng hộ Phước Rin" width="480" height="480"><figcaption>Quét bằng app ngân hàng</figcaption></figure>
+    <div>
+      <h3 id="t-cf">Mời Phước ly cà phê</h3>
+      <p>Hình nền trên trang này miễn phí nha các bạn. Bạn nào thấy thích thì mời Phước ly cà phê để mình có động lực làm thêm nhiều bộ nữa 😁</p>
+      <div class="cf-row"><a class="btn btn-glass pp" href="https://www.paypal.me/phuocrin" target="_blank" rel="noopener">Ủng hộ qua PayPal ↗</a></div>
+      <p class="cf-note">Khi quét mã, app ngân hàng sẽ hiện tên chủ tài khoản. Các bạn kiểm tra đúng tên trước khi chuyển nha.</p>
+      <p class="cf-note">Đang xem trên điện thoại? Chụp màn hình mã QR, rồi mở app ngân hàng và chọn quét mã từ ảnh.</p>
+    </div>
+  </section>
+
+  <section id="video" aria-labelledby="t-vid">
+    <div class="head">
+      <div class="head-t">
+        <span class="kicker">Video</span>
+        <h2 id="t-vid">Xem gì trên kênh của mình</h2>
+        <p>Video mới nhất và mẹo dùng iPhone, tự cập nhật theo kênh YouTube.</p>
+      </div>
+      <div class="seg glass" role="tablist" aria-label="Chọn nhóm video">
+        <button type="button" role="tab" id="tab-new" aria-selected="true" aria-controls="p-new">Mới nhất</button>
+        <button type="button" role="tab" id="tab-tips" aria-selected="false" aria-controls="p-tips">Mẹo iPhone</button>
+      </div>
+    </div>
+    <div role="tabpanel" id="p-new" aria-labelledby="tab-new" class="vpanel" data-skel="3">
+      <div class="vfoot"><span class="note">3 video gần nhất trên kênh, tự cập nhật mỗi ngày.</span><a class="btn btn-glass" href="https://www.youtube.com/@phuocrin/videos" target="_blank" rel="noopener">Xem tất cả trên YouTube ↗</a></div>
+    </div>
+    <div role="tabpanel" id="p-tips" aria-labelledby="tab-tips" class="vpanel" data-skel="3" hidden>
+      <div class="vfoot"><span class="note">Mẹo iPhone: cách mình sử dụng. Video thêm vào danh sách phát sẽ tự hiện ở đây.</span><a class="btn btn-glass" href="https://www.youtube.com/playlist?list=PLT81iRTCac7UGqi528VoHfuvh1ytw5PUH" target="_blank" rel="noopener">Mở danh sách phát ↗</a></div>
+    </div>
+  </section>
+
+  <section id="do-dung" aria-labelledby="t-gear">
+    <div class="head">
+      <div class="head-t">
+        <span class="kicker">Đồ mình dùng</span>
+        <h2 id="t-gear">Mấy món mình đang dùng</h2>
+        <p>Thiết bị và phụ kiện mình đang dùng hằng ngày để quay, dựng và test video. Món nào có link mua phù hợp hoặc có video review thì mình gắn kèm để các bạn xem thêm.</p>
+      </div>
+    </div>
+    <div class="gear" id="gear"></div>
+  </section>
+
+  <section id="kenh" aria-labelledby="t-ch">
+    <div class="head"><div class="head-t"><span class="kicker">Kênh</span><h2 id="t-ch">Theo dõi mình ở đâu</h2></div></div>
+    <div class="chan">
+      <a class="ch glass" href="https://youtube.com/@phuocrin" target="_blank" rel="noopener">
+        <span class="badge b-yt" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 7.5v9l7.5-4.5z"/></svg></span>
+        <span><b>YouTube</b><span>@phuocrin</span></span><span class="arrow" aria-hidden="true">↗</span></a>
+      <a class="ch glass" href="https://www.tiktok.com/@phuocrinrin" target="_blank" rel="noopener">
+        <span class="badge b-tt" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M14 4h2.6c.2 1.9 1.5 3.3 3.4 3.5V10a6 6 0 0 1-3.4-1.1V15a5 5 0 1 1-5-5v2.7a2.3 2.3 0 1 0 2.4 2.3z"/></svg></span>
+        <span><b>TikTok</b><span>@phuocrinrin</span></span><span class="arrow" aria-hidden="true">↗</span></a>
+      <a class="ch glass" href="https://www.facebook.com/share/1FCWqZK4CT/" target="_blank" rel="noopener">
+        <span class="badge b-fb" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M13.5 21v-7.5h2.6l.4-3h-3V8.6c0-.9.3-1.5 1.6-1.5h1.6V4.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.2H8v3h2.5V21z"/></svg></span>
+        <span><b>Facebook</b><span>Phước Rin</span></span><span class="arrow" aria-hidden="true">↗</span></a>
+    </div>
+  </section>
+
+  <section id="hop-tac" aria-labelledby="t-co">
+    <div class="collab glass">
+      <figure class="por"><img src="img/portrait.jpg" alt="Phước Rin" loading="lazy"><figcaption>Phước Rin<small>Apple creator · Việt Nam</small></figcaption></figure>
+      <div>
+        <span class="kicker">Hợp tác</span>
+        <h2 id="t-co" style="margin-top:8px">Làm việc cùng Phước Rin</h2>
+        <p>Mình nhận hợp tác với nhãn hàng theo một nguyên tắc: sản phẩm được dùng và đo thật trước khi lên video, ưu điểm và nhược điểm đều được nói rõ.</p>
+        <div class="pills"><span>Test thật</span><span>Review thật</span><span>Nói rõ ưu nhược điểm</span></div>
+      <div class="mail">
+        <label for="mailOut">Email công việc</label>
+        <output id="mailOut">phuocrinrin@gmail.com</output>
+        <button class="btn btn-solid" type="button" id="copyMail">Sao chép email</button>
+      </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Phước Rin · Hình nền dùng miễn phí cho máy cá nhân.</span>
+  </footer>
+</div>
+
+<div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="t-all">
+  <div class="sheet-head">
+    <div class="sheet-top">
+      <div><h2 id="t-all">Tất cả hình nền</h2><small id="sheetCount"></small></div>
+      <button class="x" type="button" id="closeAll" aria-label="Đóng">×</button>
+    </div>
+    <div class="seg glass" id="galFilter" aria-label="Lọc theo bộ">
+      <button type="button" data-set="all" aria-pressed="true">Tất cả</button>
+      <button type="button" data-set="kl" aria-pressed="false">Kính Lụa</button>
+      <button type="button" data-set="bcs" aria-pressed="false">Bên Cửa Sổ</button>
+    </div>
+  </div>
+  <div class="gal" id="gal"></div>
+</div>
+
+<div class="viewer" id="viewer" hidden role="dialog" aria-modal="true" aria-label="Xem hình nền">
+  <button class="vclose" type="button" id="vclose" aria-label="Đóng">×</button>
+  <div class="vstage" id="vstage">
+    <div class="vphone">
+      <img id="vimg" alt="">
+      <div class="lock" id="vlockLayer" aria-hidden="true"><div class="island"></div><div class="ldate" data-date></div><div class="clock" data-clock>9:41</div></div>
+      <div class="vload" id="vload">Đang tải bản 4K…</div>
+    </div>
+  </div>
+  <div class="vinfo"><strong id="vname"></strong><span id="vsub"></span></div>
+  <div class="vbar">
+    <button class="nv" type="button" id="vprev" aria-label="Hình trước">‹</button>
+    <button type="button" id="vlock" aria-pressed="true">Giờ khóa</button>
+    <button class="nv" type="button" id="vnext" aria-label="Hình sau">›</button>
+  </div>
+  <div class="vdl"><a class="btn btn-solid" id="dlPhone" href="#" download>Tải cho điện thoại</a><a class="btn btn-glass" id="dlDesk" href="#" download>Tải cho máy tính</a></div>
+  <p class="vhint" id="vhint"></p>
+</div>
+
+<script src="js/kinh-lua.js"></script>
+<script>
+(function(){
+  var K = window.KinhLua, FW = 1320, FH = 2868, TW = 340, TH = Math.round(TW*FH/FW);
+  var PETS = [];
+  var PET_META = [["Núi tuyết","Mèo cam"],["Hoàng hôn","Cún vàng"],["Phố mưa","Mèo xám"],["Đồng oải hương","Thỏ trắng"],["Hồ đêm","Mèo đen"]];
+  function mk(w,h){var c=document.createElement("canvas"); c.width=w; c.height=h; return c;}
+
+  /* clock + date */
+  function tick(){
+    var d = new Date(), t, ds;
+    try { t = d.toLocaleTimeString("vi-VN",{hour:"2-digit",minute:"2-digit",hour12:false}); ds = d.toLocaleDateString("vi-VN",{weekday:"long",day:"numeric",month:"long"}); ds = ds.charAt(0).toUpperCase()+ds.slice(1); }
+    catch(e){ t = "9:41"; ds = ""; }
+    document.querySelectorAll("[data-clock]").forEach(function(el){ el.textContent = t; });
+    document.querySelectorAll("[data-date]").forEach(function(el){ el.textContent = ds; });
+  }
+  tick(); setInterval(tick, 20000);
+
+  /* items */
+  var ORDER = [[0,0],[4,1],[1,2],[5,0],[2,1],[3,2],[0,1],[4,2],[1,0],[5,1],[2,2],[3,0]];
+  var ITEMS = { kl: [], bcs: [] };
+  ORDER.forEach(function(o,i){ ITEMS.kl.push({kind:"gen", file:"wallpapers/kinh-lua/kinh-lua_"+String(i+1).padStart(2,"0"), spec:{p:o[0], comp:o[1], seed:2026+i*131}, label:"Kính Lụa #"+String(i+1).padStart(2,"0"), sub:K.PAL[o[0]].name+" · "+K.COMPS[o[1]]}); });
+  PETS.forEach(function(src,i){ ITEMS.bcs.push({kind:"img", ai:true, src:src, label:"Bên Cửa Sổ #"+String(i+1).padStart(2,"0"), sub:PET_META[i][0]+" · "+PET_META[i][1]}); });
+
+  /* HÌNH NỀN MỚI NHẤT — mỗi lần đăng video tặng hình nền, chỉ sửa khối này:
+     set: bộ chứa hình ("kl" hoặc "bcs"), index: vị trí hình trong bộ, video: tên + link video tặng hình */
+  var LATEST = { set:"kl", index:11, video:{ title:"Video mới nhất", url:"https://www.youtube.com/@phuocrin/videos" } };
+  var latestItem = ITEMS[LATEST.set].splice(LATEST.index, 1)[0];
+  latestItem.isNew = true; latestItem.video = LATEST.video;
+  ITEMS[LATEST.set].unshift(latestItem);
+
+  /* hero: shows the newest wallpaper (the one gifted with the latest video) */
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var hA = document.getElementById("heroA"), heroImg = document.getElementById("heroImg");
+  if (latestItem.kind === "gen") K.render(hA, latestItem.spec, mk);
+  else { hA.hidden = true; heroImg.src = latestItem.src; heroImg.hidden = false; }
+  document.getElementById("heroName").textContent = latestItem.label + " · Xem video ↗";
+  var hv = document.getElementById("heroVideo"); hv.href = latestItem.video.url; hv.setAttribute("aria-label", "Hình nền mới, tặng kèm " + latestItem.video.title);
+  function openLatest(){
+    var rail = document.getElementById(LATEST.set === "kl" ? "railKL" : "railBCS");
+    var card = Array.prototype.filter.call(rail.children, function(c){ return cardItem.get(c) === latestItem; })[0];
+    if (card) openCard(card);
+  }
+  document.getElementById("heroGet").addEventListener("click", openLatest);
+  var hp = document.getElementById("heroPhone");
+  hp.addEventListener("click", openLatest);
+  hp.addEventListener("keydown", function(e){ if (e.key === "Enter" || e.key === " "){ e.preventDefault(); openLatest(); } });
+
+  /* rails */
+  var cardItem = new WeakMap();
+  function buildCards(list, container, set){
+    list.forEach(function(it){
+      var b = document.createElement("button"); b.type = "button"; b.className = "wp"; b.dataset.set = set;
+      b.setAttribute("aria-label", "Xem " + it.label);
+      var th = document.createElement("span"); th.className = "thumb";
+      if (it.kind === "gen"){
+        var c = mk(TW,TH);
+        if (it.thumb) c.getContext("2d").drawImage(it.thumb,0,0); else { K.render(c, it.spec, mk); it.thumb = c; }
+        th.appendChild(c);
+      } else { var im = document.createElement("img"); im.src = it.src; im.alt = ""; im.loading = "lazy"; th.appendChild(im); }
+      if (it.isNew){ var nb = document.createElement("span"); nb.className = "newb"; nb.textContent = "Mới"; th.appendChild(nb); }
+      if (it.ai){ var ab = document.createElement("span"); ab.className = "aib"; ab.textContent = "Ảnh AI"; ab.title = "Hình tạo bằng AI"; th.appendChild(ab); }
+      var cap = document.createElement("span");
+      var t1 = document.createElement("b"); t1.textContent = it.label;
+      var t2 = document.createElement("span"); t2.className = "sub"; t2.textContent = it.sub;
+      cap.appendChild(t1); cap.appendChild(t2);
+      b.appendChild(th); b.appendChild(cap); container.appendChild(b);
+      cardItem.set(b, it);
+      b.addEventListener("click", function(){ openCard(b); });
+    });
+  }
+  buildCards(ITEMS.kl, document.getElementById("railKL"), "kl");
+  buildCards(ITEMS.bcs, document.getElementById("railBCS"), "bcs");
+
+  /* "Xem tất cả": full gallery sheet */
+  var sheet = document.getElementById("sheet"), gal = document.getElementById("gal"), galBuilt = false;
+  var total = ITEMS.kl.length + ITEMS.bcs.length;
+  document.getElementById("allCount").textContent = total;
+  function setCount(n){ document.getElementById("sheetCount").textContent = n + " hình · bấm vào hình để xem và lưu"; }
+  function openAll(){
+    if (!galBuilt){ buildCards(ITEMS.kl, gal, "kl"); buildCards(ITEMS.bcs, gal, "bcs"); galBuilt = true; }
+    setCount(gal.querySelectorAll(".wp:not([hidden])").length);
+    sheet.hidden = false; sheet.scrollTop = 0; document.documentElement.style.overflow = "hidden";
+    segLenses.forEach(function(L){ L.refresh(); });
+    document.getElementById("closeAll").focus();
+  }
+  function closeAll(){ sheet.hidden = true; document.documentElement.style.overflow = ""; document.getElementById("openAll").focus(); }
+  document.getElementById("openAll").addEventListener("click", openAll);
+  document.getElementById("closeAll").addEventListener("click", closeAll);
+  document.querySelectorAll("#galFilter > button").forEach(function(btn){
+    btn.addEventListener("click", function(){
+      var f = btn.dataset.set;
+      document.querySelectorAll("#galFilter > button").forEach(function(b){ b.setAttribute("aria-pressed", b === btn ? "true" : "false"); });
+      gal.querySelectorAll(".wp").forEach(function(c){ c.hidden = f !== "all" && c.dataset.set !== f; });
+      setCount(gal.querySelectorAll(".wp:not([hidden])").length);
+    });
+  });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape" && !sheet.hidden && viewer.hidden) closeAll(); });
+
+  /* Apple-style tab lens: follows the finger smoothly (rAF), magnifies while dragging, springs back on release */
+  function Lens(box, itemSel, onPick){
+    var lens = document.createElement("span"); lens.className = "lens off"; lens.setAttribute("aria-hidden","true");
+    var inner = document.createElement("div"); inner.className = "lens-inner";
+    Array.prototype.forEach.call(box.children, function(ch){
+      var c = ch.cloneNode(true);
+      [c].concat(Array.prototype.slice.call(c.querySelectorAll("*"))).forEach(function(x){ ["id","href","role","aria-selected","aria-pressed","aria-controls","aria-label"].forEach(function(a){ x.removeAttribute(a); }); });
+      c.tabIndex = -1; inner.appendChild(c);
+    });
+    var fringe = document.createElement("span"); fringe.className = "lens-fringe";
+    lens.appendChild(inner); lens.appendChild(fringe);
+    box.insertBefore(lens, box.firstChild);
+    var cur = null, drag = null, raf = 0, pos = {x:0,y:0,w:0,h:0}, tx = 0, MAG = 1.28;
+    function syncInner(){
+      var cs = getComputedStyle(box);
+      inner.style.width = box.clientWidth + "px"; inner.style.height = box.clientHeight + "px";
+      inner.style.padding = cs.padding; inner.style.gap = cs.gap; inner.style.alignItems = cs.alignItems; inner.style.justifyContent = cs.justifyContent;
+    }
+    function apply(scale){
+      lens.style.width = pos.w + "px"; lens.style.height = pos.h + "px";
+      lens.style.transform = "translate3d(" + pos.x + "px," + pos.y + "px,0) scale(" + scale + ")";
+      inner.style.transform = "translate3d(" + (-pos.x) + "px," + (-pos.y) + "px,0)";
+    }
+    function items(){ return Array.prototype.filter.call(box.querySelectorAll(itemSel), function(el){ return el.parentNode === box && el.offsetParent !== null; }); }
+    function measure(el){ return {x:el.offsetLeft, y:el.offsetTop, w:el.offsetWidth, h:el.offsetHeight}; }
+    function place(el, instant){
+      if (!el || el.offsetParent === null){ lens.classList.add("off"); return; }
+      var wasOff = lens.classList.contains("off");
+      if (instant || wasOff) lens.classList.add("now");
+      lens.classList.remove("off");
+      pos = measure(el); apply(1);
+      if (instant || wasOff){ void lens.offsetWidth; lens.classList.remove("now"); }
+    }
+    function set(el, instant){ cur = el; if (!drag) place(el, instant); }
+    function nearest(x){ var best = null, bd = 1e9; items().forEach(function(el){ var r = el.getBoundingClientRect(), d = Math.abs(r.left + r.width/2 - x); if (d < bd){ bd = d; best = el; } }); return best; }
+    function loop(){
+      var dx = tx - pos.x; pos.x += dx * 0.32; apply(MAG);
+      raf = Math.abs(dx) > 0.2 ? requestAnimationFrame(loop) : 0;
+    }
+    function swallow(e){ e.preventDefault(); e.stopPropagation(); }
+    box.addEventListener("pointerdown", function(e){ if (e.button) return; drag = {x0:e.clientX, id:e.pointerId, moved:false, el:null}; });
+    box.addEventListener("pointermove", function(e){
+      if (!drag) return;
+      if (!drag.moved){
+        if (Math.abs(e.clientX - drag.x0) < 6) return;
+        drag.moved = true; try { box.setPointerCapture(drag.id); } catch(_){}
+        var start = (cur && cur.offsetParent !== null) ? cur : nearest(drag.x0);
+        if (lens.classList.contains("off")){ lens.classList.add("now"); lens.classList.remove("off"); pos = measure(start); apply(1); void lens.offsetWidth; lens.classList.remove("now"); }
+        lens.classList.add("drag");
+      }
+      var el = nearest(e.clientX); if (!el) return;
+      var br = box.getBoundingClientRect();
+      pos.w = el.offsetWidth; pos.h = el.offsetHeight; pos.y = el.offsetTop;
+      tx = Math.max(0, Math.min(box.clientWidth - pos.w, e.clientX - br.left - box.clientLeft - pos.w/2));
+      drag.el = el;
+      if (!raf) raf = requestAnimationFrame(loop);
+    });
+    box.addEventListener("pointerup", function(){
+      if (!drag) return; var d = drag; drag = null;
+      if (raf){ cancelAnimationFrame(raf); raf = 0; }
+      lens.classList.remove("drag");
+      if (d.moved && d.el){
+        cur = d.el; pos = measure(d.el); apply(1); onPick(d.el);
+        box.addEventListener("click", swallow, true); setTimeout(function(){ box.removeEventListener("click", swallow, true); }, 0);
+      }
+    });
+    box.addEventListener("pointercancel", function(){ if (drag){ drag = null; if (raf){ cancelAnimationFrame(raf); raf = 0; } lens.classList.remove("drag"); place(cur); } });
+    window.addEventListener("resize", function(){ syncInner(); place(cur, true); });
+    syncInner();
+    return { set:set, refresh:function(){ syncInner(); place(cur, true); } };
+  }
+
+  /* nav lens + scroll spy. One source drives the lens at a time:
+     a tap or drag owns it until the page stops scrolling, then the spy takes over again. */
+  var navBox = document.querySelector(".nav .glass");
+  navBox.querySelectorAll("a").forEach(function(a){ a.setAttribute("draggable","false"); });
+  var navLinks = Array.prototype.slice.call(navBox.querySelectorAll(":scope > a.lnk"));
+  var spyLock = false, idleTimer = 0;
+  function markNav(a){ navLinks.forEach(function(x){ x.classList.toggle("on", x === a); }); navLens.set(a); }
+  function lockTo(a){
+    spyLock = true; markNav(a);
+    clearTimeout(idleTimer); idleTimer = setTimeout(release, 900);
+  }
+  function release(){ spyLock = false; spy(); }
+  var navLens = Lens(navBox, "a.lnk", function(a){
+    lockTo(a);
+    var t = document.querySelector(a.getAttribute("href")); if (t) t.scrollIntoView({behavior: reduce ? "auto" : "smooth"});
+  });
+  navLinks.forEach(function(a){ a.addEventListener("click", function(){ lockTo(a); }); });
+  var spyIds = ["hinh-nen","cafe","video","do-dung","hop-tac"];
+  function spy(){
+    if (spyLock) return;
+    var line = navBox.getBoundingClientRect().bottom + 48, active = null;
+    spyIds.forEach(function(id){ var el = document.getElementById(id); if (el && el.getBoundingClientRect().top <= line) active = id; });
+    if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) active = spyIds[spyIds.length - 1];
+    var link = null; navLinks.forEach(function(x){ if (active && x.getAttribute("href") === "#" + active) link = x; });
+    if (link && link.offsetParent === null) link = null;
+    markNav(link);
+  }
+  var spyRaf = 0;
+  window.addEventListener("scroll", function(){
+    if (spyLock){ clearTimeout(idleTimer); idleTimer = setTimeout(release, 160); return; }
+    if (!spyRaf) spyRaf = requestAnimationFrame(function(){ spyRaf = 0; spy(); });
+  }, {passive:true});
+  spy();
+
+  /* tabs (any tablist) */
+  document.querySelectorAll('[role="tablist"]').forEach(function(list){
+    var btns = Array.prototype.slice.call(list.querySelectorAll('[role="tab"]'));
+    btns.forEach(function(btn){
+      btn.addEventListener("click", function(){
+        btns.forEach(function(b){ var on = b === btn; b.setAttribute("aria-selected", on ? "true" : "false"); document.getElementById(b.getAttribute("aria-controls")).hidden = !on; });
+      });
+    });
+  });
+
+  /* video skeleton cards (filled from YouTube on the real site) */
+  document.querySelectorAll(".vpanel").forEach(function(p){
+    var wrap = document.createElement("div"); wrap.className = "rail-wrap";
+    var rail = document.createElement("div"); rail.className = "vrail";
+    for (var i=0;i<+p.dataset.skel;i++){
+      var c = document.createElement("div"); c.className = "vcard glass"; c.setAttribute("aria-hidden","true");
+      c.innerHTML = '<div class="vthumb"><span class="play"></span></div><div class="vtxt"><i></i><i class="short"></i></div>';
+      rail.appendChild(c);
+    }
+    wrap.appendChild(rail); p.insertBefore(wrap, p.firstChild);
+  });
+  function fillVideos(panelId, list){
+    var p = document.getElementById(panelId); if (!p || !list || !list.length) return;
+    var rail = p.querySelector(".vrail"); while (rail.firstChild) rail.firstChild.remove();
+    list.forEach(function(v){
+      var a = document.createElement("a"); a.className = "vcard glass vreal"; a.href = "https://www.youtube.com/watch?v=" + v.id; a.target = "_blank"; a.rel = "noopener";
+      var th = document.createElement("span"); th.className = "vthumb";
+      var im = document.createElement("img"); im.src = "https://i.ytimg.com/vi/" + v.id + "/hqdefault.jpg"; im.alt = ""; im.loading = "lazy"; th.appendChild(im);
+      var pl = document.createElement("span"); pl.className = "play"; th.appendChild(pl);
+      var tx = document.createElement("span"); tx.className = "vtxt";
+      var b = document.createElement("b"); b.textContent = v.title; tx.appendChild(b);
+      if (v.published){ var d = new Date(v.published); var s = document.createElement("small"); try { s.textContent = d.toLocaleDateString("vi-VN", {day:"numeric", month:"numeric", year:"numeric"}); } catch(e){} tx.appendChild(s); }
+      a.appendChild(th); a.appendChild(tx); rail.appendChild(a);
+    });
+  }
+  if (window.fetch) fetch("videos.json", {cache:"no-cache"}).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
+    if (!d) return; fillVideos("p-new", (d.latest || []).slice(0, 3)); fillVideos("p-tips", (d.tips || []).slice(0, 6));
+  }).catch(function(){});
+
+  /* gear */
+  var ICONS = {
+    laptop:'<svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="11" rx="1.6"/><path d="M2 19h20"/></svg>',
+    phone:'<svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.6"/><path d="M10.5 5h3"/></svg>',
+    tablet:'<svg viewBox="0 0 24 24"><rect x="4.5" y="2.5" width="15" height="19" rx="2.2"/><path d="M11 18.5h2"/></svg>',
+    mic:'<svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg>'
+  };
+  /* ĐỒ MÌNH DÙNG — mỗi món có thể có hoặc không có link:
+     shop: link Shopee affiliate (bỏ trống nếu không có)
+     similar: true nếu link là mẫu tương tự, không phải đúng món mình dùng (web sẽ ghi rõ "Mẫu tương tự")
+     review: link video review của mình về món đó (bỏ trống nếu chưa có) */
+  var GEAR = [
+    {icon:"laptop", cat:"Laptop",        name:"MacBook Pro M4 Pro"},
+    {icon:"phone",  cat:"Điện thoại",    name:"iPhone 18 Pro Max"},
+    {icon:"phone",  cat:"Điện thoại",    name:"iPhone 17 Pro Max"},
+    {icon:"phone",  cat:"Điện thoại",    name:"iPhone 13 Pro Max"},
+    {icon:"tablet", cat:"Máy tính bảng", name:"iPad Pro M2"},
+    {icon:"mic",    cat:"Micro",         name:"DJI Mic Mini"}
+  ];
+  ICONS.charger='<svg viewBox="0 0 24 24"><rect x="6" y="7" width="12" height="12" rx="3"/><path d="M10 7V3M14 7V3"/></svg>';
+  ICONS.cable='<svg viewBox="0 0 24 24"><path d="M7 3v5M7 8a3 3 0 0 0 3 3h4a3 3 0 0 1 3 3v7"/><rect x="5" y="2" width="4" height="4" rx="1"/></svg>';
+  ICONS.case='<svg viewBox="0 0 24 24"><rect x="6.5" y="2.5" width="11" height="19" rx="3"/><rect x="9" y="5" width="4" height="4" rx="1.2"/></svg>';
+  ICONS.bank='<svg viewBox="0 0 24 24"><rect x="4" y="7" width="15" height="10" rx="2.5"/><path d="M21 10.5v3M9 10l-1.5 2.2H10L8.5 14.5"/></svg>';
+  ICONS.desk='<svg viewBox="0 0 24 24"><path d="M3 10h18M5 10v9M19 10v9M8 10V6h8v4"/></svg>';
+  var ACC = [["charger","Củ sạc"],["cable","Cáp sạc"],["case","Ốp lưng"],["bank","Sạc dự phòng"],["desk","Đồ setup bàn"]];
+  var acc = document.getElementById("acc") || document.createElement("div");
+  ACC.forEach(function(a){
+    var d = document.createElement("div"); d.className = "glass";
+    d.innerHTML = '<span class="ico" aria-hidden="true">'+ICONS[a[0]]+'</span><span></span><small>sắp cập nhật</small>';
+    d.children[1].textContent = a[1]; acc.appendChild(d);
+  });
+  var gear = document.getElementById("gear");
+  GEAR.forEach(function(g){
+    var d = document.createElement("article"); d.className = "item glass";
+    d.innerHTML = '<span class="ico" aria-hidden="true">'+ICONS[g.icon]+'</span><div><span class="cat"></span><h3></h3></div>';
+    d.querySelector(".cat").textContent = g.cat; d.querySelector("h3").textContent = g.name;
+    if (g.shop || g.review){
+      var row = document.createElement("div"); row.className = "gear-links";
+      if (g.shop){
+        var a = document.createElement("a"); a.className = "btn btn-solid gl"; a.href = g.shop; a.target = "_blank"; a.rel = "noopener sponsored";
+        a.textContent = g.similar ? "Xem mẫu tương tự" : "Xem trên Shopee"; row.appendChild(a);
+      }
+      if (g.review){
+        var v = document.createElement("a"); v.className = "btn btn-glass gl"; v.href = g.review; v.target = "_blank"; v.rel = "noopener";
+        v.textContent = "Xem review ↗"; row.appendChild(v);
+      }
+      d.appendChild(row);
+      if (g.shop && g.similar){ var n = document.createElement("small"); n.className = "gl-note"; n.textContent = "Link là mẫu tương tự, không phải đúng món mình đang dùng."; d.appendChild(n); }
+    }
+    gear.appendChild(d);
+  });
+
+  /* copy email */
+  var copyBtn = document.getElementById("copyMail"), mailOut = document.getElementById("mailOut");
+  copyBtn.addEventListener("click", function(){
+    var txt = mailOut.textContent;
+    function done(){ copyBtn.textContent = "Đã sao chép"; setTimeout(function(){ copyBtn.textContent = "Sao chép email"; }, 1800); }
+    function fallback(){ var r = document.createRange(); r.selectNodeContents(mailOut); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); copyBtn.textContent = "Đã chọn, bấm Sao chép"; }
+    try { navigator.clipboard.writeText(txt).then(done, fallback); } catch(e){ fallback(); }
+  });
+
+  /* lenses for every segmented control */
+  var segLenses = [];
+  document.querySelectorAll(".seg").forEach(function(seg){
+    var L = Lens(seg, "button", function(b){ b.click(); });
+    seg.querySelectorAll(":scope > button").forEach(function(b){ b.addEventListener("click", function(){ L.set(b); }); });
+    L.set(seg.querySelector(':scope > [aria-selected="true"], :scope > [aria-pressed="true"]'), true);
+    segLenses.push(L);
+  });
+
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function(){ navLens.refresh(); segLenses.forEach(function(L){ L.refresh(); }); });
+
+  /* viewer */
+  var viewer = document.getElementById("viewer"), vimg = document.getElementById("vimg"), vload = document.getElementById("vload");
+  var vname = document.getElementById("vname"), vsub = document.getElementById("vsub"), vhint = document.getElementById("vhint");
+  var vlock = document.getElementById("vlock"), vlockLayer = document.getElementById("vlockLayer"), vstage = document.getElementById("vstage");
+  var cur = null, token = 0, lastUrl = null;
+  var HINT = "iPhone: nhấn giữ hình rồi chọn Lưu vào Ảnh. Nút Tải sẽ lưu file 4K vào Tệp.";
+  var dlPhone = document.getElementById("dlPhone"), dlDesk = document.getElementById("dlDesk");
+
+  function siblings(){ return Array.prototype.filter.call(cur.parentNode.children, function(c){ return !c.hidden; }); }
+  function openCard(card){
+    cur = card; var it = cardItem.get(card), my = ++token;
+    vname.textContent = it.label; vsub.textContent = it.sub + (it.ai ? " · Hình tạo bằng AI" : ""); vimg.alt = "Hình nền " + it.label;
+    if (viewer.hidden){ viewer.hidden = false; document.documentElement.style.overflow = "hidden"; document.getElementById("vclose").focus(); }
+    if (it.kind === "img"){
+      vimg.src = it.src; vload.hidden = true;
+      vhint.textContent = "Bản xem thử độ phân giải thấp. Bản gốc sẽ có khi đưa lên web thật.";
+      return;
+    }
+    vhint.textContent = HINT;
+    var base = it.file, name = it.label.replace(/[^0-9A-Za-z]+/g, "-");
+    dlPhone.href = base + "_phone.jpg"; dlPhone.setAttribute("download", "phuocrin-" + base.split("/").pop() + "_phone.jpg");
+    dlDesk.href = base + "_desktop.jpg"; dlDesk.setAttribute("download", "phuocrin-" + base.split("/").pop() + "_desktop.jpg");
+    vimg.src = card.querySelector("canvas").toDataURL("image/jpeg", 0.9); vload.hidden = false;
+    var full = new Image();
+    full.onload = function(){ if (my !== token) return; vimg.src = full.src; vload.hidden = true; };
+    full.onerror = function(){ if (my === token) vload.hidden = true; };
+    full.src = base + "_phone.jpg";
+  }
+  function closeViewer(){ viewer.hidden = true; token++; document.documentElement.style.overflow = sheet.hidden ? "" : "hidden"; if (cur) cur.focus(); }
+  function nav(d){ var l = siblings(), i = l.indexOf(cur); openCard(l[(i+d+l.length)%l.length]); }
+  document.getElementById("vclose").addEventListener("click", closeViewer);
+  document.getElementById("vprev").addEventListener("click", function(){ nav(-1); });
+  document.getElementById("vnext").addEventListener("click", function(){ nav(1); });
+  vlock.addEventListener("click", function(){ var on = vlock.getAttribute("aria-pressed") !== "true"; vlock.setAttribute("aria-pressed", on ? "true" : "false"); vlockLayer.hidden = !on; });
+  viewer.addEventListener("click", function(e){ if (e.target === viewer || e.target === vstage) closeViewer(); });
+  document.addEventListener("keydown", function(e){ if (viewer.hidden) return; if (e.key === "Escape") closeViewer(); else if (e.key === "ArrowLeft") nav(-1); else if (e.key === "ArrowRight") nav(1); });
+  var sx = null;
+  vstage.addEventListener("touchstart", function(e){ sx = e.touches[0].clientX; }, {passive:true});
+  vstage.addEventListener("touchend", function(e){ if (sx === null) return; var dx = e.changedTouches[0].clientX - sx; sx = null; if (Math.abs(dx) > 50) nav(dx < 0 ? 1 : -1); }, {passive:true});
+})();
+</script>
+</body>
+</html>
