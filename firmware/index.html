@@ -1,0 +1,367 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tải firmware iOS, iPadOS (IPSW): chính thức, beta, RC · Phước Rin</title>
+<meta name="description" content="Tải file IPSW iOS, iPadOS cho iPhone, iPad: bản chính thức, beta và RC. File tải thẳng từ server Apple, trạng thái còn ký kiểm tra với Apple mỗi giờ.">
+<meta name="theme-color" content="#edf1f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b0f17" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://phuocrin.com/firmware/">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../img/icon-pr-32.png?v=3">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=3">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Phước Rin">
+<meta property="og:title" content="Tải firmware iOS, iPadOS · Phước Rin">
+<meta property="og:description" content="Bản chính thức, beta, RC cho iPhone, iPad. File tải thẳng từ server Apple.">
+<meta property="og:url" content="https://phuocrin.com/firmware/">
+<meta property="og:image" content="https://phuocrin.com/img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Trang firmware: cùng hệ kính mờ với trang chủ. Chọn máy → danh sách bản → tải thẳng từ server Apple. */
+:root{
+  --bg:#edf1f7; --ink:#0b1220; --muted:#5a6477; --accent:#2a6cf0;
+  --glass:rgba(255,255,255,.56); --glass-solid:rgba(255,255,255,.9); --glass-hi:rgba(255,255,255,.9); --glass-line:rgba(18,30,55,.09);
+  --spec:rgba(255,255,255,.55); --shadow:rgba(30,45,80,.28); --seg-on:#ffffff;
+  --aura-1:#8fd0ff; --aura-2:#c5b2ff; --aura-3:#ffcfe3; --aura-4:#9cecd2;
+  --lg-fill:rgba(255,255,255,.38); --lg-hi:rgba(255,255,255,.95); --lg-lo:rgba(20,30,60,.10); --lg-sheen:.9; --lg-rimop:.9;
+  --coffee-ink:#b2580c;
+  --ok:#14834a; --ok-bg:rgba(30,170,95,.14); --off:#6b7385; --off-bg:rgba(100,110,130,.12);
+  --beta:#6d3fd6; --beta-bg:rgba(120,80,240,.13); --rc:#b0570b; --rc-bg:rgba(255,150,60,.16);
+  --f-body:"Be Vietnam Pro",-apple-system,"Segoe UI",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#05070d; --ink:#eef2f9; --muted:#98a2b6; --accent:#8cc6ff;
+  --glass:rgba(255,255,255,.065); --glass-solid:rgba(22,26,36,.92); --glass-hi:rgba(255,255,255,.22); --glass-line:rgba(255,255,255,.1);
+  --spec:rgba(255,255,255,.14); --shadow:rgba(0,0,0,.7); --seg-on:rgba(255,255,255,.16);
+  --aura-1:#1f4fd6; --aura-2:#6d35d8; --aura-3:#b8226f; --aura-4:#0c8a78;
+  --lg-fill:rgba(255,255,255,.09); --lg-hi:rgba(255,255,255,.38); --lg-lo:rgba(0,0,0,.45); --lg-sheen:.45; --lg-rimop:.5; --coffee-ink:#ffb46e;
+  --ok:#5fe0a0; --ok-bg:rgba(60,220,140,.14); --off:#9aa3b5; --off-bg:rgba(255,255,255,.08);
+  --beta:#c3a8ff; --beta-bg:rgba(150,110,255,.18); --rc:#ffbf80; --rc-bg:rgba(255,160,80,.16); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#05070d; --ink:#eef2f9; --muted:#98a2b6; --accent:#8cc6ff;
+  --glass:rgba(255,255,255,.065); --glass-solid:rgba(22,26,36,.92); --glass-hi:rgba(255,255,255,.22); --glass-line:rgba(255,255,255,.1);
+  --spec:rgba(255,255,255,.14); --shadow:rgba(0,0,0,.7); --seg-on:rgba(255,255,255,.16);
+  --aura-1:#1f4fd6; --aura-2:#6d35d8; --aura-3:#b8226f; --aura-4:#0c8a78;
+  --lg-fill:rgba(255,255,255,.09); --lg-hi:rgba(255,255,255,.38); --lg-lo:rgba(0,0,0,.45); --lg-sheen:.45; --lg-rimop:.5; --coffee-ink:#ffb46e;
+  --ok:#5fe0a0; --ok-bg:rgba(60,220,140,.14); --off:#9aa3b5; --off-bg:rgba(255,255,255,.08);
+  --beta:#c3a8ff; --beta-bg:rgba(150,110,255,.18); --rc:#ffbf80; --rc-bg:rgba(255,160,80,.16); color-scheme:dark}
+
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.aura{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.aura i{position:absolute;width:70vmax;height:70vmax;border-radius:50%;opacity:.55;animation:drift 28s ease-in-out infinite alternate}
+.aura i:nth-child(1){background:radial-gradient(circle,var(--aura-1) 0%,transparent 62%);top:-30vmax;left:-20vmax}
+.aura i:nth-child(2){background:radial-gradient(circle,var(--aura-2) 0%,transparent 62%);top:-10vmax;right:-30vmax;animation-duration:34s}
+.aura i:nth-child(3){background:radial-gradient(circle,var(--aura-3) 0%,transparent 62%);bottom:-35vmax;left:10vmax;animation-duration:40s}
+.aura i:nth-child(4){background:radial-gradient(circle,var(--aura-4) 0%,transparent 62%);bottom:-20vmax;right:-25vmax;animation-duration:31s;opacity:.4}
+@keyframes drift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(6vmax,4vmax,0) scale(1.12)}}
+
+.glass{position:relative;background:var(--glass);-webkit-backdrop-filter:blur(26px) saturate(170%);backdrop-filter:blur(26px) saturate(170%);
+  border:1px solid var(--glass-line);border-radius:30px;box-shadow:inset 0 1px 0 var(--glass-hi),0 24px 60px -30px var(--shadow)}
+.glass::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(180deg,var(--spec),transparent 38%)}
+.glass>*{position:relative}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.glass{background:var(--glass-solid)}}
+
+.page{position:relative;z-index:1;max-width:920px;margin:0 auto;padding-inline:16px;padding-block:14px 56px;display:grid;gap:clamp(28px,5vw,44px)}
+.page>*{min-width:0}
+
+/* nav */
+.nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 10px);z-index:20;display:flex;justify-content:center}
+.nav .glass{display:flex;align-items:center;gap:2px;padding:6px;border-radius:999px;max-width:100%}
+.brand{flex:none;display:flex;align-items:center;gap:8px;padding:6px 12px 6px 8px;font-weight:700;font-size:15px;color:var(--ink);text-decoration:none;white-space:nowrap}
+.orb{width:26px;height:26px;border-radius:50%;flex:none;background:url(../img/logo-96.png) center/cover no-repeat;box-shadow:0 4px 14px -4px rgba(90,140,255,.7)}
+.nav a.lnk{color:var(--ink);text-decoration:none;font-size:14px;font-weight:500;padding:8px 13px;border-radius:999px;white-space:nowrap;opacity:.82;min-height:44px;box-sizing:border-box;display:inline-flex;align-items:center}
+.nav a.lnk:hover{opacity:1}
+.nav a.lnk[aria-current="page"]{opacity:1;font-weight:600;background:var(--lg-fill);box-shadow:inset 0 1px 1px var(--lg-hi),inset 0 -1px 2px var(--lg-lo)}
+.nav a.lnk-cf{color:var(--coffee-ink);font-weight:600}
+@media (max-width:520px){.brand span:not(.orb){display:none}.brand{padding:6px}.nav a.lnk{font-size:13px;padding:8px 9px}}
+@media (max-width:360px){.nav a.lnk{font-size:12.5px;padding:7px 7px}.lnk-cf .t{display:none}}
+
+/* head */
+.top{padding-top:clamp(12px,4vw,40px);display:grid;gap:14px}
+.kicker{font:500 12px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h1{margin:0;font-weight:800;font-size:clamp(34px,7vw,58px);line-height:1.18;letter-spacing:-.04em;text-wrap:balance}
+h1 em{font-style:normal;background:linear-gradient(95deg,#3d8bff 0%,#8b6bff 45%,#ff6fb1 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{margin:0;font-size:clamp(16px,2.2vw,18px);color:var(--muted);max-width:56ch}
+.facts{display:flex;flex-wrap:wrap;gap:8px}
+.fact{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;padding:8px 14px;border-radius:999px}
+.fact i{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 4px var(--ok-bg);flex:none}
+.fact small{font:500 12px var(--f-mono);color:var(--muted)}
+
+/* picker */
+.pick{padding:clamp(16px,3vw,24px);display:grid;gap:14px}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.seg{display:inline-flex;padding:4px;border-radius:999px;gap:2px;background:var(--off-bg)}
+.seg button{appearance:none;border:0;background:transparent;color:var(--ink);font:600 14px var(--f-body);min-height:40px;padding:0 18px;border-radius:999px;cursor:pointer;opacity:.7;white-space:nowrap}
+.seg button[aria-selected="true"]{background:var(--seg-on);opacity:1;box-shadow:inset 0 1px 0 var(--glass-hi),0 4px 14px -6px var(--shadow)}
+.seg button small{font:500 12px var(--f-mono);opacity:.7;margin-left:4px}
+.sel{position:relative;flex:1 1 240px;min-width:0}
+.sel select{appearance:none;-webkit-appearance:none;width:100%;min-height:48px;box-sizing:border-box;border-radius:16px;border:1px solid var(--glass-line);
+  background:var(--seg-on);color:var(--ink);font:600 16px var(--f-body);padding:0 44px 0 16px;box-shadow:inset 0 1px 0 var(--glass-hi);cursor:pointer;text-overflow:ellipsis}
+.sel::after{content:"";position:absolute;right:18px;top:50%;width:8px;height:8px;margin-top:-6px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);pointer-events:none}
+.devid{font:500 12.5px var(--f-mono);color:var(--muted)}
+.legend{margin:0;font-size:13px;color:var(--muted)}
+
+/* list */
+.list{display:grid;gap:10px}
+.fw{padding:16px 18px;border-radius:24px;display:grid;gap:10px;grid-template-columns:minmax(0,1fr) auto;align-items:center}
+.fw.off{opacity:.86}
+.fw-t{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.fw-t b{font-size:18px;letter-spacing:-.01em;line-height:1.3}
+.tag{font:700 11px var(--f-body);letter-spacing:.03em;padding:3px 9px;border-radius:999px;text-transform:uppercase}
+.tag.beta{color:var(--beta);background:var(--beta-bg)}.tag.rc{color:var(--rc);background:var(--rc-bg)}
+.st{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:3px 10px 3px 8px;border-radius:999px}
+.st i{width:7px;height:7px;border-radius:50%;background:currentColor}
+.st.on{color:var(--ok);background:var(--ok-bg)}.st.no{color:var(--off);background:var(--off-bg)}
+.meta{font:500 12.5px var(--f-mono);color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 14px}
+.via{font-size:12px;color:var(--muted)}
+.acts{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
+@media (max-width:620px){.fw{grid-template-columns:minmax(0,1fr)}.acts{justify-content:flex-start}}
+.more{justify-self:center}
+.empty{padding:22px;border-radius:24px;color:var(--muted);text-align:center}
+.skel{height:86px;border-radius:24px;background:linear-gradient(100deg,var(--off-bg) 30%,var(--glass) 50%,var(--off-bg) 70%);background-size:220% 100%;animation:sh 1.6s linear infinite}
+@keyframes sh{from{background-position:120% 0}to{background-position:-120% 0}}
+
+/* buttons (liquid glass) */
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;min-height:44px;box-sizing:border-box;padding:0 18px;font:600 14.5px var(--f-body);
+  text-decoration:none;cursor:pointer;color:var(--ink);white-space:nowrap;
+  background:var(--lg-fill);-webkit-backdrop-filter:blur(18px) saturate(190%);backdrop-filter:blur(18px) saturate(190%);border:0;isolation:isolate;
+  box-shadow:inset 0 1px 1px var(--lg-hi),inset 0 -1px 2px var(--lg-lo),0 10px 26px -12px var(--shadow);transition:transform .2s cubic-bezier(.3,.7,.4,1.5),filter .2s}
+.btn::before{content:"";position:absolute;inset:0;border-radius:inherit;z-index:-1;pointer-events:none;opacity:var(--lg-sheen);
+  background:radial-gradient(120% 75% at 28% 0%,rgba(255,255,255,.75),rgba(255,255,255,.12) 46%,transparent 62%),linear-gradient(180deg,transparent 62%,rgba(255,255,255,.2))}
+.btn::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;opacity:var(--lg-rimop);
+  background:linear-gradient(140deg,rgba(255,255,255,.95),rgba(255,255,255,.18) 34%,rgba(255,255,255,.04) 62%,rgba(255,255,255,.6));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude}
+.btn:active{transform:scale(.95);filter:brightness(1.1) saturate(1.15)}
+@media (hover:hover){.btn:hover{filter:brightness(1.06)}}
+.btn-solid{background:linear-gradient(135deg,rgba(64,132,255,.92),rgba(138,98,255,.9));color:#fff;
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.7),inset 0 -1px 2px rgba(20,10,80,.3),0 14px 32px -12px rgba(90,100,255,.75)}
+.btn-sm{min-height:44px;padding:0 14px;font-size:13.5px}
+a:focus-visible,button:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+/* guide */
+.guide{padding:clamp(18px,4vw,32px);display:grid;gap:16px}
+h2{margin:0;font-weight:800;font-size:clamp(24px,4.4vw,34px);line-height:1.18;letter-spacing:-.03em;text-wrap:balance}
+h3{margin:0;font-size:17px;line-height:1.3;letter-spacing:-.01em}
+.guide p,.guide li{color:var(--muted);font-size:15px}
+.guide p{margin:0}
+.guide ol,.guide ul{margin:0;padding-left:20px;display:grid;gap:6px}
+.guide b,.guide strong{color:var(--ink)}
+.path{font:500 13.5px var(--f-mono);color:var(--ink);background:var(--off-bg);padding:2px 8px;border-radius:8px;overflow-wrap:anywhere}
+.step{display:grid;gap:8px;padding:16px;border-radius:20px;background:var(--off-bg)}
+.warn{display:grid;gap:6px;padding:14px 16px;border-radius:18px;background:var(--rc-bg)}
+.warn p{color:var(--ink)}
+.src{font-size:13px;color:var(--muted);display:grid;gap:6px}
+.src a,.guide a{color:var(--accent)}
+footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;font-size:13px;color:var(--muted);padding-top:20px;border-top:1px solid var(--glass-line)}
+footer a{color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 22px);transform:translateX(-50%);z-index:30;padding:10px 18px;border-radius:999px;font-size:14px;font-weight:600}
+</style>
+</head>
+<body>
+<div class="aura" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<div class="page">
+  <nav class="nav" aria-label="Mục chính">
+    <div class="glass">
+      <a class="brand" href="../"><span class="orb" aria-hidden="true"></span><span>Phước Rin</span></a>
+      <a class="lnk" href="../#hinh-nen">Hình nền</a>
+      <a class="lnk lnk-cf" href="../#cafe" aria-label="Mời Phước ly cà phê"><span aria-hidden="true">☕</span><span class="t"> Mời cà phê</span></a>
+      <a class="lnk" href="../#video">Video</a>
+      <a class="lnk" href="./" aria-current="page">Firmware</a>
+    </div>
+  </nav>
+
+  <header class="top">
+    <span class="kicker">Firmware</span>
+    <h1>Tải firmware <em>iOS, iPadOS</em></h1>
+    <p class="lede">Bản chính thức, beta và RC cho iPhone, iPad. File tải thẳng từ server Apple, còn bản nào cài được thì bot của mình hỏi thẳng Apple mỗi giờ.</p>
+    <div class="facts">
+      <span class="fact glass"><i aria-hidden="true"></i><span>Bot kiểm tra với Apple mỗi giờ <small>· lần đổi gần nhất <span id="upd">…</span></small></span></span>
+      <span class="fact glass">File gốc từ Apple</span>
+    </div>
+  </header>
+
+  <section class="pick glass" aria-label="Chọn máy">
+    <div class="row">
+      <div class="seg" role="tablist" aria-label="Loại máy" id="famSeg">
+        <button type="button" role="tab" aria-selected="true" data-fam="iPhone">iPhone</button>
+        <button type="button" role="tab" aria-selected="false" data-fam="iPad">iPad</button>
+      </div>
+      <label class="sel"><span class="sr" hidden>Chọn máy</span><select id="dev" aria-label="Chọn máy"></select></label>
+    </div>
+    <div class="row" style="justify-content:space-between">
+      <div class="seg" role="tablist" aria-label="Loại bản" id="kindSeg">
+        <button type="button" role="tab" aria-selected="true" data-kind="release" id="tabRel">Chính thức</button>
+        <button type="button" role="tab" aria-selected="false" data-kind="beta" id="tabBeta">Beta &amp; RC</button>
+      </div>
+      <span class="devid" id="devid"></span>
+    </div>
+    <p class="legend"><b style="color:var(--ok)">Còn ký</b>: Apple còn cho cài bản này. <b style="color:var(--off)">Đã khoá</b>: vẫn tải được nhưng không cài lên máy được nữa.</p>
+  </section>
+
+  <section class="list" id="list" aria-live="polite">
+    <div class="skel"></div><div class="skel"></div><div class="skel"></div>
+  </section>
+
+  <section class="guide glass" id="cach-cai" aria-labelledby="t-guide">
+    <span class="kicker">Cách cài</span>
+    <h2 id="t-guide">Cài bản mới, lên beta hoặc hạ bản</h2>
+
+    <div class="step">
+      <h3>Cách chính thức, không cần tải IPSW</h3>
+      <p>Bản chính thức: <span class="path">Cài đặt → Cài đặt chung → Cập nhật phần mềm</span>.</p>
+      <p>Beta: <span class="path">Cài đặt → Cài đặt chung → Cập nhật phần mềm → Cập nhật beta</span> (tiếng Anh: Settings → General → Software Update → Beta Updates), chọn bản beta rồi cài như bình thường. Máy cần đăng nhập Apple Account đã dùng trên trang Apple Developer, theo hướng dẫn của Apple.</p>
+    </div>
+
+    <div class="step">
+      <h3>Cài bằng file IPSW</h3>
+      <p>Đây là cách cộng đồng hay dùng. Apple không có hướng dẫn chính thức cho bước chọn file, nên các bạn làm cẩn thận.</p>
+      <ol>
+        <li>Tải đúng file của máy mình ở trên, chỉ chọn bản <b>Còn ký</b>.</li>
+        <li>Mac: cắm máy, mở <b>Finder</b>, chọn iPhone/iPad ở cột bên trái.</li>
+        <li>Giữ phím <b>Option (⌥)</b> rồi bấm <b>Kiểm tra bản cập nhật</b> để lên bản mới mà vẫn giữ dữ liệu. Hoặc giữ Option rồi bấm <b>Khôi phục iPhone…</b> để cài sạch (xoá hết dữ liệu).</li>
+        <li>Chọn file .ipsw vừa tải và chờ máy cài xong.</li>
+        <li>Windows: dùng app <b>Thiết bị Apple</b> (Apple Devices), giữ <b>Shift</b> thay cho Option.</li>
+      </ol>
+    </div>
+
+    <div class="warn">
+      <p><b>Trước khi làm, sao lưu máy.</b> Hạ từ beta về bản chính thức là phải khôi phục, tức xoá máy. Bản sao lưu tạo lúc đang chạy beta có thể không khôi phục được về bản cũ hơn, nên giữ lại bản sao lưu làm trước khi lên beta.</p>
+      <p>Beta là bản thử, có thể lỗi pin, lỗi app. Máy dùng chính thì cân nhắc kỹ.</p>
+    </div>
+
+    <div class="src">
+      <span><b style="color:var(--ink)">Nguồn và cách mình làm</b></span>
+      <span>File tải: server của Apple (updates.cdn-apple.com). Web mình không lưu file nào.</span>
+      <span>Danh sách bản, dung lượng, mã SHA-256: <a href="https://appledb.dev" target="_blank" rel="noopener">AppleDB</a>. Tên máy: <a href="https://ipsw.me" target="_blank" rel="noopener">IPSW.me</a>.</span>
+      <span>Còn ký hay đã khoá: bot hỏi thẳng server ký của Apple mỗi giờ. Vài máy đời mới bot chưa hỏi được, khi cùng bản đó Apple vẫn đang ký cho máy khác thì trang ghi theo IPSW.me hoặc AppleDB và có chú thích ngay dưới bản đó.</span>
+      <span>Apple có thể khoá bản bất cứ lúc nào, nên trang có thể trễ tới khoảng một giờ. Finder báo không xác minh được bản cài thì bản đó vừa bị khoá.</span>
+      <span>Hướng dẫn của Apple: <a href="https://developer.apple.com/support/install-beta/" target="_blank" rel="noopener">cài phần mềm beta</a> · <a href="https://support.apple.com/vi-vn/108763" target="_blank" rel="noopener">gỡ bản beta iOS, iPadOS</a>.</span>
+    </div>
+  </section>
+
+  <footer>
+    <span>© 2026 Phước Rin · Trang này không thuộc Apple.</span>
+    <a href="../">← Về trang chủ</a>
+  </footer>
+</div>
+
+<div class="toast glass" id="toast" hidden role="status"></div>
+
+<script>
+(function(){
+  var $ = function(id){ return document.getElementById(id); };
+  var state = { all: [], have: {}, fam: "iPhone", dev: "", kind: "release", data: null, showAll: false };
+
+  function store(k, v){ try{ if(v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); }catch(e){ return null; } }
+  function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+  function vnDate(iso){ var p = (iso||"").split("-"); return p.length === 3 ? p[2]+"/"+p[1]+"/"+p[0] : iso; }
+  function gb(n){ return n ? (n/1e9).toFixed(1).replace(".", ",") + " GB" : ""; }
+  function fam(id){ return id.indexOf("iPad") === 0 ? "iPad" : "iPhone"; }
+  function toast(t){ var el = $("toast"); el.textContent = t; el.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(function(){ el.hidden = true; }, 1800); }
+
+  function copy(text){
+    if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(text);
+    return new Promise(function(ok, no){
+      var ta = document.createElement("textarea"); ta.value = text; ta.setAttribute("readonly",""); ta.style.position="fixed"; ta.style.opacity="0";
+      document.body.appendChild(ta); ta.select(); try{ document.execCommand("copy") ? ok() : no(); }catch(e){ no(e); } document.body.removeChild(ta);
+    });
+  }
+
+  function selectTab(seg, attr, val){
+    seg.querySelectorAll("button").forEach(function(b){ b.setAttribute("aria-selected", b.getAttribute(attr) === val ? "true" : "false"); });
+  }
+
+  function fillDevices(){
+    var sel = $("dev"), list = state.all.filter(function(d){ return state.have[d.id] && fam(d.id) === state.fam; });
+    sel.innerHTML = list.map(function(d){ return '<option value="'+esc(d.id)+'">'+esc(d.name)+'</option>'; }).join("");
+    if (!list.some(function(d){ return d.id === state.dev; })) state.dev = list.length ? list[0].id : "";
+    sel.value = state.dev;
+  }
+
+  function row(r){
+    var label = r.os + " " + r.v, kindTag = r.kind === "beta" ? '<span class="tag beta">Beta</span>' : (r.kind === "rc" ? '<span class="tag rc">RC</span>' : "");
+    var st = r.signed ? '<span class="st on"><i></i>Còn ký</span>' : (r.signed === null ? '<span class="st no"><i></i>Đang kiểm tra</span>' : '<span class="st no"><i></i>Đã khoá</span>');
+    var via = r.signed && r.src && r.src !== "apple" ? '<span class="via">Máy này bot chưa hỏi Apple được, trạng thái lấy theo '+(r.src === "ipsw.me" ? "IPSW.me" : "AppleDB")+'.</span>' : "";
+    return '<article class="fw glass'+(r.signed ? "" : " off")+'">'
+      + '<div style="display:grid;gap:6px;min-width:0"><div class="fw-t"><b>'+esc(label)+'</b>'+kindTag+st+'</div>'
+      + '<div class="meta"><span>Build '+esc(r.b)+'</span><span>'+esc(vnDate(r.d))+'</span><span>'+esc(gb(r.size))+'</span></div>'+via+'</div>'
+      + '<div class="acts"><a class="btn btn-sm'+(r.signed ? " btn-solid" : "")+'" href="'+esc(r.url)+'" rel="noopener" download>Tải IPSW</a>'
+      + (r.sha256 ? '<button class="btn btn-sm" type="button" data-sha="'+esc(r.sha256)+'">Sao chép SHA-256</button>' : "")
+      + '</div></article>';
+  }
+
+  function render(){
+    var box = $("list"), d = state.data;
+    if (!d) return;
+    $("tabRel").innerHTML = 'Chính thức<small>'+d.release.length+'</small>';
+    $("tabBeta").innerHTML = 'Beta &amp; RC<small>'+d.beta.length+'</small>';
+    var rows = state.kind === "release" ? d.release : d.beta;
+    if (!rows.length){
+      box.innerHTML = '<div class="empty glass">'+(state.kind === "release" ? "Chưa có bản chính thức nào cho máy này trong danh sách." : "Hiện chưa có bản beta hay RC nào cho máy này trong khoảng 7 tháng gần đây.")+'</div>';
+      return;
+    }
+    var on = rows.filter(function(r){ return r.signed; }), off = rows.filter(function(r){ return !r.signed; });
+    var limit = state.showAll ? off.length : Math.max(0, 4 - Math.min(on.length, 2));
+    var html = on.map(row).join("") + off.slice(0, limit).map(row).join("");
+    if (off.length > limit) html += '<button class="btn more" type="button" id="moreBtn">Hiện thêm '+(off.length - limit)+' bản đã khoá</button>';
+    box.innerHTML = html;
+  }
+
+  function loadDevice(){
+    var id = state.dev; if (!id) return;
+    $("devid").textContent = id;
+    try{ history.replaceState(null, "", "#" + id); }catch(e){}
+    store("fw-dev", id);
+    state.showAll = false; state.data = null;
+    $("list").innerHTML = '<div class="skel"></div><div class="skel"></div><div class="skel"></div>';
+    fetch("d/" + encodeURIComponent(id) + ".json", { cache: "no-cache" })
+      .then(function(r){ if (!r.ok) throw r.status; return r.json(); })
+      .then(function(j){ if (state.dev !== id) return; state.data = j; render(); })
+      .catch(function(){ $("list").innerHTML = '<div class="empty glass">Chưa tải được danh sách. Các bạn thử tải lại trang giúp mình nha.</div>'; });
+  }
+
+  $("famSeg").addEventListener("click", function(e){
+    var b = e.target.closest("button"); if (!b) return;
+    state.fam = b.getAttribute("data-fam"); selectTab(this, "data-fam", state.fam); fillDevices(); loadDevice();
+  });
+  $("kindSeg").addEventListener("click", function(e){
+    var b = e.target.closest("button"); if (!b) return;
+    state.kind = b.getAttribute("data-kind"); selectTab(this, "data-kind", state.kind); state.showAll = false; render();
+  });
+  $("dev").addEventListener("change", function(){ state.dev = this.value; loadDevice(); });
+  $("list").addEventListener("click", function(e){
+    var m = e.target.closest("#moreBtn"); if (m){ state.showAll = true; render(); return; }
+    var s = e.target.closest("[data-sha]");
+    if (s) copy(s.getAttribute("data-sha")).then(function(){ toast("Đã chép mã SHA-256"); }, function(){ toast("Không chép được, các bạn thử lại nha"); });
+  });
+
+  fetch("devices.json", { cache: "no-cache" }).then(function(r){ return r.json(); }).then(function(j){
+    state.all = j.devices || [];
+    (j.have || []).forEach(function(id){ state.have[id] = 1; });
+    if (j.updated){
+      var t = new Date(j.updated);
+      $("upd").textContent = t.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" }) + ", " + t.toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" });
+    }
+    var want = decodeURIComponent((location.hash || "").slice(1)) || store("fw-dev") || "";
+    if (!state.have[want]) want = "";
+    if (want){ state.fam = fam(want); state.dev = want; }
+    selectTab($("famSeg"), "data-fam", state.fam);
+    fillDevices(); loadDevice();
+  }).catch(function(){
+    $("list").innerHTML = '<div class="empty glass">Chưa tải được danh sách máy. Các bạn thử tải lại trang giúp mình nha.</div>';
+  });
+})();
+</script>
+</body>
+</html>

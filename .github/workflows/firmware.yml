@@ -1,0 +1,38 @@
+name: Cập nhật firmware iOS
+on:
+  schedule:
+    - cron: "7 * * * *"
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [scripts/update_firmware.py, .github/workflows/firmware.yml]
+permissions:
+  contents: write
+concurrency:
+  group: firmware
+  cancel-in-progress: false
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Lấy bộ nhớ đệm
+        uses: actions/cache@v4
+        with:
+          path: .cache
+          key: firmware-${{ github.run_id }}
+          restore-keys: firmware-
+      - run: python scripts/update_firmware.py
+      - name: Commit nếu trạng thái đổi
+        run: |
+          git add -A firmware
+          if git diff --cached --quiet; then echo "Không có gì mới"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Cập nhật firmware iOS"
+          for i in 1 2 3; do git pull --rebase -q && git push -q && exit 0; sleep 5; done
+          exit 1

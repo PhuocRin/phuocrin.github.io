@@ -233,6 +233,12 @@ h2{margin:0;font-weight:800;font-size:clamp(30px,5vw,46px);line-height:1.16;lett
 .mail label{font:500 11.5px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
 .mail output{font-size:clamp(16px,2.4vw,19px);font-weight:700;user-select:all;overflow-wrap:anywhere}
 
+/* firmware card */
+.fwcard{display:grid;gap:18px;align-items:center;padding:clamp(20px,4vw,32px)}
+@media (min-width:760px){.fwcard{grid-template-columns:minmax(0,1fr) auto}}
+.fwcard h3{margin:8px 0 0;font-size:clamp(22px,3.6vw,28px);line-height:1.2;letter-spacing:-.025em}
+.fwcard p{margin:8px 0 0;color:var(--muted);max-width:56ch}
+.fwcard .btn{justify-self:start}
 /* coffee */
 .coffee{display:grid;gap:20px;align-items:center;padding:24px;max-width:680px}
 .qr{aspect-ratio:1;max-width:100%;border-radius:20px;border:1.5px dashed var(--glass-line);display:grid;place-items:center;text-align:center;font-size:11.5px;line-height:1.35;color:var(--muted);padding:8px}
@@ -494,6 +500,15 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     </div>
   </section>
 
+  <section class="fwcard glass" id="firmware" aria-labelledby="t-fw">
+    <div>
+      <span class="kicker">Firmware</span>
+      <h3 id="t-fw">Tải firmware iOS, iPadOS</h3>
+      <p>Bản chính thức, beta và RC cho iPhone, iPad. File tải thẳng từ server Apple, bot của mình hỏi Apple mỗi giờ xem bản nào còn cài được.</p>
+    </div>
+    <a class="btn btn-solid" href="firmware/">Mở trang firmware</a>
+  </section>
+
   <section id="do-dung" aria-labelledby="t-gear">
     <div class="head">
       <div class="head-t">
@@ -541,6 +556,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 
   <footer>
     <span>© 2026 Phước Rin · Hình nền dùng miễn phí cho máy cá nhân.</span>
+    <a href="firmware/" style="color:inherit">Tải firmware iOS</a>
   </footer>
 </div>
 
