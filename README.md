@@ -1,5 +1,7 @@
 # phuocrin.github.io
 
+Địa chỉ: https://phuocrin.com
+
 Web cá nhân của Phước Rin: hình nền Liquid Glass 4K miễn phí, mời cà phê, video, đồ mình dùng, hợp tác.
 
 - `index.html`: trang chính
