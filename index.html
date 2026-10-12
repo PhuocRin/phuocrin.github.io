@@ -367,6 +367,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .stage .chip-b{position:absolute;white-space:nowrap;width:auto}
 @media (max-width:520px){.stage .chip-a{top:44%}.stage .chip-b{bottom:9%}}
 .gear-links{display:flex;flex-wrap:wrap;gap:8px}
+.gl{white-space:nowrap;justify-content:center}
+@media (max-width:520px){.gear-links .gl{flex:1 1 100%;padding:10px 12px;font-size:13px}}
+.gear-more{margin-top:34px}.gear-more h3{margin:0;font-size:clamp(22px,3.6vw,28px);line-height:1.2;letter-spacing:-.02em}.gear-more p{margin:6px 0 0}
 .gl{padding:9px 14px;font-size:13.5px}
 .gl-note{font-size:12px;color:var(--muted);line-height:1.4}
 .coffee{max-width:760px}
@@ -474,6 +477,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
       </div>
     </div>
     <div class="gear" id="gear"></div>
+    <div class="head gear-more"><div class="head-t"><h3>Gợi ý thêm</h3><p>Mấy món mình chưa dùng, để các bạn tham khảo thêm.</p></div></div>
+    <div class="gear" id="gear2"></div>
   </section>
 
   <section id="kenh" aria-labelledby="t-ch">
@@ -818,50 +823,59 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     tablet:'<svg viewBox="0 0 24 24"><rect x="4.5" y="2.5" width="15" height="19" rx="2.2"/><path d="M11 18.5h2"/></svg>',
     mic:'<svg viewBox="0 0 24 24"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/></svg>'
   };
-  /* ĐỒ MÌNH DÙNG — mỗi món có thể có hoặc không có link:
-     shop: link Shopee affiliate (bỏ trống nếu không có)
-     similar: true nếu link là mẫu tương tự, không phải đúng món mình dùng (web sẽ ghi rõ "Mẫu tương tự")
-     review: link video review của mình về món đó (bỏ trống nếu chưa có) */
+  /* ĐỒ MÌNH DÙNG
+     GEAR: món ní đang dùng thật. GOIY: món ní chưa dùng, hiện ở mục "Gợi ý thêm".
+     links: tối đa 2 nút [{u: link Shopee affiliate, t: chữ trên nút}]; backup: link dự phòng khi shop hết hàng (không hiện)
+     review: link video review của ní (tuỳ chọn); note: một dòng ghi chú (tuỳ chọn) */
+  var S = "https://s.shopee.vn/";
   var GEAR = [
-    {icon:"laptop", cat:"Laptop",        name:"MacBook Pro M4 Pro"},
-    {icon:"phone",  cat:"Điện thoại",    name:"iPhone 18 Pro Max"},
-    {icon:"phone",  cat:"Điện thoại",    name:"iPhone 17 Pro Max"},
-    {icon:"phone",  cat:"Điện thoại",    name:"iPhone 13 Pro Max"},
-    {icon:"tablet", cat:"Máy tính bảng", name:"iPad Pro M2"},
-    {icon:"mic",    cat:"Micro",         name:"DJI Mic Mini"}
+    {icon:"phone",  cat:"Điện thoại",     name:"iPhone 18 Pro Max", links:[{u:S+"1BN3mXGAXG"},{u:S+"3B88ALLkn2", t:"Shop khác"}], backup:[S+"AUuitumwbH"]},
+    {icon:"phone",  cat:"Điện thoại",     name:"iPhone 17 Pro Max", links:[{u:S+"5q8tKwACcD"},{u:S+"6L59vwFlZ2", t:"Shop khác"}]},
+    {icon:"phone",  cat:"Điện thoại",     name:"iPhone 13 Pro Max"},
+    {icon:"laptop", cat:"Laptop",         name:"MacBook Pro M4 Pro"},
+    {icon:"tablet", cat:"Máy tính bảng",  name:"iPad Pro M2"},
+    {icon:"mic",    cat:"Micro",          name:"DJI Mic Mini"},
+    {icon:"bank",   cat:"Sạc dự phòng",   name:"UGREEN Q2.2", links:[{u:S+"9zySJorl0v"}]},
+    {icon:"sleeve", cat:"Túi chống sốc",  name:"tomtoc A13 Protective 360", links:[{u:S+"60SJXxNPw1"}]},
+    {icon:"shield", cat:"Kính cường lực", name:"Kính cường lực Hoda", links:[{u:S+"7faXYUEY4X"},{u:S+"1VzuDATVb3", t:"Shop khác"}], backup:[S+"7faXYX67Ps", S+"BUWcmWHVw"]},
+    {icon:"shield", cat:"Dán màn hình",   name:"Dán màn hình ZAGG", links:[{u:S+"80DNxFAT8g"}]}
   ];
-  ICONS.charger='<svg viewBox="0 0 24 24"><rect x="6" y="7" width="12" height="12" rx="3"/><path d="M10 7V3M14 7V3"/></svg>';
-  ICONS.cable='<svg viewBox="0 0 24 24"><path d="M7 3v5M7 8a3 3 0 0 0 3 3h4a3 3 0 0 1 3 3v7"/><rect x="5" y="2" width="4" height="4" rx="1"/></svg>';
+  var GOIY = [
+    {icon:"phone",  cat:"Điện thoại",     name:"iPhone 18 Pro", links:[{u:S+"6L59wEUMA1"},{u:S+"1VzuBP7Ggl", t:"Shop khác"}]},
+    {icon:"phone",  cat:"Điện thoại",     name:"iPhone 17", links:[{u:S+"8AWo7QnXme"},{u:S+"3qNoxUCA3F", t:"Shop khác"}]},
+    {icon:"laptop", cat:"Laptop",         name:"MacBook Pro M5 Pro", links:[{u:S+"70Kqja6e0i"}]},
+    {icon:"laptop", cat:"Laptop",         name:"MacBook Pro M5", links:[{u:S+"9fLbuVr4wP"}]},
+    {icon:"laptop", cat:"Laptop",         name:"MacBook Neo (A18 Pro)", links:[{u:S+"AKbIhlnaxb"}]},
+    {icon:"tablet", cat:"Máy tính bảng",  name:"iPad Pro M5", links:[{u:S+"1qckaecMq2"},{u:S+"5VW2xT9juL", t:"Shop khác"}]},
+    {icon:"sleeve", cat:"Túi chống sốc",  name:"tomtoc Terra", links:[{u:S+"5VW2x08ONm", t:"Terra 27"},{u:S+"9pf273CYtz", t:"Terra"}]},
+    {icon:"case",   cat:"Ốp lưng",        name:"Ốp UAG", note:"Có cho nhiều đời iPhone", links:[{u:S+"8pmUwL9XcB"},{u:S+"5VW2yJghQf", t:"Shop khác"}]},
+    {icon:"case",   cat:"Ốp lưng",        name:"Ốp lưng ZAGG", links:[{u:S+"2qVHnsUTtj"}]},
+    {icon:"case",   cat:"Combo",          name:"Combo ốp UAG + kính ZAGG", links:[{u:S+"3LRYOrWsI9"}]}
+  ];
   ICONS.case='<svg viewBox="0 0 24 24"><rect x="6.5" y="2.5" width="11" height="19" rx="3"/><rect x="9" y="5" width="4" height="4" rx="1.2"/></svg>';
   ICONS.bank='<svg viewBox="0 0 24 24"><rect x="4" y="7" width="15" height="10" rx="2.5"/><path d="M21 10.5v3M9 10l-1.5 2.2H10L8.5 14.5"/></svg>';
-  ICONS.desk='<svg viewBox="0 0 24 24"><path d="M3 10h18M5 10v9M19 10v9M8 10V6h8v4"/></svg>';
-  var ACC = [["charger","Củ sạc"],["cable","Cáp sạc"],["case","Ốp lưng"],["bank","Sạc dự phòng"],["desk","Đồ setup bàn"]];
-  var acc = document.getElementById("acc") || document.createElement("div");
-  ACC.forEach(function(a){
-    var d = document.createElement("div"); d.className = "glass";
-    d.innerHTML = '<span class="ico" aria-hidden="true">'+ICONS[a[0]]+'</span><span></span><small>sắp cập nhật</small>';
-    d.children[1].textContent = a[1]; acc.appendChild(d);
-  });
-  var gear = document.getElementById("gear");
-  GEAR.forEach(function(g){
+  ICONS.sleeve='<svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2.5"/><path d="M3 10h18M9 6V4.5h6V6"/></svg>';
+  ICONS.shield='<svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.6"/><path d="M9.5 8l5-3M9.5 12.5l5-3"/></svg>';
+  function gearCard(g){
     var d = document.createElement("article"); d.className = "item glass";
     d.innerHTML = '<span class="ico" aria-hidden="true">'+ICONS[g.icon]+'</span><div><span class="cat"></span><h3></h3></div>';
     d.querySelector(".cat").textContent = g.cat; d.querySelector("h3").textContent = g.name;
-    if (g.shop || g.review){
+    if (g.note){ var nt = document.createElement("small"); nt.className = "gl-note"; nt.textContent = g.note; d.appendChild(nt); }
+    var L = (g.links || []).slice(0, 2);
+    if (L.length || g.review){
       var row = document.createElement("div"); row.className = "gear-links";
-      if (g.shop){
-        var a = document.createElement("a"); a.className = "btn btn-solid gl"; a.href = g.shop; a.target = "_blank"; a.rel = "noopener sponsored";
-        a.textContent = g.similar ? "Xem mẫu tương tự" : "Xem trên Shopee"; row.appendChild(a);
-      }
-      if (g.review){
-        var v = document.createElement("a"); v.className = "btn btn-glass gl"; v.href = g.review; v.target = "_blank"; v.rel = "noopener";
-        v.textContent = "Xem review ↗"; row.appendChild(v);
-      }
+      L.forEach(function(l, i){
+        var a = document.createElement("a"); a.className = "btn " + (i ? "btn-glass" : "btn-solid") + " gl"; a.href = l.u; a.target = "_blank"; a.rel = "noopener sponsored";
+        a.textContent = l.t || "Xem trên Shopee"; row.appendChild(a);
+      });
+      if (g.review){ var v = document.createElement("a"); v.className = "btn btn-glass gl"; v.href = g.review; v.target = "_blank"; v.rel = "noopener"; v.textContent = "Xem review ↗"; row.appendChild(v); }
       d.appendChild(row);
-      if (g.shop && g.similar){ var n = document.createElement("small"); n.className = "gl-note"; n.textContent = "Link là mẫu tương tự, không phải đúng món mình đang dùng."; d.appendChild(n); }
     }
-    gear.appendChild(d);
-  });
+    return d;
+  }
+  var gear = document.getElementById("gear"), gear2 = document.getElementById("gear2");
+  GEAR.forEach(function(g){ gear.appendChild(gearCard(g)); });
+  GOIY.forEach(function(g){ gear2.appendChild(gearCard(g)); });
 
   /* copy email */
   var copyBtn = document.getElementById("copyMail"), mailOut = document.getElementById("mailOut");
