@@ -382,6 +382,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   background:rgba(20,24,34,.38);-webkit-backdrop-filter:blur(16px) saturate(170%);backdrop-filter:blur(16px) saturate(170%);box-shadow:inset 0 1px 0 rgba(255,255,255,.35)}
 .por figcaption small{display:block;font:500 12px var(--f-mono);letter-spacing:.04em;opacity:.85;margin-top:2px}
 .collab .mail{margin-top:22px}
+.mail-btns{display:flex;flex-wrap:wrap;gap:8px}.mail-btns .btn{flex:1 1 auto;justify-content:center;white-space:nowrap}
 .socs{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
 .soc{padding:6px 13px 6px 6px;font-size:14px;gap:7px}
 @media (max-width:400px){.socs{gap:6px}.soc{padding:5px 11px 5px 5px;font-size:13px}}
@@ -530,7 +531,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
       <div class="mail">
         <label for="mailOut">Email công việc</label>
         <output id="mailOut">phuocrinrin@gmail.com</output>
-        <button class="btn btn-solid" type="button" id="copyMail">Sao chép email</button>
+        <div class="mail-btns"><a class="btn btn-solid" id="sendMail" href="mailto:phuocrinrin@gmail.com?subject=H%E1%BB%A3p%20t%C3%A1c%20v%E1%BB%9Bi%20Ph%C6%B0%E1%BB%9Bc%20Rin">Gửi email cho mình</a><button class="btn btn-glass" type="button" id="copyMail">Sao chép email</button></div>
       </div>
       </div>
     </div>
@@ -1013,6 +1014,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
       var it = a.closest(".item"); track("Shopee", {mon: it ? it.querySelector("h3").textContent : h, nut: a.textContent}); return;
     }
     if (/paypal\./.test(h)){ track("PayPal"); return; }
+    if (/^mailto:/.test(h)){ track("Gửi email"); return; }
     var m = h.match(/(youtube|youtu\.be|tiktok|facebook)/);
     if (m){ track("Mạng xã hội", {trang: m[1] === "youtu.be" ? "youtube" : m[1], link: h}); }
   }, true);
