@@ -524,10 +524,10 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
       <div><h2 id="t-all">Tất cả hình nền</h2><small id="sheetCount"></small></div>
       <button class="x" type="button" id="closeAll" aria-label="Đóng">×</button>
     </div>
-    <div class="seg glass" id="galFilter" aria-label="Lọc theo bộ">
+    <div class="seg glass" id="galFilter" aria-label="Lọc theo kiểu">
       <button type="button" data-set="all" aria-pressed="true">Tất cả</button>
-      <button type="button" data-set="kl" aria-pressed="false">Kính Lụa</button>
-      <button type="button" data-set="bcs" aria-pressed="false">Bên Cửa Sổ</button>
+      <button type="button" data-set="kinh" aria-pressed="false">Kính</button>
+      <button type="button" data-set="minh-hoa" aria-pressed="false">Minh họa</button>
     </div>
   </div>
   <div class="gal" id="gal"></div>
@@ -588,12 +588,21 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   var ITEMS = { kl: [], bcs: [] };
   /* HÌNH NỀN — mỗi hình có 4 file trong wallpapers/<bo>/: <id>_phone.jpg, <id>_desktop.jpg và thumb/<id>_phone.jpg, thumb/<id>_desktop.jpg */
   var WALLS = [
-    {bo:"bo-01", id:"cun-nap-tuong",  label:"Cún Nấp Tường",  sub:"Corgi · xanh pastel", ai:true},
-    {bo:"bo-01", id:"ho-nui-tuyet",   label:"Hồ Núi Tuyết",   sub:"Phong cảnh · hồ xanh", ai:true},
-    {bo:"bo-01", id:"meo-ben-cua-so", label:"Mèo Bên Cửa Sổ", sub:"Mèo trắng · biển", ai:true},
-    {bo:"bo-01", id:"goc-doc-sach",   label:"Góc Đọc Sách",   sub:"Minh họa · mùa hè", ai:true}
+    /* loai: "kinh" (kính, trừu tượng) hoặc "minh-hoa" (thú cưng, phong cảnh, xe) để lọc trong "Xem tất cả". Hình mới nhất đặt lên đầu. */
+    {bo:"bo-02", id:"o-kinh-hoang-hon",    label:"Ô Kính Hoàng Hôn",    sub:"Kính mờ · cam xanh",    loai:"kinh",     ai:true},
+    {bo:"bo-02", id:"meo-xe-giay",         label:"Mèo Xé Giấy",         sub:"Mèo xám · nền kem",     loai:"minh-hoa", ai:true},
+    {bo:"bo-02", id:"vong-kinh-xanh",      label:"Vòng Kính Xanh",      sub:"Kính 3D · xanh dương",  loai:"kinh",     ai:true},
+    {bo:"bo-02", id:"vach-nui-may-trang",  label:"Vách Núi Mây",  sub:"Phong cảnh · xanh lá", loai:"minh-hoa", ai:true},
+    {bo:"bo-02", id:"kinh-ngoc-tim",       label:"Kính Ngọc Tím",       sub:"Kính 3D · ngọc tím",    loai:"kinh",     ai:true},
+    {bo:"bo-02", id:"xe-trang-neon",       label:"Xe Trắng Neon",       sub:"Xe · neon hồng", loai:"minh-hoa", ai:true},
+    {bo:"bo-02", id:"dia-kinh-hong",       label:"Đĩa Kính Hồng",       sub:"Kính trong · hồng",     loai:"kinh",     ai:true},
+    {bo:"bo-02", id:"phien-kinh-xanh-dem", label:"Phiến Kính Xanh Đêm", sub:"Kính mờ · nền tối",     loai:"kinh",     ai:true},
+    {bo:"bo-01", id:"cun-nap-tuong",  label:"Cún Nấp Tường",  sub:"Corgi · xanh pastel", loai:"minh-hoa", ai:true},
+    {bo:"bo-01", id:"ho-nui-tuyet",   label:"Hồ Núi Tuyết",   sub:"Phong cảnh · hồ xanh", loai:"minh-hoa", ai:true},
+    {bo:"bo-01", id:"meo-ben-cua-so", label:"Mèo Bên Cửa Sổ", sub:"Mèo trắng · biển", loai:"minh-hoa", ai:true},
+    {bo:"bo-01", id:"goc-doc-sach",   label:"Góc Đọc Sách",   sub:"Minh họa · mùa hè", loai:"minh-hoa", ai:true}
   ];
-  WALLS.forEach(function(w){ var d = "wallpapers/" + w.bo + "/"; ITEMS.kl.push({kind:"img", ai:w.ai, file:d + w.id, src:d + "thumb/" + w.id + "_phone.jpg", dthumb:d + "thumb/" + w.id + "_desktop.jpg", label:w.label, sub:w.sub}); });
+  WALLS.forEach(function(w){ var d = "wallpapers/" + w.bo + "/"; ITEMS.kl.push({kind:"img", ai:w.ai, loai:w.loai, file:d + w.id, src:d + "thumb/" + w.id + "_phone.jpg", dthumb:d + "thumb/" + w.id + "_desktop.jpg", label:w.label, sub:w.sub}); });
   PETS.forEach(function(src,i){ ITEMS.bcs.push({kind:"img", ai:true, src:src, label:"Bên Cửa Sổ #"+String(i+1).padStart(2,"0"), sub:PET_META[i][0]+" · "+PET_META[i][1]}); });
 
   /* HÌNH NỀN MỚI NHẤT — mỗi lần đăng video tặng hình nền, chỉ sửa khối này:
@@ -624,7 +633,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   var cardItem = new WeakMap();
   function buildCards(list, container, set){
     list.forEach(function(it){
-      var b = document.createElement("button"); b.type = "button"; b.className = "wp"; b.dataset.set = set;
+      var b = document.createElement("button"); b.type = "button"; b.className = "wp"; b.dataset.set = it.loai || set;
       b.setAttribute("aria-label", "Xem " + it.label);
       var th = document.createElement("span"); th.className = "thumb";
       if (it.kind === "gen"){
@@ -874,7 +883,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     return d;
   }
   var gear = document.getElementById("gear"), gear2 = document.getElementById("gear2");
-  GEAR.forEach(function(g){ gear.appendChild(gearCard(g)); });
+  /* món chưa có link mua hoặc video review thì ẩn, khi có link chỉ cần thêm links vào là tự hiện */
+  GEAR.filter(function(g){ return (g.links && g.links.length) || g.review; }).forEach(function(g){ gear.appendChild(gearCard(g)); });
   GOIY.forEach(function(g){ gear2.appendChild(gearCard(g)); });
 
   /* copy email */
