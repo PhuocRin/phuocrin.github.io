@@ -583,10 +583,10 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   var ITEMS = { kl: [], bcs: [] };
   /* HÌNH NỀN — mỗi hình có 4 file trong wallpapers/<bo>/: <id>_phone.jpg, <id>_desktop.jpg và thumb/<id>_phone.jpg, thumb/<id>_desktop.jpg */
   var WALLS = [
-    {bo:"bo-01", id:"cun-nap-tuong",  label:"Cún Nấp Tường",  sub:"Corgi · xanh pastel", ai:true},
-    {bo:"bo-01", id:"ho-nui-tuyet",   label:"Hồ Núi Tuyết",   sub:"Phong cảnh · hồ xanh", ai:true},
-    {bo:"bo-01", id:"meo-ben-cua-so", label:"Mèo Bên Cửa Sổ", sub:"Mèo trắng · biển", ai:true},
-    {bo:"bo-01", id:"goc-doc-sach",   label:"Góc Đọc Sách",   sub:"Minh họa · mùa hè", ai:true}
+    {bo:"bo-01", id:"cun-nap-tuong",  label:"Cún Nấp Tường",  sub:"Corgi · xanh pastel", ai:false},
+    {bo:"bo-01", id:"ho-nui-tuyet",   label:"Hồ Núi Tuyết",   sub:"Phong cảnh · hồ xanh", ai:false},
+    {bo:"bo-01", id:"meo-ben-cua-so", label:"Mèo Bên Cửa Sổ", sub:"Mèo trắng · biển", ai:false},
+    {bo:"bo-01", id:"goc-doc-sach",   label:"Góc Đọc Sách",   sub:"Minh họa · mùa hè", ai:false}
   ];
   WALLS.forEach(function(w){ var d = "wallpapers/" + w.bo + "/"; ITEMS.kl.push({kind:"img", ai:w.ai, file:d + w.id, src:d + "thumb/" + w.id + "_phone.jpg", dthumb:d + "thumb/" + w.id + "_desktop.jpg", label:w.label, sub:w.sub}); });
   PETS.forEach(function(src,i){ ITEMS.bcs.push({kind:"img", ai:true, src:src, label:"Bên Cửa Sổ #"+String(i+1).padStart(2,"0"), sub:PET_META[i][0]+" · "+PET_META[i][1]}); });
