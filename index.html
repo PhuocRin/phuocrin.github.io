@@ -588,19 +588,15 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   var ITEMS = { kl: [], bcs: [] };
   /* HÌNH NỀN — mỗi hình có 4 file trong wallpapers/<bo>/: <id>_phone.jpg, <id>_desktop.jpg và thumb/<id>_phone.jpg, thumb/<id>_desktop.jpg */
   var WALLS = [
-    /* loai: "kinh" (kính, trừu tượng) hoặc "minh-hoa" (thú cưng, phong cảnh, xe) để lọc trong "Xem tất cả". Hình mới nhất đặt lên đầu. */
-    {bo:"bo-02", id:"o-kinh-hoang-hon",    label:"Ô Kính Hoàng Hôn",    sub:"Kính mờ · cam xanh",    loai:"kinh",     ai:true},
-    {bo:"bo-02", id:"meo-xe-giay",         label:"Mèo Xé Giấy",         sub:"Mèo xám · nền kem",     loai:"minh-hoa", ai:true},
-    {bo:"bo-02", id:"vong-kinh-xanh",      label:"Vòng Kính Xanh",      sub:"Kính 3D · xanh dương",  loai:"kinh",     ai:true},
-    {bo:"bo-02", id:"vach-nui-may-trang",  label:"Vách Núi Mây",  sub:"Phong cảnh · xanh lá", loai:"minh-hoa", ai:true},
-    {bo:"bo-02", id:"kinh-ngoc-tim",       label:"Kính Ngọc Tím",       sub:"Kính 3D · ngọc tím",    loai:"kinh",     ai:true},
-    {bo:"bo-02", id:"xe-trang-neon",       label:"Xe Trắng Neon",       sub:"Xe · neon hồng", loai:"minh-hoa", ai:true},
-    {bo:"bo-02", id:"dia-kinh-hong",       label:"Đĩa Kính Hồng",       sub:"Kính trong · hồng",     loai:"kinh",     ai:true},
-    {bo:"bo-02", id:"phien-kinh-xanh-dem", label:"Phiến Kính Xanh Đêm", sub:"Kính mờ · nền tối",     loai:"kinh",     ai:true},
-    {bo:"bo-01", id:"cun-nap-tuong",  label:"Cún Nấp Tường",  sub:"Corgi · xanh pastel", loai:"minh-hoa", ai:true},
-    {bo:"bo-01", id:"ho-nui-tuyet",   label:"Hồ Núi Tuyết",   sub:"Phong cảnh · hồ xanh", loai:"minh-hoa", ai:true},
-    {bo:"bo-01", id:"meo-ben-cua-so", label:"Mèo Bên Cửa Sổ", sub:"Mèo trắng · biển", loai:"minh-hoa", ai:true},
-    {bo:"bo-01", id:"goc-doc-sach",   label:"Góc Đọc Sách",   sub:"Minh họa · mùa hè", loai:"minh-hoa", ai:true}
+    /* loai: "kinh" hoặc "minh-hoa" để lọc trong "Xem tất cả". Hình mới nhất đặt lên đầu. ai:true thì hiện nhãn "Ảnh AI" (ní đã chọn tắt, 12/10/2026) */
+    {bo:"bo-02", id:"kinh-ngoc-tim",       label:"Kính Ngọc Tím",       sub:"Kính 3D · ngọc tím",    loai:"kinh",     ai:false},
+    {bo:"bo-02", id:"xe-trang-neon",       label:"Xe Trắng Neon",       sub:"Xe · neon hồng", loai:"minh-hoa", ai:false},
+    {bo:"bo-02", id:"dia-kinh-hong",       label:"Đĩa Kính Hồng",       sub:"Kính trong · hồng",     loai:"kinh",     ai:false},
+    {bo:"bo-02", id:"phien-kinh-xanh-dem", label:"Phiến Kính Xanh Đêm", sub:"Kính mờ · nền tối",     loai:"kinh",     ai:false},
+    {bo:"bo-01", id:"cun-nap-tuong",  label:"Cún Nấp Tường",  sub:"Corgi · xanh pastel", loai:"minh-hoa", ai:false},
+    {bo:"bo-01", id:"ho-nui-tuyet",   label:"Hồ Núi Tuyết",   sub:"Phong cảnh · hồ xanh", loai:"minh-hoa", ai:false},
+    {bo:"bo-01", id:"meo-ben-cua-so", label:"Mèo Bên Cửa Sổ", sub:"Mèo trắng · biển", loai:"minh-hoa", ai:false},
+    {bo:"bo-01", id:"goc-doc-sach",   label:"Góc Đọc Sách",   sub:"Minh họa · mùa hè", loai:"minh-hoa", ai:false}
   ];
   WALLS.forEach(function(w){ var d = "wallpapers/" + w.bo + "/"; ITEMS.kl.push({kind:"img", ai:w.ai, loai:w.loai, file:d + w.id, src:d + "thumb/" + w.id + "_phone.jpg", dthumb:d + "thumb/" + w.id + "_desktop.jpg", label:w.label, sub:w.sub}); });
   PETS.forEach(function(src,i){ ITEMS.bcs.push({kind:"img", ai:true, src:src, label:"Bên Cửa Sổ #"+String(i+1).padStart(2,"0"), sub:PET_META[i][0]+" · "+PET_META[i][1]}); });
@@ -968,6 +964,31 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   var sx = null;
   vstage.addEventListener("touchstart", function(e){ sx = e.touches[0].clientX; }, {passive:true});
   vstage.addEventListener("touchend", function(e){ if (sx === null) return; var dx = e.changedTouches[0].clientX - sx; sx = null; if (Math.abs(dx) > 50) nav(dx < 0 ? 1 : -1); }, {passive:true});
+})();
+</script>
+<script>
+/* THỐNG KÊ: đếm lượt ghé và lượt bấm link (Umami, không cookie). Chỉ chạy khi có UMAMI_ID. */
+(function(){
+  var ID = "";
+  if (!ID) return;
+  var s = document.createElement("script"); s.defer = true; s.src = "https://cloud.umami.is/script.js"; s.setAttribute("data-website-id", ID);
+  document.head.appendChild(s);
+  function track(name, data){ try { if (window.umami) window.umami.track(name, data); } catch(e){} }
+  document.addEventListener("click", function(e){
+    var a = e.target.closest ? e.target.closest("a, #copyMail") : null; if (!a) return;
+    if (a.id === "copyMail"){ track("Sao chép email"); return; }
+    var h = a.getAttribute("href") || "";
+    if (a.hasAttribute("download")){
+      var n = document.getElementById("vname");
+      track("Tải hình nền", {hinh: n ? n.textContent : h, ban: /_desktop/.test(h) ? "máy tính" : "điện thoại"}); return;
+    }
+    if (/shopee\./.test(h)){
+      var it = a.closest(".item"); track("Shopee", {mon: it ? it.querySelector("h3").textContent : h, nut: a.textContent}); return;
+    }
+    if (/paypal\./.test(h)){ track("PayPal"); return; }
+    var m = h.match(/(youtube|youtu\.be|tiktok|facebook)/);
+    if (m){ track("Mạng xã hội", {trang: m[1] === "youtu.be" ? "youtube" : m[1], link: h}); }
+  }, true);
 })();
 </script>
 </body>
