@@ -301,6 +301,22 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .vbar .nv{font-size:24px;line-height:1;padding:0 14px}
 #vlock[aria-pressed="true"]{background:rgba(255,255,255,.18)}
 .vclose{position:absolute;top:calc(env(safe-area-inset-top,0px) + 12px);right:16px;width:44px;height:44px;border-radius:50%;color:#fff;font-size:24px;line-height:1;cursor:pointer}
+.vmac{width:min(calc(100vw - 32px),860px,calc(46svh * 1.72));container-type:inline-size}
+.mlid{background:#0b0c10;border-radius:3.2cqw 3.2cqw 1.2cqw 1.2cqw;padding:2.2cqw 2.2cqw 2.6cqw;box-shadow:0 0 0 1px rgba(255,255,255,.18) inset,0 30px 70px -30px #000}
+.mscreen{position:relative;aspect-ratio:16/10;border-radius:1.2cqw;overflow:hidden;background:#1a1d24 center/cover no-repeat}
+.mscreen>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity .25s}
+.mnotch{position:absolute;left:50%;top:0;width:13%;height:3.4%;transform:translateX(-50%);background:#0b0c10;border-radius:0 0 1cqw 1cqw}
+.mui{position:absolute;inset:0;pointer-events:none;color:#fff}
+.mbar{position:absolute;left:0;right:0;top:0;height:3.4%;display:flex;align-items:center;gap:2cqw;padding:0 1.6cqw;font:600 1.25cqw/1 var(--f-body);background:rgba(16,20,28,.32);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+.mbar span{font-weight:500}.mbar i{flex:1}.mdot{width:1.1cqw;height:1.1cqw;border-radius:50%;background:#fff;opacity:.9}
+.mdock{position:absolute;left:50%;bottom:1.4%;transform:translateX(-50%);display:flex;gap:.9cqw;padding:.8cqw;border-radius:2cqw;background:rgba(255,255,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.5);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.mdock s{display:block;width:4cqw;height:4cqw;border-radius:1cqw;background:linear-gradient(160deg,#fff8,var(--c) 45%)}
+.mbase{position:relative;margin:0 -5%;height:2.2cqw;background:linear-gradient(#d9dde4,#9aa1ad);border-radius:0 0 3cqw 3cqw;box-shadow:0 18px 30px -18px #000}
+.mbase span{position:absolute;left:50%;top:0;width:14%;height:45%;transform:translateX(-50%);background:#aeb4be;border-radius:0 0 1cqw 1cqw}
+.vmac .vload{bottom:9%}
+.vmode{display:flex;gap:4px;padding:4px;border-radius:999px;background:rgba(255,255,255,.08);box-shadow:inset 0 0 0 1px rgba(255,255,255,.14)}
+.vmode button{appearance:none;border:0;background:transparent;color:#cfd6e3;font:600 14px var(--f-body);min-height:40px;padding:0 18px;border-radius:999px;cursor:pointer}
+.vmode button[aria-pressed="true"]{background:rgba(255,255,255,.2);color:#fff;box-shadow:inset 0 1px 0 rgba(255,255,255,.4)}
 .vdl{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}.vdl .btn{min-height:44px}.vdl .btn-glass{color:#fff}
 .vhint{margin:0;font-size:12.5px;color:#a3acbf;text-align:center;max-width:36ch}
 
@@ -520,7 +536,20 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
       <div class="lock" id="vlockLayer" aria-hidden="true"><div class="island"></div><div class="ldate" data-date></div><div class="clock" data-clock>9:41</div></div>
       <div class="vload" id="vload">Đang tải bản 4K…</div>
     </div>
+    <div class="vmac" id="vmac" hidden>
+      <div class="mlid"><div class="mscreen" id="mscreen">
+        <img id="vmimg" alt="">
+        <div class="mui" id="mui" aria-hidden="true">
+          <div class="mbar"><span class="mdot"></span><b>Finder</b><span>File</span><span>Edit</span><span>View</span><i></i><span data-clock>9:41</span></div>
+          <div class="mdock"><s style="--c:#5aa9ff"></s><s style="--c:#7ed37a"></s><s style="--c:#ffb35c"></s><s style="--c:#ff6f91"></s><s style="--c:#b18cff"></s><s style="--c:#eef2f8"></s></div>
+        </div>
+        <div class="mnotch"></div>
+        <div class="vload" id="vmload">Đang tải bản 4K…</div>
+      </div></div>
+      <div class="mbase"><span></span></div>
+    </div>
   </div>
+  <div class="vmode" role="group" aria-label="Xem trên"><button type="button" id="mPhone" aria-pressed="true">Điện thoại</button><button type="button" id="mMac" aria-pressed="false">Máy tính</button></div>
   <div class="vinfo"><strong id="vname"></strong><span id="vsub"></span></div>
   <div class="vbar">
     <button class="nv" type="button" id="vprev" aria-label="Hình trước">‹</button>
@@ -854,6 +883,31 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   var cur = null, token = 0, lastUrl = null;
   var HINT = "iPhone: nhấn giữ hình rồi chọn Lưu vào Ảnh. Nút Tải sẽ lưu file 4K vào Tệp.";
   var dlPhone = document.getElementById("dlPhone"), dlDesk = document.getElementById("dlDesk");
+  var vphoneEl = document.querySelector(".vphone"), vmac = document.getElementById("vmac"), mscreen = document.getElementById("mscreen");
+  var vmimg = document.getElementById("vmimg"), vmload = document.getElementById("vmload"), mui = document.getElementById("mui");
+  var mPhone = document.getElementById("mPhone"), mMac = document.getElementById("mMac");
+  var HINT_MAC = "Mac: tải về, mở Finder, Control-click vào file → Set Desktop Picture.";
+  var mode = (window.matchMedia && window.matchMedia("(min-width: 900px) and (hover: hover)").matches) ? "mac" : "phone";
+  var curItem = null, curToken = 0;
+  function loadMac(it, my){
+    var lc = document.createElement("canvas"); lc.width = 480; lc.height = 270; K.render(lc, it.spec, mk);
+    mscreen.style.backgroundImage = "url(" + lc.toDataURL("image/jpeg", 0.8) + ")";
+    vmimg.style.opacity = 0; vmload.hidden = false; vmimg.alt = "Hình nền máy tính " + it.label;
+    vmimg.onload = function(){ if (my !== token) return; vmimg.style.opacity = 1; vmload.hidden = true; };
+    vmimg.onerror = function(){ if (my === token) vmload.textContent = "Chưa tải được, bấm nút Tải bên dưới"; };
+    vmimg.src = it.file + "_desktop.jpg";
+  }
+  function applyMode(){
+    var mac = mode === "mac";
+    vphoneEl.hidden = mac; vmac.hidden = !mac;
+    mPhone.setAttribute("aria-pressed", mac ? "false" : "true"); mMac.setAttribute("aria-pressed", mac ? "true" : "false");
+    dlPhone.className = "btn " + (mac ? "btn-glass" : "btn-solid"); dlDesk.className = "btn " + (mac ? "btn-solid" : "btn-glass");
+    vlock.textContent = mac ? "Thanh menu" : "Giờ khóa";
+    if (curItem) vhint.textContent = mac ? HINT_MAC : HINT;
+    if (mac && curItem && vmimg.dataset.for !== curItem.file){ vmimg.dataset.for = curItem.file; loadMac(curItem, curToken); }
+  }
+  mPhone.addEventListener("click", function(){ mode = "phone"; applyMode(); });
+  mMac.addEventListener("click", function(){ mode = "mac"; applyMode(); });
 
   function siblings(){ return Array.prototype.filter.call(cur.parentNode.children, function(c){ return !c.hidden; }); }
   function openCard(card){
@@ -875,13 +929,14 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     vimg.onload = function(){ if (my !== token) return; vimg.style.opacity = 1; vload.hidden = true; };
     vimg.onerror = function(){ if (my === token) vload.textContent = "Chưa tải được, bấm nút Tải bên dưới"; };
     vimg.src = base + "_phone.jpg";
+    curItem = it; curToken = my; vmimg.dataset.for = ""; vmimg.removeAttribute("src"); applyMode();
   }
   function closeViewer(){ viewer.hidden = true; token++; document.documentElement.style.overflow = sheet.hidden ? "" : "hidden"; if (cur) cur.focus(); }
   function nav(d){ var l = siblings(), i = l.indexOf(cur); openCard(l[(i+d+l.length)%l.length]); }
   document.getElementById("vclose").addEventListener("click", closeViewer);
   document.getElementById("vprev").addEventListener("click", function(){ nav(-1); });
   document.getElementById("vnext").addEventListener("click", function(){ nav(1); });
-  vlock.addEventListener("click", function(){ var on = vlock.getAttribute("aria-pressed") !== "true"; vlock.setAttribute("aria-pressed", on ? "true" : "false"); vlockLayer.hidden = !on; });
+  vlock.addEventListener("click", function(){ var on = vlock.getAttribute("aria-pressed") !== "true"; vlock.setAttribute("aria-pressed", on ? "true" : "false"); vlockLayer.hidden = !on; mui.hidden = !on; });
   viewer.addEventListener("click", function(e){ if (e.target === viewer || e.target === vstage) closeViewer(); });
   document.addEventListener("keydown", function(e){ if (viewer.hidden) return; if (e.key === "Escape") closeViewer(); else if (e.key === "ArrowLeft") nav(-1); else if (e.key === "ArrowRight") nav(1); });
   var sx = null;
