@@ -292,7 +292,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .vstage{display:flex;justify-content:center;width:100%}
 .vphone{position:relative;container-type:inline-size;width:min(calc(56vh * 1320 / 2868),calc(100vw - 48px),340px);width:min(calc(56svh * 1320 / 2868),calc(100vw - 48px),340px);
   aspect-ratio:1320/2868;border-radius:40px;overflow:hidden;background:#07080b;box-shadow:0 0 0 1px rgba(255,255,255,.16),0 0 0 7px #0c0d12,0 0 0 8px rgba(255,255,255,.14),0 40px 80px -30px #000}
-.vphone img{display:block;width:100%;height:100%;object-fit:cover;-webkit-touch-callout:default}
+.vphone{background-size:cover;background-position:center}
+.vphone img{display:block;width:100%;height:100%;object-fit:cover;-webkit-touch-callout:default;transition:opacity .25s}
 .vload{position:absolute;left:50%;bottom:7cqw;transform:translateX(-50%);font-size:12px;white-space:nowrap;background:rgba(0,0,0,.5);color:#fff;padding:6px 12px;border-radius:99px;pointer-events:none}
 .vinfo{font-size:13px;color:#a3acbf;text-align:center}.vinfo strong{font:500 13px var(--f-mono);color:#fff;margin-right:6px}
 .vbar{display:flex;gap:6px;padding:5px;border-radius:999px}
@@ -868,11 +869,12 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     var base = it.file, name = it.label.replace(/[^0-9A-Za-z]+/g, "-");
     dlPhone.href = base + "_phone.jpg"; dlPhone.setAttribute("download", "phuocrin-" + base.split("/").pop() + "_phone.jpg");
     dlDesk.href = base + "_desktop.jpg"; dlDesk.setAttribute("download", "phuocrin-" + base.split("/").pop() + "_desktop.jpg");
-    vimg.src = card.querySelector("canvas").toDataURL("image/jpeg", 0.9); vload.hidden = false;
-    var full = new Image();
-    full.onload = function(){ if (my !== token) return; vimg.src = full.src; vload.hidden = true; };
-    full.onerror = function(){ if (my === token) vload.hidden = true; };
-    full.src = base + "_phone.jpg";
+    // the small preview is only a backdrop; the <img> people long-press is always the 4K file
+    vimg.parentNode.style.backgroundImage = "url(" + card.querySelector("canvas").toDataURL("image/jpeg", 0.8) + ")";
+    vimg.style.opacity = 0; vload.hidden = false; vload.textContent = "Đang tải bản 4K…";
+    vimg.onload = function(){ if (my !== token) return; vimg.style.opacity = 1; vload.hidden = true; };
+    vimg.onerror = function(){ if (my === token) vload.textContent = "Chưa tải được, bấm nút Tải bên dưới"; };
+    vimg.src = base + "_phone.jpg";
   }
   function closeViewer(){ viewer.hidden = true; token++; document.documentElement.style.overflow = sheet.hidden ? "" : "hidden"; if (cur) cur.focus(); }
   function nav(d){ var l = siblings(), i = l.indexOf(cur); openCard(l[(i+d+l.length)%l.length]); }
