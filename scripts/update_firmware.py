@@ -1,7 +1,7 @@
 """Ghi dữ liệu cho trang firmware.html. Chạy bởi GitHub Actions mỗi giờ.
 
 Nguồn:
-- Tên máy: IPSW.me (danh sách iPhone, iPad).
+- Tên máy: IPSW.me (danh sách iPhone, iPad, Mac chip Apple).
 - Danh sách bản (chính thức, beta, RC), link, dung lượng, SHA-256: AppleDB.
   Link nào cũng là file trên server Apple (updates.cdn-apple.com); web không lưu file.
 - Còn ký hay đã khoá: bot hỏi thẳng server ký của Apple (gs.apple.com), không lấy số của ai.
@@ -19,7 +19,7 @@ from datetime import datetime, timedelta, timezone
 UA = "phuocrin.com firmware list (+https://phuocrin.com)"
 OUT = "firmware"
 CACHE = os.path.join(".cache", "firmware.json")
-MAJORS = 3              # số đời iOS gần nhất giữ lại (ví dụ iOS 18, 26, 27)
+MAJORS = 3              # số đời gần nhất giữ lại cho mỗi hệ (ví dụ iOS 18, 26, 27; macOS 15, 26, 27)
 BETA_DAYS = 220         # beta/RC cũ hơn thì bỏ
 BETA_PER_DEVICE = 16
 APPLE = "https://updates.cdn-apple.com/"
@@ -175,7 +175,7 @@ def devices(old):
     try:
         raw = get_json("https://api.ipsw.me/v4/devices")
         out = [{"id": d["identifier"], "name": d.get("name") or d["identifier"]}
-               for d in raw if re.match(r"^(iPhone|iPad)\d+,\d+$", d.get("identifier", ""))]
+               for d in raw if re.match(r"^(iPhone|iPad|Mac|MacBookPro|MacBookAir|Macmini|iMac|MacPro)\d+,\d+$", d.get("identifier", ""))]
         if out:
             return sorted(out, key=lambda x: id_key(x["id"]))
     except Exception as e:
@@ -208,9 +208,12 @@ def main():
 
     cache = load(CACHE, {})
     index = get_json("https://api.appledb.dev/ios/index.json")
-    keys = [k for k in index if re.match(r"^(iOS|iPadOS);\d{2}[A-Z]\d+[a-z]?(-RC)?$", k)]
-    majors = sorted({int(k.split(";")[1][:2]) for k in keys})[-MAJORS:]
-    keys = [k for k in keys if int(k.split(";")[1][:2]) in majors]
+    keys = [k for k in index if re.match(r"^(iOS|iPadOS|macOS);\d{2}[A-Z]\d+[a-z]?(-RC)?$", k)]
+    fam = lambda k: "mac" if k.startswith("macOS;") else "ios"
+    major = lambda k: int(k.split(";")[1][:2])
+    tops = {f: sorted({major(k) for k in keys if fam(k) == f})[-MAJORS:] for f in ("ios", "mac")}
+    keys = [k for k in keys if major(k) in tops[fam(k)]]
+    majors = tops["ios"]
     recent = (NOW - timedelta(days=30)).strftime("%Y-%m-%d")
 
     # 1) cập nhật danh sách bản từ AppleDB (bản mới, bản 30 ngày gần đây, bản còn ký thì hỏi lại)
@@ -357,6 +360,9 @@ def write_alert(old, new):
         os.remove(ALERT)
     if old is None:  # lần đầu có dữ liệu này: chỉ ghi lại, không báo
         return
+    # hệ nào lần trước chưa có (ví dụ macOS lúc mới thêm vào) thì lần đầu chỉ ghi lại, không báo
+    fams = {x.split(" ")[0] for x in old}
+    new = [x for x in new if x.split(" ")[0] in fams]
     gone = [x for x in old if x not in new]
     came = [x for x in new if x not in old]
     if not gone and not came:
