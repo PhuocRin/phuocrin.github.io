@@ -1,0 +1,46 @@
+name: Upscale hình nền lên 4K
+# Chạy khi sửa file này hoặc script upscale. Kết quả đẩy lên nhánh upscale-4k để kiểm tra trước, không đụng main.
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: [.github/workflows/upscale-4k.yml, scripts/upscale_4k.py]
+permissions:
+  contents: write
+jobs:
+  upscale:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      matrix:
+        part: [0, 1, 2, 3, 4, 5]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install --quiet torch --index-url https://download.pytorch.org/whl/cpu && pip install --quiet spandrel pillow numpy
+      - run: curl -sSL -o model.pth https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.2.4/RealESRGAN_x4plus_anime_6B.pth
+      - run: python scripts/upscale_4k.py model.pth 6 ${{ matrix.part }} out
+      - uses: actions/upload-artifact@v4
+        with:
+          name: part-${{ matrix.part }}
+          path: out
+          if-no-files-found: ignore
+  gom:
+    needs: upscale
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: parts
+      - name: Đẩy lên nhánh upscale-4k
+        run: |
+          for d in parts/*/; do cp -r "$d"wallpapers/. wallpapers/ 2>/dev/null || true; done
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b upscale-4k
+          git add wallpapers
+          git commit -m "Hình nền: upscale lên 4K (chờ kiểm tra)" || exit 0
+          git push -f origin upscale-4k
