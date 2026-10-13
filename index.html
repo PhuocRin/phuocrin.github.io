@@ -432,7 +432,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 @media (max-width:340px){#galFilter button{padding-left:8px;padding-right:8px;font-size:12.5px}}
 .spb{position:absolute;left:8px;bottom:8px;z-index:1;font:700 10.5px var(--f-body);letter-spacing:.01em;color:#fff;padding:4px 9px;border-radius:999px;background:rgba(20,24,34,.42);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)}
 .vphone img.vfg{position:absolute;inset:0;pointer-events:none;-webkit-mask-size:cover;mask-size:cover;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
-.lock.tall .clock{font-size:36cqw;font-weight:600;transform:scaleY(1.6);transform-origin:50% 0;letter-spacing:-.045em;color:rgba(255,255,255,.9)}
+.lock.tall .clock{font-size:36cqw;font-weight:600;transform:scaleY(var(--cy,1.6));transform-origin:50% 0;letter-spacing:-.045em;color:rgba(255,255,255,.9)}
 </style>
 </head>
 <body>
@@ -660,7 +660,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   /* HÌNH NỀN — mỗi hình có 4 file trong wallpapers/<bo>/: <id>_phone.jpg, <id>_desktop.jpg và thumb/<id>_phone.jpg, thumb/<id>_desktop.jpg */
   var WALLS = [
     /* loai: "kinh" hoặc "minh-hoa" để lọc trong "Xem tất cả". Hình mới nhất đặt lên đầu. ai:true thì hiện nhãn "Ảnh AI" (ní đã chọn tắt, 12/10/2026) */
-    {bo:"bo-02", id:"o-kinh-hoang-hon",    label:"Ô Kính Hoàng Hôn",    sub:"Kính mờ · cam xanh",    loai:"kinh",     ai:false},
+    {bo:"bo-02", id:"tau-mat-guong",       label:"Tàu Mặt Gương",       sub:"Phong cảnh · hồng tím",  loai:"minh-hoa", ai:false, spatial:true, clockY:3.0},
+    {bo:"bo-02", id:"o-kinh-hoang-hon",   label:"Ô Kính Hoàng Hôn",    sub:"Kính mờ · cam xanh",    loai:"kinh",     ai:false},
     {bo:"bo-02", id:"meo-xe-giay",         label:"Mèo Xé Giấy",         sub:"Mèo xám · nền kem",     loai:"minh-hoa", ai:false},
     {bo:"bo-02", id:"vong-kinh-xanh",      label:"Vòng Kính Xanh",      sub:"Kính 3D · xanh dương",  loai:"kinh",     ai:false},
     {bo:"bo-02", id:"vach-nui-may-trang",  label:"Vách Núi Mây",        sub:"Phong cảnh · xanh lá",  loai:"minh-hoa", ai:false},
@@ -673,8 +674,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     {bo:"bo-01", id:"meo-ben-cua-so", label:"Mèo Bên Cửa Sổ", sub:"Mèo trắng · biển", loai:"minh-hoa", ai:false},
     {bo:"bo-01", id:"goc-doc-sach",   label:"Góc Đọc Sách",   sub:"Minh họa · mùa hè", loai:"minh-hoa", ai:false}
   ];
-  /* spatial:true = ní đã thử trên iPhone, lên được Spatial Scene. Cần thêm file <id>_mask.png (trắng = chủ thể nằm trước đồng hồ). */
-  WALLS.forEach(function(w){ var d = "wallpapers/" + w.bo + "/"; ITEMS.kl.push({kind:"img", ai:w.ai, loai:w.loai, spatial:!!w.spatial, mask:w.spatial ? d + w.id + "_mask.png" : "", file:d + w.id, src:d + "thumb/" + w.id + "_phone.jpg", dthumb:d + "thumb/" + w.id + "_desktop.jpg", label:w.label, sub:w.sub}); });
+  /* spatial:true = ní đã thử trên iPhone, lên được Spatial Scene. Cần thêm file <id>_mask.png (trắng = chủ thể nằm trước đồng hồ). clockY = độ kéo cao đồng hồ cho chạm chủ thể như trên iPhone (mặc định 1.6). */
+  WALLS.forEach(function(w){ var d = "wallpapers/" + w.bo + "/"; ITEMS.kl.push({kind:"img", ai:w.ai, loai:w.loai, spatial:!!w.spatial, clockY:w.clockY || 1.6, mask:w.spatial ? d + w.id + "_mask.png" : "", file:d + w.id, src:d + "thumb/" + w.id + "_phone.jpg", dthumb:d + "thumb/" + w.id + "_desktop.jpg", label:w.label, sub:w.sub}); });
   PETS.forEach(function(src,i){ ITEMS.bcs.push({kind:"img", ai:true, src:src, label:"Bên Cửa Sổ #"+String(i+1).padStart(2,"0"), sub:PET_META[i][0]+" · "+PET_META[i][1]}); });
 
   /* HÌNH NỀN MỚI NHẤT — mỗi lần đăng video tặng hình nền, chỉ sửa khối này:
@@ -1033,7 +1034,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     vimg.onerror = function(){ if (my === token) vload.textContent = "Chưa tải được, bấm nút Tải bên dưới"; };
     vimg.src = base + "_phone.jpg";
     // Spatial Scene: phủ lại phần chủ thể (theo mask) lên trên đồng hồ, giờ chui ra sau núi giống iPhone
-    vfg.hidden = true; vlockLayer.classList.toggle("tall", !!it.spatial);
+    vfg.hidden = true; vlockLayer.classList.toggle("tall", !!it.spatial); vlockLayer.style.setProperty("--cy", it.clockY || 1.6);
     if (it.spatial){
       var mk2 = "url(" + it.mask + ")"; vfg.style.webkitMaskImage = mk2; vfg.style.maskImage = mk2;
       vfg.onload = function(){ if (my === token) vfg.hidden = false; }; vfg.src = base + "_phone.jpg";
