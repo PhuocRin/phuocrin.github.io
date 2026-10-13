@@ -432,7 +432,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 @media (max-width:340px){#galFilter button{padding-left:8px;padding-right:8px;font-size:12.5px}}
 .spb{position:absolute;left:8px;bottom:8px;z-index:1;font:700 10.5px var(--f-body);letter-spacing:.01em;color:#fff;padding:4px 9px;border-radius:999px;background:rgba(20,24,34,.42);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)}
 .vphone img.vfg{position:absolute;inset:0;pointer-events:none;-webkit-mask-size:cover;mask-size:cover;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
-.lock.tall .clock{font-size:36cqw;font-weight:600;transform:scaleY(var(--cy,1.6));transform-origin:50% 0;letter-spacing:-.045em;color:rgba(255,255,255,.9)}
+.lock.tall .clock{display:none}
+.tclock{display:none;position:absolute;left:6.8%;width:86.4%;top:12.25%;height:calc(var(--cb,45%) - 12.25%);overflow:visible;filter:drop-shadow(0 1px 1.5px rgba(0,0,0,.16)) drop-shadow(0 0 10px rgba(255,255,255,.18))}
+.lock.tall .tclock{display:block}
 </style>
 </head>
 <body>
@@ -608,7 +610,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   <div class="vstage" id="vstage">
     <div class="vphone">
       <img id="vimg" alt="">
-      <div class="lock" id="vlockLayer" aria-hidden="true"><div class="island"></div><div class="ldate" data-date></div><div class="clock" data-clock>9:41</div></div>
+      <div class="lock" id="vlockLayer" aria-hidden="true"><div class="island"></div><div class="ldate" data-date></div><div class="clock" data-clock>9:41</div><svg class="tclock" id="tclock" aria-hidden="true"></svg></div>
       <img id="vfg" class="vfg" alt="" aria-hidden="true" hidden>
       <div class="vload" id="vload">Đang tải bản gốc…</div>
     </div>
@@ -645,12 +647,52 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   function mk(w,h){var c=document.createElement("canvas"); c.width=w; c.height=h; return c;}
 
   /* clock + date */
+  /* Đồng hồ cao kiểu iOS 26 cho hình Chiều sâu: tự vẽ số bằng nét đều (kéo cao mà nét không bị dày ra như khi giãn chữ).
+     Tỉ lệ đo từ màn hình khoá thật ní chụp: đồng hồ rộng 86.4%, đỉnh ở 12.25% chiều cao, đáy theo clockB của từng hình. */
+  var lastTime = "9:41";
+  function digitPath(c, x, w, h, sw){
+    var x0 = x + sw/2, x1 = x + w - sw/2, y0 = sw/2, y1 = h - sw/2, r = (x1 - x0)/2, xc = (x0 + x1)/2;
+    function A(xx, yy, sweep){ return " A" + r + " " + r + " 0 0 " + sweep + " " + xx + " " + yy; }
+    function stad(ya, yb){ return "M" + x0 + " " + (ya + r) + A(x1, ya + r, 1) + " L" + x1 + " " + (yb - r) + A(x0, yb - r, 1) + " Z"; }
+    var m;
+    switch (c){
+      case "0": return stad(y0, y1);
+      case "1": return "M" + (xc - r*.75) + " " + (y0 + r*.8) + " L" + (xc + sw*.15) + " " + y0 + " L" + (xc + sw*.15) + " " + y1;
+      case "2": m = y0 + (y1 - y0)*.5; return "M" + x0 + " " + (y0 + r) + A(x1, y0 + r, 1) + " L" + x1 + " " + (m - r*.2) + " L" + x0 + " " + (y1 - sw*.05) + " L" + x1 + " " + y1;
+      case "3": m = y0 + (y1 - y0)*.46; return "M" + x0 + " " + (y0 + r) + A(x1, y0 + r, 1) + " L" + x1 + " " + (m - r) + A(xc, m, 1) + " M" + xc + " " + m + A(x1, m + r, 1) + " L" + x1 + " " + (y1 - r) + A(x0, y1 - r, 1);
+      case "4": m = y0 + (y1 - y0)*.7; var xs = x0 + (x1 - x0)*.74; return "M" + xs + " " + y1 + " L" + xs + " " + y0 + " L" + x0 + " " + m + " L" + x1 + " " + m;
+      case "5": m = y0 + (y1 - y0)*.42; return "M" + x1 + " " + y0 + " L" + x0 + " " + y0 + " L" + x0 + " " + (m + r*.35) + " C" + x0 + " " + (m - r*.25) + " " + x1 + " " + (m - r*.45) + " " + x1 + " " + (m + r*.9) + " L" + x1 + " " + (y1 - r) + A(x0, y1 - r, 1);
+      case "6": m = y0 + (y1 - y0)*.42; return "M" + x1 + " " + (y0 + r) + A(x0, y0 + r, 0) + " L" + x0 + " " + (y1 - r) + A(x1, y1 - r, 0) + " L" + x1 + " " + (m + r) + A(x0, m + r, 0);
+      case "7": return "M" + x0 + " " + y0 + " L" + x1 + " " + y0 + " L" + (x0 + (x1 - x0)*.28) + " " + y1;
+      case "8": m = y0 + (y1 - y0)*.46; return stad(y0, m + sw*.0) + " " + stad(m, y1);
+      case "9": m = y0 + (y1 - y0)*.58; return "M" + x0 + " " + (y1 - r) + A(x1, y1 - r, 0) + " L" + x1 + " " + (y0 + r) + A(x0, y0 + r, 0) + " L" + x0 + " " + (m - r) + A(x1, m - r, 0);
+    }
+    return "";
+  }
+  function drawTall(){
+    var svg = document.getElementById("tclock");
+    if (!svg || !svg.parentNode.classList.contains("tall")) return;
+    var b = svg.getBoundingClientRect(); if (!b.width || !b.height) return;
+    var W = b.width, H = b.height, s = String(lastTime).replace(/[^0-9:]/g, ""), units = 0, gap = .16, i, c;
+    for (i = 0; i < s.length; i++){ c = s[i]; units += (c === ":" ? .34 : c === "1" ? .62 : 1) + (i ? gap : 0); }
+    var u = W / units, sw = u * .36, x = 0, d = "", dots = "", r0 = sw * .6;
+    for (i = 0; i < s.length; i++){
+      c = s[i]; if (i) x += gap * u;
+      if (c === ":"){ var cx = x + .17*u; dots += '<circle cx="' + cx + '" cy="' + H*.3 + '" r="' + r0 + '"/><circle cx="' + cx + '" cy="' + H*.7 + '" r="' + r0 + '"/>'; x += .34*u; continue; }
+      var w = (c === "1" ? .62 : 1) * u; d += digitPath(c, x, w, H, sw) + " "; x += w;
+    }
+    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+    svg.innerHTML = '<defs><linearGradient id="tcg" x1="0" y1="0" x2="' + W + '" y2="' + H + '" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#e6f6ff" stop-opacity=".9"/><stop offset=".55" stop-color="#ffffff" stop-opacity=".82"/><stop offset="1" stop-color="#ffeef6" stop-opacity=".86"/></linearGradient></defs>' +
+      '<path d="' + d + '" fill="none" stroke="url(#tcg)" stroke-width="' + sw + '" stroke-linecap="round" stroke-linejoin="round"/><g fill="url(#tcg)">' + dots + '</g>';
+  }
+  if (window.ResizeObserver && document.getElementById("tclock")) new ResizeObserver(function(){ drawTall(); }).observe(document.getElementById("tclock"));
   function tick(){
     var d = new Date(), t, ds;
     try { t = d.toLocaleTimeString("vi-VN",{hour:"2-digit",minute:"2-digit",hour12:false}); ds = d.toLocaleDateString("vi-VN",{weekday:"long",day:"numeric",month:"long"}); ds = ds.charAt(0).toUpperCase()+ds.slice(1); }
     catch(e){ t = "9:41"; ds = ""; }
     document.querySelectorAll("[data-clock]").forEach(function(el){ el.textContent = t; });
     document.querySelectorAll("[data-date]").forEach(function(el){ el.textContent = ds; });
+    lastTime = t; drawTall();
   }
   tick(); setInterval(tick, 20000);
 
@@ -660,7 +702,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   /* HÌNH NỀN — mỗi hình có 4 file trong wallpapers/<bo>/: <id>_phone.jpg, <id>_desktop.jpg và thumb/<id>_phone.jpg, thumb/<id>_desktop.jpg */
   var WALLS = [
     /* loai: "kinh" hoặc "minh-hoa" để lọc trong "Xem tất cả". Hình mới nhất đặt lên đầu. ai:true thì hiện nhãn "Ảnh AI" (ní đã chọn tắt, 12/10/2026) */
-    {bo:"bo-02", id:"tau-mat-guong",       label:"Tàu Mặt Gương",       sub:"Phong cảnh · hồng tím",  loai:"minh-hoa", ai:false, spatial:true, clockY:3.0},
+    {bo:"bo-02", id:"tau-mat-guong",       label:"Tàu Mặt Gương",       sub:"Phong cảnh · hồng tím",  loai:"minh-hoa", ai:false, spatial:true, clockB:51.75},
     {bo:"bo-02", id:"o-kinh-hoang-hon",   label:"Ô Kính Hoàng Hôn",    sub:"Kính mờ · cam xanh",    loai:"kinh",     ai:false},
     {bo:"bo-02", id:"meo-xe-giay",         label:"Mèo Xé Giấy",         sub:"Mèo xám · nền kem",     loai:"minh-hoa", ai:false},
     {bo:"bo-02", id:"vong-kinh-xanh",      label:"Vòng Kính Xanh",      sub:"Kính 3D · xanh dương",  loai:"kinh",     ai:false},
@@ -670,12 +712,12 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     {bo:"bo-02", id:"dia-kinh-hong",       label:"Đĩa Kính Hồng",       sub:"Kính trong · hồng",     loai:"kinh",     ai:false},
     {bo:"bo-02", id:"phien-kinh-xanh-dem", label:"Phiến Kính Xanh Đêm", sub:"Kính mờ · nền tối",     loai:"kinh",     ai:false},
     {bo:"bo-01", id:"cun-nap-tuong",  label:"Cún Nấp Tường",  sub:"Corgi · xanh pastel", loai:"minh-hoa", ai:false},
-    {bo:"bo-01", id:"ho-nui-tuyet",   label:"Hồ Núi Tuyết",   sub:"Phong cảnh · hồ xanh", loai:"minh-hoa", ai:false, spatial:true},
+    {bo:"bo-01", id:"ho-nui-tuyet",   label:"Hồ Núi Tuyết",   sub:"Phong cảnh · hồ xanh", loai:"minh-hoa", ai:false, spatial:true, clockB:41.8},
     {bo:"bo-01", id:"meo-ben-cua-so", label:"Mèo Bên Cửa Sổ", sub:"Mèo trắng · biển", loai:"minh-hoa", ai:false},
     {bo:"bo-01", id:"goc-doc-sach",   label:"Góc Đọc Sách",   sub:"Minh họa · mùa hè", loai:"minh-hoa", ai:false}
   ];
-  /* spatial:true = ní đã thử trên iPhone, lên được Spatial Scene. Cần thêm file <id>_mask.png (trắng = chủ thể nằm trước đồng hồ). clockY = độ kéo cao đồng hồ cho chạm chủ thể như trên iPhone (mặc định 1.6). */
-  WALLS.forEach(function(w){ var d = "wallpapers/" + w.bo + "/"; ITEMS.kl.push({kind:"img", ai:w.ai, loai:w.loai, spatial:!!w.spatial, clockY:w.clockY || 1.6, mask:w.spatial ? d + w.id + "_mask.png" : "", file:d + w.id, src:d + "thumb/" + w.id + "_phone.jpg", dthumb:d + "thumb/" + w.id + "_desktop.jpg", label:w.label, sub:w.sub}); });
+  /* spatial:true = ní đã thử trên iPhone, lên được Spatial Scene. Cần thêm file <id>_mask.png (trắng = chủ thể nằm trước đồng hồ). clockB = đáy đồng hồ tính theo % chiều cao màn hình, đo từ ảnh chụp màn hình khoá thật của ní (mặc định 45). */
+  WALLS.forEach(function(w){ var d = "wallpapers/" + w.bo + "/"; ITEMS.kl.push({kind:"img", ai:w.ai, loai:w.loai, spatial:!!w.spatial, clockB:w.clockB || 45, mask:w.spatial ? d + w.id + "_mask.png" : "", file:d + w.id, src:d + "thumb/" + w.id + "_phone.jpg", dthumb:d + "thumb/" + w.id + "_desktop.jpg", label:w.label, sub:w.sub}); });
   PETS.forEach(function(src,i){ ITEMS.bcs.push({kind:"img", ai:true, src:src, label:"Bên Cửa Sổ #"+String(i+1).padStart(2,"0"), sub:PET_META[i][0]+" · "+PET_META[i][1]}); });
 
   /* HÌNH NỀN MỚI NHẤT — mỗi lần đăng video tặng hình nền, chỉ sửa khối này:
@@ -1034,7 +1076,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     vimg.onerror = function(){ if (my === token) vload.textContent = "Chưa tải được, bấm nút Tải bên dưới"; };
     vimg.src = base + "_phone.jpg";
     // Spatial Scene: phủ lại phần chủ thể (theo mask) lên trên đồng hồ, giờ chui ra sau núi giống iPhone
-    vfg.hidden = true; vlockLayer.classList.toggle("tall", !!it.spatial); vlockLayer.style.setProperty("--cy", it.clockY || 1.6);
+    vfg.hidden = true; vlockLayer.classList.toggle("tall", !!it.spatial); vlockLayer.style.setProperty("--cb", (it.clockB || 45) + "%"); requestAnimationFrame(drawTall);
     if (it.spatial){
       var mk2 = "url(" + it.mask + ")"; vfg.style.webkitMaskImage = mk2; vfg.style.maskImage = mk2;
       vfg.onload = function(){ if (my === token) vfg.hidden = false; }; vfg.src = base + "_phone.jpg";
