@@ -724,7 +724,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     {bo:"bo-01", id:"goc-doc-sach",   label:"Góc Đọc Sách",   sub:"Minh họa · mùa hè", loai:"minh-hoa", ai:false}
   ];
   /* spatial:true = ní đã thử trên iPhone, lên được Spatial Scene. Cần thêm file <id>_mask.png (trắng = chủ thể nằm trước đồng hồ). clockB = đáy đồng hồ tính theo % chiều cao màn hình, đo từ ảnh chụp màn hình khoá thật của ní (mặc định 45). */
-  WALLS.forEach(function(w){ var d = "wallpapers/" + w.bo + "/"; ITEMS.kl.push({kind:"img", ai:w.ai, loai:w.loai, spatial:!!w.spatial, clockB:w.clockB || 45, mask:w.spatial ? d + w.id + "_mask.png" : "", file:d + w.id, src:d + "thumb/" + w.id + "_phone.jpg", dthumb:d + "thumb/" + w.id + "_desktop.jpg", label:w.label, sub:w.sub}); });
+  /* File 4K (_phone, _desktop) nằm trên Cloudflare R2, phẳng một cấp: <id>_phone.jpg, <id>_desktop.jpg. Ảnh xem trước (thumb) và mask vẫn ở repo. */
+  var IMG = "https://img.phuocrin.com/";
+  WALLS.forEach(function(w){ var d = "wallpapers/" + w.bo + "/"; ITEMS.kl.push({kind:"img", ai:w.ai, loai:w.loai, spatial:!!w.spatial, clockB:w.clockB || 45, mask:w.spatial ? d + w.id + "_mask.png" : "", file:IMG + w.id, src:d + "thumb/" + w.id + "_phone.jpg", dthumb:d + "thumb/" + w.id + "_desktop.jpg", label:w.label, sub:w.sub}); });
   PETS.forEach(function(src,i){ ITEMS.bcs.push({kind:"img", ai:true, src:src, label:"Bên Cửa Sổ #"+String(i+1).padStart(2,"0"), sub:PET_META[i][0]+" · "+PET_META[i][1]}); });
 
   /* HÌNH NỀN MỚI NHẤT — mỗi lần đăng video tặng hình nền, chỉ sửa khối này:
@@ -1127,6 +1129,21 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   document.getElementById("vback").addEventListener("click", function(){ goBack(1); });
   document.getElementById("vprev").addEventListener("click", function(){ nav(-1); });
   document.getElementById("vnext").addEventListener("click", function(){ nav(1); });
+  /* Tải hình: file nằm ở tên miền khác (img.phuocrin.com) nên thuộc tính download bị trình duyệt bỏ qua.
+     Tải về dạng blob (bucket R2 đã bật CORS cho phuocrin.com) rồi lưu đúng tên; lỗi thì mở thẳng file 4K.
+     cache:"no-store" vì bản <img> đã tải trước đó không kèm header CORS, dùng lại bộ nhớ đệm trình duyệt sẽ bị chặn. */
+  [dlPhone, dlDesk].forEach(function(a){
+    a.addEventListener("click", function(e){
+      var href = a.href, name = a.getAttribute("download") || "";
+      if (!window.fetch || !window.URL || href.indexOf(location.origin) === 0) return;
+      e.preventDefault(); var label = a.textContent; a.textContent = "Đang tải…";
+      fetch(href, {mode:"cors", cache:"no-store"}).then(function(r){ if (!r.ok) throw 0; return r.blob(); }).then(function(b){
+        var u = URL.createObjectURL(b), t = document.createElement("a");
+        t.href = u; t.download = name; document.body.appendChild(t); t.click(); t.remove();
+        setTimeout(function(){ URL.revokeObjectURL(u); }, 60000);
+      }).catch(function(){ location.href = href; }).then(function(){ a.textContent = label; });
+    });
+  });
   vlock.addEventListener("click", function(){ var on = vlock.getAttribute("aria-pressed") !== "true"; vlock.setAttribute("aria-pressed", on ? "true" : "false"); vlockLayer.hidden = !on; mui.hidden = !on; });
   viewer.addEventListener("click", function(e){ if (e.target === viewer || e.target === vstage) goBack(1); });
   /* link #mục khác trong trang (nút hero, logo): cuộn tới, không chồng thêm bước vào lịch sử */
