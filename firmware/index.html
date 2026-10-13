@@ -127,6 +127,11 @@ h1 em{font-style:normal;background:linear-gradient(95deg,#3d8bff 0%,#8b6bff 45%,
 .st.on{color:var(--ok);background:var(--ok-bg)}.st.no{color:var(--off);background:var(--off-bg)}
 .meta{font:500 12.5px var(--f-mono);color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 14px}
 .via{font-size:12px;color:var(--muted)}
+.vids{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.vchip{display:inline-flex;align-items:center;gap:7px;min-height:36px;box-sizing:border-box;padding:4px 12px 4px 6px;border-radius:999px;font-size:13px;font-weight:600;color:var(--ink);text-decoration:none;background:var(--off-bg);box-shadow:inset 0 0 0 1px var(--glass-line)}
+.vchip i{width:22px;height:22px;border-radius:50%;flex:none;background:linear-gradient(145deg,#ff5a52,#d7192a);position:relative}
+.vchip i::before{content:"";position:absolute;left:9px;top:7px;border-left:6px solid #fff;border-top:4px solid transparent;border-bottom:4px solid transparent}
+@media (hover:hover){.vchip:hover{background:var(--seg-on)}}
 .acts{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
 @media (max-width:620px){.fw{grid-template-columns:minmax(0,1fr)}.acts{justify-content:flex-start}}
 .more{justify-self:center}
@@ -305,7 +310,18 @@ footer a{color:var(--muted)}
 <script>
 (function(){
   var $ = function(id){ return document.getElementById(id); };
-  var state = { all: [], have: {}, fam: "iPhone", dev: "", kind: "release", data: null, showAll: false };
+  var state = { all: [], have: {}, fam: "iPhone", dev: "", kind: "release", data: null, showAll: false, vids: {} };
+
+  // Video của mình theo từng bản iOS (bot video gom theo tên video: "iOS 27.0.1 … có gì mới?", "… sau 4 ngày?")
+  function vidKey(osn, v){ return (osn + " " + v).toLowerCase().replace(/\s+/g, " ").trim(); }
+  function vidsFor(r){
+    var list = state.vids[vidKey(r.os, r.v)] || (r.os === "iPadOS" ? state.vids[vidKey("iOS", r.v)] : null);
+    if (!list || !list.length) return "";
+    return '<div class="vids">' + list.map(function(x){
+      var m = /sau\s+([^?]+)/i.exec(x.title), lab = x.kind === "sau" && m ? "Sau " + m[1].trim() : "Có gì mới";
+      return '<a class="vchip" href="https://www.youtube.com/watch?v=' + encodeURIComponent(x.id) + '" target="_blank" rel="noopener" title="' + esc(x.title) + '"><i aria-hidden="true"></i>' + esc(lab) + '</a>';
+    }).join("") + '</div>';
+  }
 
   function store(k, v){ try{ if(v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); }catch(e){ return null; } }
   function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
@@ -339,7 +355,7 @@ footer a{color:var(--muted)}
     var via = r.signed && r.src && r.src !== "apple" ? '<span class="via">Máy này bot chưa hỏi Apple được, trạng thái lấy theo '+(r.src === "ipsw.me" ? "IPSW.me" : "AppleDB")+'.</span>' : "";
     return '<article class="fw glass'+(r.signed ? "" : " off")+'">'
       + '<div style="display:grid;gap:6px;min-width:0"><div class="fw-t"><b>'+esc(label)+'</b>'+kindTag+st+'</div>'
-      + '<div class="meta"><span>Build '+esc(r.b)+'</span><span>'+esc(vnDate(r.d))+'</span><span>'+esc(gb(r.size))+'</span></div>'+via+'</div>'
+      + '<div class="meta"><span>Build '+esc(r.b)+'</span><span>'+esc(vnDate(r.d))+'</span><span>'+esc(gb(r.size))+'</span></div>'+via+vidsFor(r)+'</div>'
       + '<div class="acts"><a class="btn btn-sm'+(r.signed ? " btn-solid" : "")+'" href="'+esc(r.url)+'" rel="noopener" download>Tải IPSW</a>'
       + (r.sha256 ? '<button class="btn btn-sm" type="button" data-sha="'+esc(r.sha256)+'">Sao chép SHA-256</button>' : "")
       + '</div></article>';
@@ -415,6 +431,9 @@ footer a{color:var(--muted)}
     if (s) copy(s.getAttribute("data-sha")).then(function(){ toast("Đã chép mã SHA-256"); }, function(){ toast("Không chép được, các bạn thử lại nha"); });
   });
 
+  fetch("../videos.json", { cache: "no-cache" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
+    if (j && j.os){ state.vids = j.os; render(); }
+  }).catch(function(){});
   fetch("devices.json", { cache: "no-cache" }).then(function(r){ return r.json(); }).then(function(j){
     state.all = j.devices || [];
     (j.have || []).forEach(function(id){ state.have[id] = 1; });
@@ -449,7 +468,11 @@ footer a{color:var(--muted)}
       var card = el.closest(".fw"), b = card ? card.querySelector(".fw-t b") : null;
       track("Tải IPSW", {may: dev(), ban: b ? b.textContent : h.split("/").pop()}); return;
     }
-    if (/youtu/.test(h)){ track("Video hạ cấp"); return; }
+    if (/youtu/.test(h)){
+      var fw = el.closest(".fw"), bb = fw ? fw.querySelector(".fw-t b") : null;
+      if (bb) track("Video theo bản", {ban: bb.textContent, video: el.textContent}); else track("Video hạ cấp");
+      return;
+    }
   }, true);
 })();
 </script>

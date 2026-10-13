@@ -29,6 +29,33 @@ def feed(url, skip_shorts):
         out.append({"id": e.find("yt:videoId", NS).text, "title": e.find("a:title", NS).text, "published": e.find("a:published", NS).text})
     return out
 
+# Video theo bản iOS: tên video dạng "iOS 27.0.1 chính thức có gì mới?", "iOS 27.2 beta 3 sau vài ngày?"
+OS_RE = re.compile(r"^(iOS|iPadOS|macOS|watchOS)\s+(\d+(?:\.\d+)+|\d+)\s*((?:beta|RC)(?:\s*\d+)?)?\s*(.*)$", re.I)
+
+def os_key(osn, ver, tag):
+    tag = (tag or "").strip().lower()
+    tag = re.sub(r"\s+", " ", tag)
+    if tag in ("beta 1", "beta1"):
+        tag = "beta"
+    tag = tag.replace("beta", "beta ").replace("  ", " ").strip() if re.match(r"beta\d", tag) else tag
+    return (osn.lower() + " " + ver + (" " + tag if tag else "")).strip()
+
+def os_videos(videos, old):
+    out = {k: list(v) for k, v in (old or {}).items()}
+    for v in videos:
+        m = OS_RE.match(v["title"].strip())
+        if not m:
+            continue
+        osn = {"ios": "iOS", "ipados": "iPadOS", "macos": "macOS", "watchos": "watchOS"}[m.group(1).lower()]
+        rest = m.group(4).lower()
+        kind = "sau" if re.search(r"\bsau\b", rest) else "moi"
+        key = os_key(osn, m.group(2), m.group(3))
+        lst = out.setdefault(key, [])
+        if not any(x["id"] == v["id"] for x in lst):
+            lst.append({"id": v["id"], "title": v["title"], "kind": kind, "published": v.get("published", "")})
+        lst.sort(key=lambda x: x.get("published", ""))
+    return out
+
 def main():
     try:
         old = json.load(open("videos.json"))
@@ -37,7 +64,9 @@ def main():
     data = dict(old)
     try:
         cid = channel_id()
-        data["latest"] = feed(f"https://www.youtube.com/feeds/videos.xml?channel_id={cid}", True)[:6] or old.get("latest", [])
+        allv = feed(f"https://www.youtube.com/feeds/videos.xml?channel_id={cid}", True)
+        data["latest"] = allv[:6] or old.get("latest", [])
+        data["os"] = os_videos(allv, old.get("os", {}))
     except Exception as e:
         print("latest failed:", e)
     try:
