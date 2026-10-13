@@ -425,6 +425,14 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 @media (max-width:400px){.nav a.lnk{font-size:12.5px;padding:0 5px}.orb{width:22px;height:22px}}
 @media (max-width:350px){.nav a.lnk{font-size:12px;padding:0 4px}.nav a.lnk-vid{display:none}}
 @media (max-width:360px){.me>span{min-width:0}.me small{font-size:11px;letter-spacing:0}}
+
+/* Spatial Scene: nhãn trên thẻ + lớp chủ thể đè lên đồng hồ trong trình xem */
+#galFilter button{white-space:nowrap}
+@media (max-width:400px){#galFilter button{padding-left:12px;padding-right:12px;font-size:13.5px}}
+@media (max-width:340px){#galFilter button{padding-left:8px;padding-right:8px;font-size:12.5px}}
+.spb{position:absolute;left:8px;bottom:8px;z-index:1;font:700 10.5px var(--f-body);letter-spacing:.01em;color:#fff;padding:4px 9px;border-radius:999px;background:rgba(20,24,34,.42);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)}
+.vphone img.vfg{position:absolute;inset:0;pointer-events:none;-webkit-mask-size:cover;mask-size:cover;-webkit-mask-position:center;mask-position:center;-webkit-mask-repeat:no-repeat;mask-repeat:no-repeat}
+.lock.tall .clock{font-size:36cqw;font-weight:600;transform:scaleY(1.6);transform-origin:50% 0;letter-spacing:-.045em;color:rgba(255,255,255,.9)}
 </style>
 </head>
 <body>
@@ -589,6 +597,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
       <button type="button" data-set="all" aria-pressed="true">Tất cả</button>
       <button type="button" data-set="kinh" aria-pressed="false">Kính</button>
       <button type="button" data-set="minh-hoa" aria-pressed="false">Minh họa</button>
+      <button type="button" data-set="spatial" aria-pressed="false">Chiều sâu</button>
     </div>
   </div>
   <div class="gal" id="gal"></div>
@@ -600,6 +609,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     <div class="vphone">
       <img id="vimg" alt="">
       <div class="lock" id="vlockLayer" aria-hidden="true"><div class="island"></div><div class="ldate" data-date></div><div class="clock" data-clock>9:41</div></div>
+      <img id="vfg" class="vfg" alt="" aria-hidden="true" hidden>
       <div class="vload" id="vload">Đang tải bản gốc…</div>
     </div>
     <div class="vmac" id="vmac" hidden>
@@ -659,11 +669,12 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     {bo:"bo-02", id:"dia-kinh-hong",       label:"Đĩa Kính Hồng",       sub:"Kính trong · hồng",     loai:"kinh",     ai:false},
     {bo:"bo-02", id:"phien-kinh-xanh-dem", label:"Phiến Kính Xanh Đêm", sub:"Kính mờ · nền tối",     loai:"kinh",     ai:false},
     {bo:"bo-01", id:"cun-nap-tuong",  label:"Cún Nấp Tường",  sub:"Corgi · xanh pastel", loai:"minh-hoa", ai:false},
-    {bo:"bo-01", id:"ho-nui-tuyet",   label:"Hồ Núi Tuyết",   sub:"Phong cảnh · hồ xanh", loai:"minh-hoa", ai:false},
+    {bo:"bo-01", id:"ho-nui-tuyet",   label:"Hồ Núi Tuyết",   sub:"Phong cảnh · hồ xanh", loai:"minh-hoa", ai:false, spatial:true},
     {bo:"bo-01", id:"meo-ben-cua-so", label:"Mèo Bên Cửa Sổ", sub:"Mèo trắng · biển", loai:"minh-hoa", ai:false},
     {bo:"bo-01", id:"goc-doc-sach",   label:"Góc Đọc Sách",   sub:"Minh họa · mùa hè", loai:"minh-hoa", ai:false}
   ];
-  WALLS.forEach(function(w){ var d = "wallpapers/" + w.bo + "/"; ITEMS.kl.push({kind:"img", ai:w.ai, loai:w.loai, file:d + w.id, src:d + "thumb/" + w.id + "_phone.jpg", dthumb:d + "thumb/" + w.id + "_desktop.jpg", label:w.label, sub:w.sub}); });
+  /* spatial:true = ní đã thử trên iPhone, lên được Spatial Scene. Cần thêm file <id>_mask.png (trắng = chủ thể nằm trước đồng hồ). */
+  WALLS.forEach(function(w){ var d = "wallpapers/" + w.bo + "/"; ITEMS.kl.push({kind:"img", ai:w.ai, loai:w.loai, spatial:!!w.spatial, mask:w.spatial ? d + w.id + "_mask.png" : "", file:d + w.id, src:d + "thumb/" + w.id + "_phone.jpg", dthumb:d + "thumb/" + w.id + "_desktop.jpg", label:w.label, sub:w.sub}); });
   PETS.forEach(function(src,i){ ITEMS.bcs.push({kind:"img", ai:true, src:src, label:"Bên Cửa Sổ #"+String(i+1).padStart(2,"0"), sub:PET_META[i][0]+" · "+PET_META[i][1]}); });
 
   /* HÌNH NỀN MỚI NHẤT — mỗi lần đăng video tặng hình nền, chỉ sửa khối này:
@@ -703,6 +714,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
         th.appendChild(c);
       } else { var im = document.createElement("img"); im.src = it.src; im.alt = ""; im.loading = "lazy"; th.appendChild(im); }
       if (it.isNew){ var nb = document.createElement("span"); nb.className = "newb"; nb.textContent = "Mới"; th.appendChild(nb); }
+      if (it.spatial){ b.dataset.spatial = "1"; var sb = document.createElement("span"); sb.className = "spb"; sb.textContent = "Chiều sâu"; sb.title = "Đã thử trên iPhone: lên được Spatial Scene (hiệu ứng chiều sâu)"; th.appendChild(sb); }
       if (it.ai){ var ab = document.createElement("span"); ab.className = "aib"; ab.textContent = "Ảnh AI"; ab.title = "Hình tạo bằng AI"; th.appendChild(ab); }
       var cap = document.createElement("span");
       var t1 = document.createElement("b"); t1.textContent = it.label;
@@ -735,7 +747,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     btn.addEventListener("click", function(){
       var f = btn.dataset.set;
       document.querySelectorAll("#galFilter > button").forEach(function(b){ b.setAttribute("aria-pressed", b === btn ? "true" : "false"); });
-      gal.querySelectorAll(".wp").forEach(function(c){ c.hidden = f !== "all" && c.dataset.set !== f; });
+      gal.querySelectorAll(".wp").forEach(function(c){ c.hidden = f === "spatial" ? c.dataset.spatial !== "1" : (f !== "all" && c.dataset.set !== f); });
       setCount(gal.querySelectorAll(".wp:not([hidden])").length);
     });
   });
@@ -972,6 +984,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 
   /* viewer */
   var viewer = document.getElementById("viewer"), vimg = document.getElementById("vimg"), vload = document.getElementById("vload");
+  var vfg = document.getElementById("vfg");
+  var HINT_SPATIAL = "Spatial Scene (mình đã thử, lên được): Cài đặt → Hình nền → Thêm hình nền mới → Ảnh → tab Spatial Scene. Khung trên chỉ là xem thử.";
   var vname = document.getElementById("vname"), vsub = document.getElementById("vsub"), vhint = document.getElementById("vhint");
   var vlock = document.getElementById("vlock"), vlockLayer = document.getElementById("vlockLayer"), vstage = document.getElementById("vstage");
   var cur = null, token = 0, lastUrl = null;
@@ -997,7 +1011,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     mPhone.setAttribute("aria-pressed", mac ? "false" : "true"); mMac.setAttribute("aria-pressed", mac ? "true" : "false");
     dlPhone.className = "btn " + (mac ? "btn-glass" : "btn-solid"); dlDesk.className = "btn " + (mac ? "btn-solid" : "btn-glass");
     vlock.textContent = mac ? "Thanh menu" : "Giờ khóa";
-    if (curItem) vhint.textContent = mac ? HINT_MAC : HINT;
+    if (curItem) vhint.textContent = mac ? HINT_MAC : (curItem.spatial ? HINT + " " + HINT_SPATIAL : HINT);
     if (mac && curItem && vmimg.dataset.for !== curItem.file){ vmimg.dataset.for = curItem.file; loadMac(curItem, curToken); }
   }
   mPhone.addEventListener("click", function(){ mode = "phone"; applyMode(); });
@@ -1006,7 +1020,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   function siblings(){ return Array.prototype.filter.call(cur.parentNode.children, function(c){ return !c.hidden; }); }
   function openCard(card){
     cur = card; var it = cardItem.get(card), my = ++token;
-    vname.textContent = it.label; vsub.textContent = it.sub + (it.ai ? " · Hình tạo bằng AI" : ""); vimg.alt = "Hình nền " + it.label;
+    vname.textContent = it.label; vsub.textContent = it.sub + (it.ai ? " · Hình tạo bằng AI" : "") + (it.spatial ? " · Chiều sâu" : ""); vimg.alt = "Hình nền " + it.label;
     if (viewer.hidden){ viewer.hidden = false; document.documentElement.style.overflow = "hidden"; document.getElementById("vclose").focus(); }
     vhint.textContent = HINT;
     var base = it.file, name = it.label.replace(/[^0-9A-Za-z]+/g, "-");
@@ -1018,6 +1032,13 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     vimg.onload = function(){ if (my !== token) return; vimg.style.opacity = 1; vload.hidden = true; };
     vimg.onerror = function(){ if (my === token) vload.textContent = "Chưa tải được, bấm nút Tải bên dưới"; };
     vimg.src = base + "_phone.jpg";
+    // Spatial Scene: phủ lại phần chủ thể (theo mask) lên trên đồng hồ, giờ chui ra sau núi giống iPhone
+    vfg.hidden = true; vlockLayer.classList.toggle("tall", !!it.spatial);
+    if (it.spatial){
+      var mk2 = "url(" + it.mask + ")"; vfg.style.webkitMaskImage = mk2; vfg.style.maskImage = mk2;
+      vfg.onload = function(){ if (my === token) vfg.hidden = false; }; vfg.src = base + "_phone.jpg";
+      vhint.textContent = HINT + " " + HINT_SPATIAL;
+    } else { vfg.removeAttribute("src"); }
     curItem = it; curToken = my; vmimg.dataset.for = ""; vmimg.removeAttribute("src"); applyMode();
   }
   function closeViewer(){ viewer.hidden = true; token++; document.documentElement.style.overflow = sheet.hidden ? "" : "hidden"; if (cur) cur.focus(); }
