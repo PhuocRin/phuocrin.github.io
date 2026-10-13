@@ -414,10 +414,17 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 /* vùng chạm tối thiểu 44px cho nút trên điện thoại (chỉ nới chiều cao, không đổi kiểu) */
 .nav a.lnk,.nav .brand{display:inline-flex;align-items:center;min-height:44px;box-sizing:border-box}
 .seg button,.soc,.gl,.chip-b,.pp{min-height:44px;box-sizing:border-box}
-@media (max-width:440px){.nav a.lnk-hide{display:none}}
 /* thẻ đồ dùng trên máy hẹp: nút Shopee không lố ra ngoài thẻ */
 @media (max-width:400px){.gear-links .gl{min-width:0;white-space:normal;text-align:center;line-height:1.25;padding:8px 8px;font-size:12.5px}}
 .seg button{display:inline-flex;align-items:center;justify-content:center}
+
+/* thanh menu: 6 mục, máy hẹp thì gọn lại (Hợp tác ẩn dưới 720px, "Mời cà phê" thành "Cà phê" dưới 520px) */
+.lnk-cf .ts{display:none}
+@media (max-width:720px){.nav a.lnk-hide{display:none}.brand span:not(.orb){display:none}.brand{padding:6px}}
+@media (max-width:520px){.lnk-cf .tl{display:none}.lnk-cf .ts{display:inline}.nav .glass{gap:0;padding:5px}.nav a.lnk{font-size:13px;padding:0 7px}.brand{padding:4px}}
+@media (max-width:400px){.nav a.lnk{font-size:12.5px;padding:0 5px}.orb{width:22px;height:22px}}
+@media (max-width:350px){.nav a.lnk{font-size:12px;padding:0 4px}.nav a.lnk-vid{display:none}}
+@media (max-width:360px){.me>span{min-width:0}.me small{font-size:11px;letter-spacing:0}}
 </style>
 </head>
 <body>
@@ -429,9 +436,10 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     <div class="glass">
       <a class="brand" href="#top"><span class="orb" aria-hidden="true"></span><span>Phước Rin</span></a>
       <a class="lnk" href="#hinh-nen">Hình nền</a>
-      <a class="lnk lnk-cf" href="#cafe" aria-label="Mời Phước ly cà phê"><span aria-hidden="true">☕</span><span class="t"> Mời cà phê</span></a>
-      <a class="lnk" href="#video">Video</a>
+      <a class="lnk lnk-cf" href="#cafe" aria-label="Mời Phước ly cà phê"><span aria-hidden="true">☕</span><span class="t"> <span class="tl">Mời cà phê</span><span class="ts">Cà phê</span></span></a>
+      <a class="lnk lnk-vid" href="#video">Video</a>
       <a class="lnk" href="#do-dung">Đồ dùng</a>
+      <a class="lnk lnk-fw" href="firmware/">Firmware</a>
       <a class="lnk lnk-hide" href="#hop-tac">Hợp tác</a>
     </div>
   </nav>
@@ -819,7 +827,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   function release(){ spyLock = false; spy(); }
   var navLens = Lens(navBox, "a.lnk", function(a){
     lockTo(a);
-    var t = document.querySelector(a.getAttribute("href")); if (t) t.scrollIntoView({behavior: reduce ? "auto" : "smooth"});
+    var h = a.getAttribute("href") || "";
+    if (h.charAt(0) !== "#"){ location.href = h; return; }
+    var t = document.querySelector(h); if (t) t.scrollIntoView({behavior: reduce ? "auto" : "smooth"});
   });
   navLinks.forEach(function(a){ a.addEventListener("click", function(){ lockTo(a); }); });
   var spyIds = ["hinh-nen","cafe","video","do-dung","hop-tac"];

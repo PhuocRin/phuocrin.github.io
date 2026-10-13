@@ -108,6 +108,9 @@ def _rules(entry, rules):
                     entry[k] = v
 
 
+SEPARATE_TICKETS = ("Cellular1,", "Rap,", "Timer,")
+
+
 def tss_request(bi):
     r = {"@HostPlatformInfo": "mac", "@VersionInfo": "libauthinstall-1049.100.21",
          "@UUID": str(uuid.uuid4()).upper(), "@ApImg4Ticket": True,
@@ -124,6 +127,10 @@ def tss_request(bi):
     for k, v in bi.get("Manifest", {}).items():
         info = v.get("Info") or {}
         if "RestoreRequestRules" not in info:
+            continue
+        # Modem C1 (Cellular1), Rap, Timer có vé ký riêng; gửi chung vào vé AP thì Apple trả
+        # "không đủ điều kiện" dù bản vẫn còn ký (gặp ở iPhone 16e và vài đời iPad).
+        if k.startswith(SEPARATE_TICKETS):
             continue
         m = {"Digest": v.get("Digest", b"")}
         if "Trusted" in v:
