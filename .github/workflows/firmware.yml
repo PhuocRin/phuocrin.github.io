@@ -9,6 +9,7 @@ on:
 permissions:
   contents: write
   issues: write
+  actions: read
 concurrency:
   group: firmware
   cancel-in-progress: false
@@ -45,3 +46,18 @@ jobs:
           title="$(head -n 1 .cache/alert.md)"
           tail -n +2 .cache/alert.md > /tmp/body.md
           gh issue create --repo "${{ github.repository }}" --title "$title" --body-file /tmp/body.md
+      - name: Canh bot video (mở issue nếu quá 13 giờ chưa chạy)
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash scripts/canh_bao_bot.sh canh videos.yml 13 "video" || true
+      - name: Báo bot firmware lỗi
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash scripts/canh_bao_bot.sh loi "firmware"
+      - name: Đóng báo lỗi khi bot firmware chạy lại được
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash scripts/canh_bao_bot.sh on "firmware" || true

@@ -8,6 +8,8 @@ on:
     paths: [scripts/update_videos.py, .github/workflows/videos.yml]
 permissions:
   contents: write
+  issues: write
+  actions: read
 concurrency:
   group: videos
   cancel-in-progress: false
@@ -28,3 +30,18 @@ jobs:
           git add videos.json
           git commit -m "Cập nhật danh sách video"
           git push
+      - name: Canh bot firmware (mở issue nếu quá 3 giờ chưa chạy)
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash scripts/canh_bao_bot.sh canh firmware.yml 3 "firmware" || true
+      - name: Báo bot video lỗi
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash scripts/canh_bao_bot.sh loi "video"
+      - name: Đóng báo lỗi khi bot video chạy lại được
+        if: success()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: bash scripts/canh_bao_bot.sh on "video" || true
