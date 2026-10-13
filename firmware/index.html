@@ -420,7 +420,8 @@ footer a{color:var(--muted)}
       + '<div style="display:grid;gap:6px;min-width:0"><div class="fw-t"><b>'+esc(label)+'</b>'+kindTag+st+'</div>'
       + '<div class="meta"><span>Build '+esc(r.b)+'</span><span>'+esc(vnDate(r.d))+'</span><span>'+esc(gb(r.size))+'</span></div>'+via+vidsFor(r)+'</div>'
       + '<div class="acts"><a class="btn btn-sm'+(r.signed ? " btn-solid" : "")+'" href="'+esc(r.url)+'" rel="noopener" download>Tải IPSW</a>'
-      + (r.sha256 ? '<button class="btn btn-sm" type="button" data-sha="'+esc(r.sha256)+'">Sao chép SHA-256</button>' : "")
+      + (r.sha256 ? '<button class="btn btn-sm" type="button" data-sha="'+esc(r.sha256)+'" data-alg="SHA-256">Sao chép SHA-256</button>'
+        : (r.sha1 ? '<button class="btn btn-sm" type="button" data-sha="'+esc(r.sha1)+'" data-alg="SHA-1" title="Mã Apple công bố cho bản vừa ra; SHA-256 sẽ có khi AppleDB cập nhật">Sao chép SHA-1</button>' : ""))
       + '</div></article>';
   }
 
@@ -517,7 +518,7 @@ footer a{color:var(--muted)}
     if (dl){ e.preventDefault(); openIab(); return; }
     var m = e.target.closest("#moreBtn"); if (m){ state.showAll = true; render(); return; }
     var s = e.target.closest("[data-sha]");
-    if (s) copy(s.getAttribute("data-sha")).then(function(){ toast("Đã chép mã SHA-256"); }, function(){ toast("Không chép được, các bạn thử lại nha"); });
+    if (s) copy(s.getAttribute("data-sha")).then(function(){ toast("Đã chép mã " + (s.getAttribute("data-alg") || "SHA-256")); }, function(){ toast("Không chép được, các bạn thử lại nha"); });
   });
 
 
@@ -564,7 +565,7 @@ footer a{color:var(--muted)}
   function dev(){ var o = (document.getElementById("dev") || {}).selectedOptions; return o && o[0] ? o[0].textContent : ""; }
   document.addEventListener("click", function(e){
     var el = e.target.closest ? e.target.closest("a, [data-sha]") : null; if (!el) return;
-    if (el.hasAttribute("data-sha")){ track("Chép SHA-256", {may: dev()}); return; }
+    if (el.hasAttribute("data-sha")){ track("Chép " + (el.getAttribute("data-alg") || "SHA-256"), {may: dev()}); return; }
     var h = el.getAttribute("href") || "";
     if (/updates\.cdn-apple\.com/.test(h)){
       var card = el.closest(".fw"), b = card ? card.querySelector(".fw-t b") : null;

@@ -250,7 +250,7 @@ def apple_feed():
                         continue
                     rec = out.setdefault(fam + ";" + b, {"os": fam, "v": v, "b": b, "d": TODAY, "kind": "release",
                                                          "files": {}, "adb_signed": [], "fetched": TODAY, "feed": True})
-                    f = rec["files"].setdefault(u, {"size": 0, "sha256": "", "devs": []})
+                    f = rec["files"].setdefault(u, {"size": 0, "sha256": "", "sha1": (r.get("FirmwareSHA1") or "").lower(), "devs": []})
                     if dev not in f["devs"]:
                         f["devs"].append(dev)
     log(len(out), "build đang phát hành theo danh sách Apple")
@@ -387,7 +387,7 @@ def main():
                 if dev in known:
                     per_dev.setdefault(dev, []).append({
                         "os": c["os"], "v": c["v"], "b": c["b"], "d": c["d"], "kind": c["kind"], "url": url,
-                        "size": f["size"], "sha256": f["sha256"], "signed": f.get("signed"),  # None = lần này chưa hỏi được Apple
+                        "size": f["size"], "sha256": f["sha256"], "sha1": "" if f["sha256"] else f.get("sha1", ""), "signed": f.get("signed"),  # None = lần này chưa hỏi được Apple
                         "src": f.get("src", "apple") if f.get("signed") else "apple"})
     os.makedirs(os.path.join(OUT, "d"), exist_ok=True)
     wrote = set()
