@@ -99,6 +99,9 @@ h1 em{font-style:normal;background:linear-gradient(95deg,#3d8bff 0%,#8b6bff 45%,
 .fact{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;padding:8px 14px;border-radius:999px}
 .fact i{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 4px var(--ok-bg);flex:none}
 .fact small{font:500 12px var(--f-mono);color:var(--muted)}
+.fact.warn-f i{background:var(--rc);box-shadow:0 0 0 4px var(--rc-bg)}
+.stale{margin:0;font-size:14px;padding:12px 16px;border-radius:18px;background:var(--rc-bg);color:var(--ink);max-width:62ch}
+.fact small{font:500 12px var(--f-mono);color:var(--muted)}
 
 /* picker */
 .pick{padding:clamp(16px,3vw,24px);display:grid;gap:14px}
@@ -209,9 +212,10 @@ footer a{color:var(--muted)}
     <h1>Tải firmware <em>iOS, iPadOS</em></h1>
     <p class="lede">Bản chính thức, beta và RC cho iPhone, iPad. File tải thẳng từ server Apple, còn bản nào cài được thì bot của mình hỏi thẳng Apple mỗi giờ.</p>
     <div class="facts">
-      <span class="fact glass"><i aria-hidden="true"></i><span>Bot kiểm tra với Apple mỗi giờ <small>· lần đổi gần nhất <span id="upd">…</span></small></span></span>
+      <span class="fact glass" id="botFact"><i aria-hidden="true"></i><span id="botTxt">Bot kiểm tra với Apple mỗi giờ</span></span>
       <span class="fact glass">File gốc từ Apple</span>
     </div>
+    <p class="stale" id="stale" hidden>Bot chưa kiểm tra với Apple hơn 3 tiếng, trạng thái "Còn ký" bên dưới có thể đã cũ. Trước khi cài, các bạn cứ thử: Finder báo không xác minh được bản cài thì bản đó đã bị khoá.</p>
   </header>
 
   <section class="pick glass" aria-label="Chọn máy">
@@ -431,16 +435,29 @@ footer a{color:var(--muted)}
     if (s) copy(s.getAttribute("data-sha")).then(function(){ toast("Đã chép mã SHA-256"); }, function(){ toast("Không chép được, các bạn thử lại nha"); });
   });
 
+
+  // Giờ bot kiểm tra lần cuối: lấy lần chạy thành công gần nhất của bot trên GitHub
+  function hhmm(t){ return t.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" }); }
+  function botTime(){
+    fetch("https://api.github.com/repos/PhuocRin/phuocrin.github.io/actions/workflows/firmware.yml/runs?status=success&per_page=1", { cache: "no-cache" })
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(j){
+        var run = j && j.workflow_runs && j.workflow_runs[0]; if (!run) return;
+        var t = new Date(run.updated_at), age = Date.now() - t.getTime(), next = new Date(t.getTime() + 3600e3);
+        var today = new Date().toDateString() === t.toDateString();
+        $("botTxt").innerHTML = "Bot kiểm tra với Apple lúc <b>" + hhmm(t) + (today ? "" : ", " + t.toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit" })) + "</b>"
+          + (age < 3 * 3600e3 ? " <small>· lần tới khoảng " + hhmm(next) + "</small>" : "");
+        var old = age > 3 * 3600e3;
+        $("stale").hidden = !old; $("botFact").classList.toggle("warn-f", old);
+      }).catch(function(){});
+  }
+  botTime();
   fetch("../videos.json", { cache: "no-cache" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
     if (j && j.os){ state.vids = j.os; render(); }
   }).catch(function(){});
   fetch("devices.json", { cache: "no-cache" }).then(function(r){ return r.json(); }).then(function(j){
     state.all = j.devices || [];
     (j.have || []).forEach(function(id){ state.have[id] = 1; });
-    if (j.updated){
-      var t = new Date(j.updated);
-      $("upd").textContent = t.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" }) + ", " + t.toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit", year: "numeric" });
-    }
     var want = decodeURIComponent((location.hash || "").slice(1)) || store("fw-dev") || "";
     if (!state.have[want]) want = "";
     if (want){ state.fam = fam(want); state.dev = want; }
