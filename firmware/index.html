@@ -190,6 +190,17 @@ h3{margin:0;font-size:17px;line-height:1.3;letter-spacing:-.01em}
 .kv b{color:var(--accent)}
 footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;font-size:13px;color:var(--muted);padding-top:20px;border-top:1px solid var(--glass-line)}
 footer a{color:var(--muted)}
+/* mở trong app (TikTok, Facebook…): app không tải được file IPSW, hiện khung hướng dẫn mở bằng trình duyệt */
+.mnote{display:none}
+@media (hover:none) and (pointer:coarse){.mnote{display:block}}
+.iab{position:fixed;inset:0;z-index:40;display:grid;place-items:center;padding:16px;background:rgba(10,12,20,.45)}
+.iab[hidden]{display:none}
+.iab-card{width:min(420px,100%);box-sizing:border-box;display:grid;gap:12px;padding:20px;border-radius:26px}
+.iab-card h2{margin:0;font-size:19px;line-height:1.25}
+.iab-card p{margin:0;font-size:14.5px;line-height:1.5;color:var(--muted)}
+.iab-card ol{margin:0;padding-left:20px;display:grid;gap:6px;font-size:14.5px;line-height:1.45;color:var(--ink)}
+.iab-acts{display:flex;flex-wrap:wrap;gap:8px}
+.iab-acts .btn{flex:1 1 140px}
 .toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 22px);transform:translateX(-50%);z-index:30;padding:10px 18px;border-radius:999px;font-size:14px;font-weight:600}
 
 /* thanh menu: 6 mục, máy hẹp thì gọn lại (Hợp tác ẩn dưới 720px, "Mời cà phê" thành "Cà phê" dưới 520px) */
@@ -242,6 +253,7 @@ footer a{color:var(--muted)}
       <span class="devid" id="devid"></span>
     </div>
     <p class="legend"><b style="color:var(--ok)">Còn ký</b>: Apple còn cho cài bản này. <b style="color:var(--off)">Đã khoá</b>: vẫn tải được nhưng không cài lên máy được nữa.</p>
+    <p class="legend mnote"><b>Đang xem trên điện thoại?</b> File IPSW dùng để cài từ máy tính (Finder trên Mac, iTunes trên Windows) và nặng nhiều GB, nên các bạn tải trên máy tính sẽ tiện hơn.</p>
     <p class="legend"><b>SHA-256</b> là mã kiểm tra của file. Tải xong, bạn nào kỹ thì so mã này để chắc file nguyên vẹn, không lỗi khi tải. Trên Mac mở Terminal, gõ <span class="path">shasum -a 256 </span> rồi kéo file .ipsw vào, bấm Enter.</p>
   </section>
 
@@ -317,6 +329,23 @@ footer a{color:var(--muted)}
   </footer>
 </div>
 
+<div class="iab" id="iab" hidden role="dialog" aria-modal="true" aria-labelledby="iabT">
+  <div class="iab-card glass">
+    <h2 id="iabT">Mở bằng trình duyệt để tải nha</h2>
+    <p>Các bạn đang xem web ngay trong app (TikTok, Facebook, Zalo…). Trình duyệt của app không tải được file IPSW, bấm vào sẽ ra một trang toàn chữ lạ.</p>
+    <ol>
+      <li>Bấm dấu <b>⋯</b> ở góc trên bên phải.</li>
+      <li>Chọn <b>Mở bằng trình duyệt</b> (hoặc Mở trong Safari, Chrome).</li>
+      <li>Bấm <b>Tải IPSW</b> lại là tải bình thường.</li>
+    </ol>
+    <p>Không thấy dấu ⋯ thì bấm Sao chép link rồi dán vào Safari hoặc Chrome.</p>
+    <div class="iab-acts">
+      <a class="btn btn-solid" id="iabChrome" hidden>Mở bằng Chrome</a>
+      <button type="button" class="btn btn-solid" id="iabCopy">Sao chép link</button>
+      <button type="button" class="btn" id="iabClose">Đóng</button>
+    </div>
+  </div>
+</div>
 <div class="toast glass" id="toast" hidden role="status"></div>
 
 <script>
@@ -437,7 +466,25 @@ footer a{color:var(--muted)}
     if (!state.have[id] || id === state.dev) return;
     state.dev = id; state.fam = fam(id); selectTab($("famSeg"), "data-fam", state.fam); fillDevices(); loadDevice();
   });
+  // Trình duyệt trong app (TikTok, Facebook, Messenger, Instagram, Zalo…) mở file IPSW thành trang chữ, nên chặn lại và chỉ cách mở bằng trình duyệt
+  var UA = navigator.userAgent || "", ANDROID = /Android/i.test(UA);
+  var IAB = /FBAN|FBAV|FB_IAB|FBIOS|Instagram|musical_ly|BytedanceWebview|TikTok|trill_|Zalo|Line\/|Snapchat|Twitter|; wv\)/i.test(UA);
+  window.FW_IAB = IAB;
+  function openIab(){
+    var page = location.href.split("#")[0] + (state.dev ? "#" + state.dev : "");
+    $("iab").dataset.url = page;
+    var ch = $("iabChrome");
+    if (ANDROID){ ch.href = "intent://" + page.replace(/^https?:\/\//, "") + "#Intent;scheme=https;package=com.android.chrome;end"; ch.hidden = false; $("iabCopy").classList.remove("btn-solid"); }
+    $("iab").hidden = false; $("iabCopy").focus();
+  }
+  $("iabClose").addEventListener("click", function(){ $("iab").hidden = true; });
+  $("iab").addEventListener("click", function(e){ if (e.target === this) this.hidden = true; });
+  $("iabCopy").addEventListener("click", function(){
+    copy($("iab").dataset.url || location.href).then(function(){ toast("Đã chép link, dán vào Safari hoặc Chrome nha"); }, function(){ toast("Không chép được, các bạn bấm ⋯ → Mở bằng trình duyệt nha"); });
+  });
   $("list").addEventListener("click", function(e){
+    var dl = IAB && e.target.closest('a[href*="updates.cdn-apple.com"]');
+    if (dl){ e.preventDefault(); openIab(); return; }
     var m = e.target.closest("#moreBtn"); if (m){ state.showAll = true; render(); return; }
     var s = e.target.closest("[data-sha]");
     if (s) copy(s.getAttribute("data-sha")).then(function(){ toast("Đã chép mã SHA-256"); }, function(){ toast("Không chép được, các bạn thử lại nha"); });
@@ -491,7 +538,7 @@ footer a{color:var(--muted)}
     var h = el.getAttribute("href") || "";
     if (/updates\.cdn-apple\.com/.test(h)){
       var card = el.closest(".fw"), b = card ? card.querySelector(".fw-t b") : null;
-      track("Tải IPSW", {may: dev(), ban: b ? b.textContent : h.split("/").pop()}); return;
+      track(window.FW_IAB ? "Tải IPSW trong app (đã chỉ mở trình duyệt)" : "Tải IPSW", {may: dev(), ban: b ? b.textContent : h.split("/").pop()}); return;
     }
     if (/youtu/.test(h)){
       var fw = el.closest(".fw"), bb = fw ? fw.querySelector(".fw-t b") : null;
