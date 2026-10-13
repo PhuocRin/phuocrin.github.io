@@ -195,6 +195,8 @@ h2{margin:0;font-weight:800;font-size:clamp(30px,5vw,46px);line-height:1.16;lett
 .sheet{position:fixed;inset:0;z-index:50;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding-inline:16px;padding-block:0 calc(env(safe-area-inset-bottom,0px) + 28px)}
 .sheet-head{position:sticky;top:0;z-index:2;max-width:1160px;margin:0 auto;display:grid;gap:12px;padding-top:calc(env(safe-area-inset-top,0px) + 14px);padding-bottom:14px;background:linear-gradient(var(--bg) 78%,transparent)}
 .sheet-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.sheet-top > div{flex:1;min-width:0}
+.x.back,.vclose.vback{display:inline-grid;place-items:center}
 .sheet-top h2{font-size:clamp(24px,5vw,34px)}
 .sheet-top small{display:block;font:500 12px var(--f-mono);color:var(--muted);margin-top:4px}
 .x{width:44px;height:44px;flex:none;border-radius:50%;color:var(--ink);font-size:24px;line-height:1;cursor:pointer}
@@ -310,6 +312,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .vbar .nv{font-size:24px;line-height:1;padding:0 14px}
 #vlock[aria-pressed="true"]{background:rgba(255,255,255,.18)}
 .vclose{position:absolute;top:calc(env(safe-area-inset-top,0px) + 12px);right:16px;width:44px;height:44px;border-radius:50%;color:#fff;font-size:24px;line-height:1;cursor:pointer}
+.vclose.vback{right:auto;left:16px}
 .vmac{width:min(calc(100vw - 32px),860px,calc(46svh * 1.72));container-type:inline-size}
 .mlid{background:#0b0c10;border-radius:3.2cqw 3.2cqw 1.2cqw 1.2cqw;padding:2.2cqw 2.2cqw 2.6cqw;box-shadow:0 0 0 1px rgba(255,255,255,.18) inset,0 30px 70px -30px #000}
 .mscreen{position:relative;aspect-ratio:16/10;border-radius:1.2cqw;overflow:hidden;background:#1a1d24 center/cover no-repeat}
@@ -350,6 +353,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   .vphone{width:calc((100vh - 32px) * 1320 / 2868);width:calc((100svh - 32px) * 1320 / 2868);border-radius:28px}
   .vmac{width:min(calc((100vh - 48px) * 1.42),calc(100vw - 460px));width:min(calc((100svh - 48px) * 1.42),calc(100vw - 460px))}
   .vclose{top:max(env(safe-area-inset-top,0px),12px);right:max(env(safe-area-inset-right,0px),14px)}
+  .vclose.vback{right:auto;left:max(env(safe-area-inset-left,0px),14px)}
 }
 
 /* Apple-style tab lens: soft pill at rest, clear magnifying glass while dragging */
@@ -593,6 +597,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 <div class="sheet" id="sheet" hidden role="dialog" aria-modal="true" aria-labelledby="t-all">
   <div class="sheet-head">
     <div class="sheet-top">
+      <button class="x back" type="button" id="backAll" aria-label="Trở về"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
       <div><h2 id="t-all">Tất cả hình nền</h2><small id="sheetCount"></small></div>
       <button class="x" type="button" id="closeAll" aria-label="Đóng">×</button>
     </div>
@@ -607,7 +612,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 </div>
 
 <div class="viewer" id="viewer" hidden role="dialog" aria-modal="true" aria-label="Xem hình nền">
-  <button class="vclose" type="button" id="vclose" aria-label="Đóng">×</button>
+  <button class="vclose vback" type="button" id="vback" aria-label="Trở về"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
+  <button class="vclose" type="button" id="vclose" aria-label="Đóng hết">×</button>
   <div class="vstage" id="vstage">
     <div class="vphone">
       <img id="vimg" alt="">
@@ -794,13 +800,25 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   function openAll(){
     if (!galBuilt){ buildCards(ITEMS.kl, gal, "kl"); buildCards(ITEMS.bcs, gal, "bcs"); galBuilt = true; }
     setCount(gal.querySelectorAll(".wp:not([hidden])").length);
+    if (sheet.hidden) pushLv();
     sheet.hidden = false; sheet.scrollTop = 0; document.documentElement.style.overflow = "hidden";
     segLenses.forEach(function(L){ L.refresh(); });
     document.getElementById("closeAll").focus();
   }
   function closeAll(){ sheet.hidden = true; document.documentElement.style.overflow = ""; document.getElementById("openAll").focus(); }
+  /* Lịch sử trình duyệt: mỗi lớp mở ra (bảng Tất cả, trình xem) là một bước, nên vuốt trở về trên iPhone / nút Back đóng đúng lớp trên cùng chứ không rời trang */
+  var depth = 0;
+  function pushLv(){ depth++; try { history.pushState({ pr: depth }, ""); } catch(e){} }
+  function closeTop(){ if (!viewer.hidden) closeViewer(); else if (!sheet.hidden) closeAll(); }
+  function goBack(n){ n = Math.min(n || 1, depth); if (n > 0) history.go(-n); else closeTop(); }
+  window.addEventListener("popstate", function(e){
+    var lv = (e.state && e.state.pr) || 0;
+    while (depth > lv){ depth--; closeTop(); }
+  });
+  try { if (history.state && history.state.pr) history.replaceState(null, ""); } catch(e){}
   document.getElementById("openAll").addEventListener("click", openAll);
-  document.getElementById("closeAll").addEventListener("click", closeAll);
+  document.getElementById("closeAll").addEventListener("click", function(){ goBack(1); });
+  document.getElementById("backAll").addEventListener("click", function(){ goBack(1); });
   document.querySelectorAll("#galFilter > button").forEach(function(btn){
     btn.addEventListener("click", function(){
       var f = btn.dataset.set;
@@ -809,7 +827,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
       setCount(gal.querySelectorAll(".wp:not([hidden])").length);
     });
   });
-  document.addEventListener("keydown", function(e){ if (e.key === "Escape" && !sheet.hidden && viewer.hidden) closeAll(); });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape" && !sheet.hidden && viewer.hidden) goBack(1); });
 
   /* Apple-style tab lens: follows the finger smoothly (rAF), magnifies while dragging, springs back on release */
   function Lens(box, itemSel, onPick){
@@ -901,7 +919,11 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     if (h.charAt(0) !== "#"){ location.href = h; return; }
     var t = document.querySelector(h); if (t) t.scrollIntoView({behavior: reduce ? "auto" : "smooth"});
   });
-  navLinks.forEach(function(a){ a.addEventListener("click", function(){ lockTo(a); }); });
+  navLinks.forEach(function(a){ a.addEventListener("click", function(e){
+    lockTo(a);
+    var h = a.getAttribute("href") || "", t = h.charAt(0) === "#" ? document.querySelector(h) : null;
+    if (t){ e.preventDefault(); t.scrollIntoView({behavior: reduce ? "auto" : "smooth"}); try { history.replaceState(history.state, "", h); } catch(err){} }
+  }); });
   var spyIds = ["hinh-nen","cafe","video","do-dung","hop-tac"];
   function spy(){
     if (spyLock) return;
@@ -1079,7 +1101,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   function openCard(card){
     cur = card; var it = cardItem.get(card), my = ++token;
     vname.textContent = it.label; vsub.textContent = it.sub + (it.ai ? " · Hình tạo bằng AI" : "") + (it.spatial ? " · Chiều sâu" : ""); vimg.alt = "Hình nền " + it.label;
-    if (viewer.hidden){ viewer.hidden = false; document.documentElement.style.overflow = "hidden"; document.getElementById("vclose").focus(); }
+    if (viewer.hidden){ pushLv(); viewer.hidden = false; document.documentElement.style.overflow = "hidden"; document.getElementById("vback").focus(); }
     vhint.textContent = HINT;
     var base = it.file, name = it.label.replace(/[^0-9A-Za-z]+/g, "-");
     dlPhone.href = base + "_phone.jpg"; dlPhone.setAttribute("download", "phuocrin-" + base.split("/").pop() + "_phone.jpg");
@@ -1101,12 +1123,22 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   }
   function closeViewer(){ viewer.hidden = true; token++; document.documentElement.style.overflow = sheet.hidden ? "" : "hidden"; if (cur) cur.focus(); }
   function nav(d){ var l = siblings(), i = l.indexOf(cur); openCard(l[(i+d+l.length)%l.length]); }
-  document.getElementById("vclose").addEventListener("click", closeViewer);
+  document.getElementById("vclose").addEventListener("click", function(){ goBack(depth); });
+  document.getElementById("vback").addEventListener("click", function(){ goBack(1); });
   document.getElementById("vprev").addEventListener("click", function(){ nav(-1); });
   document.getElementById("vnext").addEventListener("click", function(){ nav(1); });
   vlock.addEventListener("click", function(){ var on = vlock.getAttribute("aria-pressed") !== "true"; vlock.setAttribute("aria-pressed", on ? "true" : "false"); vlockLayer.hidden = !on; mui.hidden = !on; });
-  viewer.addEventListener("click", function(e){ if (e.target === viewer || e.target === vstage) closeViewer(); });
-  document.addEventListener("keydown", function(e){ if (viewer.hidden) return; if (e.key === "Escape") closeViewer(); else if (e.key === "ArrowLeft") nav(-1); else if (e.key === "ArrowRight") nav(1); });
+  viewer.addEventListener("click", function(e){ if (e.target === viewer || e.target === vstage) goBack(1); });
+  /* link #mục khác trong trang (nút hero, logo): cuộn tới, không chồng thêm bước vào lịch sử */
+  document.addEventListener("click", function(e){
+    if (e.defaultPrevented) return;
+    var a = e.target.closest ? e.target.closest('a[href^="#"]') : null; if (!a) return;
+    var h = a.getAttribute("href"); if (h.length < 2) return;
+    var t = document.querySelector(h); if (!t) return;
+    e.preventDefault(); t.scrollIntoView({behavior: reduce ? "auto" : "smooth"});
+    try { history.replaceState(history.state, "", h); } catch(err){}
+  });
+  document.addEventListener("keydown", function(e){ if (viewer.hidden) return; if (e.key === "Escape") goBack(1); else if (e.key === "ArrowLeft") nav(-1); else if (e.key === "ArrowRight") nav(1); });
   var sx = null;
   vstage.addEventListener("touchstart", function(e){ sx = e.touches[0].clientX; }, {passive:true});
   vstage.addEventListener("touchend", function(e){ if (sx === null) return; var dx = e.changedTouches[0].clientX - sx; sx = null; if (Math.abs(dx) > 50) nav(dx < 0 ? 1 : -1); }, {passive:true});
