@@ -3,6 +3,7 @@ import json, re, urllib.request, xml.etree.ElementTree as ET
 
 HANDLE = "phuocrin"
 TIPS_PLAYLIST = "PLT81iRTCac7UGqi528VoHfuvh1ytw5PUH"
+REVIEW_PLAYLIST = "PLT81iRTCac7XDlujkyBtJnG0q6BKTHr-5"
 NS = {"a": "http://www.w3.org/2005/Atom", "yt": "http://www.youtube.com/xml/schemas/2015"}
 UA = {"User-Agent": "Mozilla/5.0 (phuocrin.github.io video updater)", "Accept-Language": "vi,en"}
 
@@ -43,6 +44,10 @@ def main():
         data["tips"] = feed(f"https://www.youtube.com/feeds/videos.xml?playlist_id={TIPS_PLAYLIST}", False)[:12] or old.get("tips", [])
     except Exception as e:
         print("tips failed:", e)
+    try:
+        data["review"] = feed(f"https://www.youtube.com/feeds/videos.xml?playlist_id={REVIEW_PLAYLIST}", False)[:12] or old.get("review", [])
+    except Exception as e:
+        print("review failed:", e)
     json.dump(data, open("videos.json", "w"), ensure_ascii=False, indent=1)
     print({k: len(v) for k, v in data.items()})
 

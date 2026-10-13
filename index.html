@@ -492,11 +492,12 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
       <div class="head-t">
         <span class="kicker">Video</span>
         <h2 id="t-vid">Xem gì trên kênh của mình</h2>
-        <p>Video mới nhất và mẹo dùng iPhone, tự cập nhật theo kênh YouTube.</p>
+        <p>Video mới nhất, mẹo dùng iPhone và review, tự cập nhật theo kênh YouTube.</p>
       </div>
       <div class="seg glass" role="tablist" aria-label="Chọn nhóm video">
         <button type="button" role="tab" id="tab-new" aria-selected="true" aria-controls="p-new">Mới nhất</button>
         <button type="button" role="tab" id="tab-tips" aria-selected="false" aria-controls="p-tips">Mẹo iPhone</button>
+        <button type="button" role="tab" id="tab-rev" aria-selected="false" aria-controls="p-rev">Review</button>
       </div>
     </div>
     <div role="tabpanel" id="p-new" aria-labelledby="tab-new" class="vpanel" data-skel="3">
@@ -504,6 +505,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     </div>
     <div role="tabpanel" id="p-tips" aria-labelledby="tab-tips" class="vpanel" data-skel="3" hidden>
       <div class="vfoot"><span class="note">Mẹo iPhone: cách mình sử dụng. Video thêm vào danh sách phát sẽ tự hiện ở đây.</span><a class="btn btn-glass" href="https://www.youtube.com/playlist?list=PLT81iRTCac7UGqi528VoHfuvh1ytw5PUH" target="_blank" rel="noopener">Mở danh sách phát ↗</a></div>
+    </div>
+    <div role="tabpanel" id="p-rev" aria-labelledby="tab-rev" class="vpanel" data-skel="3" hidden>
+      <div class="vfoot"><span class="note">Review: đồ mình dùng thật rồi mới nói. Video thêm vào danh sách phát sẽ tự hiện ở đây.</span><a class="btn btn-glass" href="https://www.youtube.com/playlist?list=PLT81iRTCac7XDlujkyBtJnG0q6BKTHr-5" target="_blank" rel="noopener">Mở danh sách phát ↗</a></div>
     </div>
   </section>
 
@@ -871,7 +875,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     });
   }
   if (window.fetch) fetch("videos.json", {cache:"no-cache"}).then(function(r){ return r.ok ? r.json() : null; }).then(function(d){
-    if (!d) return; fillVideos("p-new", (d.latest || []).slice(0, 3)); fillVideos("p-tips", (d.tips || []).slice(0, 6));
+    if (!d) return; fillVideos("p-new", (d.latest || []).slice(0, 3)); fillVideos("p-tips", (d.tips || []).slice(0, 6)); fillVideos("p-rev", (d.review || []).slice(0, 6));
   }).catch(function(){});
 
   /* gear */
