@@ -168,6 +168,7 @@ h2{margin:0;font-weight:800;font-size:clamp(30px,5vw,46px);line-height:1.16;lett
 .wp{appearance:none;border:0;background:none;padding:0;color:inherit;font:inherit;text-align:left;cursor:pointer;scroll-snap-align:start;display:grid;gap:10px;width:clamp(138px,30vw,172px)}
 .wp .thumb{display:block;aspect-ratio:1320/2868;border-radius:24px;overflow:hidden;background:var(--bezel);box-shadow:0 0 0 1px var(--glass-line),0 22px 40px -24px var(--shadow);transition:transform .25s}
 .wp:hover .thumb{transform:translateY(-5px)}
+.thumb.hi{background-size:cover;background-position:center}.thumb.hi img{opacity:0;transition:opacity .35s}.thumb.hi img.ok{opacity:1}
 .wp canvas,.wp img{display:block;width:100%;height:100%;max-width:100%;object-fit:cover}
 .wp b{font:500 12.5px var(--f-mono)}
 .wp span.sub{display:block;font-size:12.5px;color:var(--muted)}
@@ -746,6 +747,10 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 
   /* rails */
   var cardItem = new WeakMap();
+  /* chỉ tải file 4K của những ô gần màn hình (đỡ tốn dung lượng khi mở bảng Tất cả) */
+  var hiIO = window.IntersectionObserver ? new IntersectionObserver(function(es){
+    es.forEach(function(e){ if (e.isIntersecting){ var i = e.target; i.src = i.dataset.hi; hiIO.unobserve(i); } });
+  }, { rootMargin: "150px 0px" }) : null;
   function buildCards(list, container, set){
     list.forEach(function(it){
       var b = document.createElement("button"); b.type = "button"; b.className = "wp"; b.dataset.set = it.loai || set;
@@ -755,7 +760,17 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
         var c = mk(TW,TH);
         if (it.thumb) c.getContext("2d").drawImage(it.thumb,0,0); else { K.render(c, it.spec, mk); it.thumb = c; }
         th.appendChild(c);
-      } else { var im = document.createElement("img"); im.src = it.src; im.alt = ""; im.loading = "lazy"; th.appendChild(im); }
+      } else {
+        /* Bảng "Tất cả hình nền": ảnh nhỏ hiện ngay làm nền, thẻ <img> là file 4K (tải dần khi cuộn tới), nên nhấn giữ hình trong lưới → Lưu vào Ảnh là ra bản 4K. Dải hình ở trang chủ giữ ảnh nhỏ cho trang mở nhanh. */
+        var im = document.createElement("img"); im.alt = ""; im.loading = "lazy"; im.decoding = "async";
+        if (it.file && container.id === "gal"){
+          th.style.backgroundImage = "url(" + it.src + ")"; th.classList.add("hi");
+          im.onload = function(){ this.classList.add("ok"); };
+          im.dataset.hi = it.file + "_phone.jpg";
+          if (hiIO) hiIO.observe(im); else im.src = im.dataset.hi;
+        } else im.src = it.src;
+        th.appendChild(im);
+      }
       if (it.isNew){ var nb = document.createElement("span"); nb.className = "newb"; nb.textContent = "Mới"; th.appendChild(nb); }
       if (it.spatial){ b.dataset.spatial = "1"; var sb = document.createElement("span"); sb.className = "spb"; sb.textContent = "Chiều sâu"; sb.title = "Đã thử trên iPhone: lên được Spatial Scene (hiệu ứng chiều sâu)"; th.appendChild(sb); }
       if (it.ai){ var ab = document.createElement("span"); ab.className = "aib"; ab.textContent = "Ảnh AI"; ab.title = "Hình tạo bằng AI"; th.appendChild(ab); }
