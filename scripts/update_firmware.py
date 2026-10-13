@@ -315,12 +315,66 @@ def main():
             os.remove(os.path.join(OUT, "d", fn))
 
     have = sorted(w[:-5] for w in wrote)
-    payload = {"devices": devs, "have": have, "majors": majors}
+    signed_builds = signed_list(cache)
+    payload = {"devices": devs, "have": have, "majors": majors, "signed": signed_builds}
+    write_alert(old_index.get("signed"), signed_builds)
     # "updated" chỉ đổi khi danh sách hoặc trạng thái ký thật sự đổi, để repo không bị commit mỗi giờ
     same = all(old_index.get(k) == v for k, v in payload.items())
     payload["updated"] = old_index["updated"] if (same and not changed and old_index.get("updated")) else NOW.strftime("%Y-%m-%dT%H:%M:%SZ")
     dump(os.path.join(OUT, "devices.json"), payload)
     log(len(devs), "máy,", len(have), "máy có dữ liệu,", changed, "trạng thái ký vừa đổi")
+
+
+# ---------- báo khi Apple khoá hoặc ký bản ----------
+ALERT = os.path.join(".cache", "alert.md")
+
+
+def signed_list(cache):
+    """Các bản đang còn ký (ít nhất một máy), gộp iOS và iPadOS cùng build."""
+    by = {}
+    for c in cache.values():
+        if c.get("skip") or not any(f.get("signed") for f in c.get("files", {}).values()):
+            continue
+        key = c["b"] + "|" + c["v"]
+        e = by.setdefault(key, {"b": c["b"], "v": c["v"], "kind": c["kind"], "d": c.get("d", ""), "os": set()})
+        e["os"].add(c["os"])
+    out = []
+    for e in by.values():
+        osn = "/".join(sorted(e["os"], key=lambda x: x != "iOS"))
+        out.append(f"{osn} {e['v']} (build {e['b']})")
+    return sorted(out)
+
+
+def write_alert(old, new):
+    if os.path.exists(ALERT):
+        os.remove(ALERT)
+    if old is None:  # lần đầu có dữ liệu này: chỉ ghi lại, không báo
+        return
+    gone = [x for x in old if x not in new]
+    came = [x for x in new if x not in old]
+    if not gone and not came:
+        return
+    vn = (NOW + timedelta(hours=7)).strftime("%H:%M ngày %d/%m/%Y")
+    parts = []
+    if gone:
+        parts.append("khoá " + ", ".join(gone))
+    if came:
+        parts.append("ký " + ", ".join(came))
+    title = "Apple vừa " + "; ".join(parts)
+    if len(title) > 200:
+        title = f"Apple vừa đổi trạng thái ký: khoá {len(gone)} bản, ký thêm {len(came)} bản"
+    lines = [f"Bot kiểm tra với server ký của Apple lúc {vn} (giờ Việt Nam).", ""]
+    if gone:
+        lines += ["**Apple vừa khoá (không cài được nữa):**"] + [f"- {x}" for x in gone] + [""]
+    if came:
+        lines += ["**Apple vừa ký (cài được):**"] + [f"- {x}" for x in came] + [""]
+    lines += ["**Đang còn ký:**"] + ([f"- {x}" for x in new] or ["- (không có bản nào)"]) + [""]
+    lines += ["Trang firmware: https://phuocrin.com/firmware/",
+              "Trạng thái có thể khác nhau giữa các đời máy, mở trang chọn đúng máy để xem chi tiết.", "", "@PhuocRin"]
+    os.makedirs(os.path.dirname(ALERT), exist_ok=True)
+    with open(ALERT, "w", encoding="utf-8") as f:
+        f.write(title + "\n" + "\n".join(lines) + "\n")
+    log("BÁO:", title)
 
 
 def _safe(fn, *a):

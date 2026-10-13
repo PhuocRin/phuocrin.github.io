@@ -8,6 +8,7 @@ on:
     paths: [scripts/update_firmware.py, .github/workflows/firmware.yml]
 permissions:
   contents: write
+  issues: write
 concurrency:
   group: firmware
   cancel-in-progress: false
@@ -36,3 +37,11 @@ jobs:
           git commit -m "Cập nhật firmware iOS"
           for i in 1 2 3; do git pull --rebase -q && git push -q && exit 0; sleep 5; done
           exit 1
+      - name: Báo khi Apple khoá hoặc ký bản
+        if: hashFiles('.cache/alert.md') != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          title="$(head -n 1 .cache/alert.md)"
+          tail -n +2 .cache/alert.md > /tmp/body.md
+          gh issue create --repo "${{ github.repository }}" --title "$title" --body-file /tmp/body.md
