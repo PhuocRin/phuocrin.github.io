@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Tải firmware iOS, iPadOS (IPSW): chính thức, beta, RC · Phước Rin</title>
-<meta name="description" content="Tải file IPSW iOS, iPadOS cho iPhone, iPad: bản chính thức, beta và RC. File tải thẳng từ server Apple, trạng thái còn ký kiểm tra với Apple mỗi giờ.">
+<title>Tải firmware iOS, iPadOS, macOS (IPSW): chính thức, beta, RC · Phước Rin</title>
+<meta name="description" content="Tải file IPSW iOS, iPadOS, macOS cho iPhone, iPad và Mac chip Apple: bản chính thức, beta và RC. File tải thẳng từ server Apple, trạng thái còn ký kiểm tra với Apple mỗi giờ.">
 <meta name="theme-color" content="#edf1f7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0b0f17" media="(prefers-color-scheme: dark)">
 <link rel="canonical" href="https://phuocrin.com/firmware/">
@@ -13,8 +13,8 @@
 <link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=3">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Phước Rin">
-<meta property="og:title" content="Tải firmware iOS, iPadOS · Phước Rin">
-<meta property="og:description" content="Bản chính thức, beta, RC cho iPhone, iPad. File tải thẳng từ server Apple.">
+<meta property="og:title" content="Tải firmware iOS, iPadOS, macOS · Phước Rin">
+<meta property="og:description" content="Bản chính thức, beta, RC cho iPhone, iPad, Mac chip Apple. File tải thẳng từ server Apple.">
 <meta property="og:url" content="https://phuocrin.com/firmware/">
 <meta property="og:image" content="https://phuocrin.com/img/og-firmware.jpg">
 <meta property="og:image:width" content="1200">
@@ -228,8 +228,8 @@ footer a{color:var(--muted)}
 
   <header class="top">
     <span class="kicker">Firmware</span>
-    <h1>Tải firmware <em>iOS, iPadOS</em></h1>
-    <p class="lede">Bản chính thức, beta và RC cho iPhone, iPad. File tải thẳng từ server Apple, còn bản nào cài được thì bot của mình hỏi thẳng Apple mỗi giờ.</p>
+    <h1>Tải firmware <em>iOS, iPadOS, macOS</em></h1>
+    <p class="lede">Bản chính thức, beta và RC cho iPhone, iPad và Mac chip Apple. File tải thẳng từ server Apple, còn bản nào cài được thì bot của mình hỏi thẳng Apple mỗi giờ.</p>
     <div class="facts">
       <span class="fact glass" id="botFact"><i aria-hidden="true"></i><span id="botTxt">Bot kiểm tra với Apple mỗi giờ</span></span>
       <span class="fact glass">File gốc từ Apple</span>
@@ -242,6 +242,7 @@ footer a{color:var(--muted)}
       <div class="seg" role="tablist" aria-label="Loại máy" id="famSeg">
         <button type="button" role="tab" aria-selected="true" data-fam="iPhone">iPhone</button>
         <button type="button" role="tab" aria-selected="false" data-fam="iPad">iPad</button>
+        <button type="button" role="tab" aria-selected="false" data-fam="Mac">Mac</button>
       </div>
       <label class="sel"><span class="sr" hidden>Chọn máy</span><select id="dev" aria-label="Chọn máy"></select></label>
     </div>
@@ -259,6 +260,27 @@ footer a{color:var(--muted)}
 
   <section class="list" id="list" aria-live="polite">
     <div class="skel"></div><div class="skel"></div><div class="skel"></div>
+  </section>
+
+  <section class="guide glass" id="mac-cai" aria-labelledby="t-mac" hidden>
+    <span class="kicker">Mac</span>
+    <h2 id="t-mac">Cài lại macOS bằng file IPSW</h2>
+    <p>Chỉ dùng cho <b>Mac chip Apple (M1 trở lên)</b>. Mac chip Intel không cài bằng file IPSW. Cách này cần:</p>
+    <ul>
+      <li><b>Một máy Mac thứ hai</b> chạy macOS 12.4 trở lên, cài app <a href="https://apps.apple.com/vn/app/apple-configurator/id1037126344" target="_blank" rel="noopener">Apple Configurator</a> (miễn phí).</li>
+      <li><b>Cáp USB-C</b> có cả sạc và dữ liệu. Cáp USB-A sang USB-C cũng được, cáp Thunderbolt 3 thì không (theo Apple).</li>
+    </ul>
+    <ol>
+      <li><b>Sao lưu Mac cần cài bằng Time Machine.</b> Cài lại sẽ xoá sạch ổ trong, theo Apple dữ liệu không lấy lại được.</li>
+      <li>Trên máy thứ hai, tải file đang <b>Còn ký</b> của đúng đời Mac cần cài ở danh sách phía trên.</li>
+      <li>Cắm cáp vào đúng cổng của Mac cần cài: MacBook Air, MacBook Pro, Mac mini dùng <b>cổng USB-C bên trái ngoài cùng</b>; Mac Studio (2022) và iMac 24 inch M1 dùng <b>cổng bên phải ngoài cùng</b>. Rồi đưa máy vào chế độ <b>DFU</b>, cách bấm nút khác nhau theo đời máy, xem đúng đời máy trong <a href="https://support.apple.com/en-nz/guide/apple-configurator-mac/apdd5f3c75ad/2.16/mac/12.4" target="_blank" rel="noopener">hướng dẫn của Apple</a>.</li>
+      <li>Trong Apple Configurator hiện ô <b>DFU</b>. <b>Kéo file .ipsw vừa tải thả vào ô đó</b> rồi bấm <b>Restore</b> (Khôi phục), chờ máy cài xong và tự khởi động lại.</li>
+      <li>Máy lên như mới, dùng <b>Trợ lý Di chuyển</b> (Migration Assistant) để lấy dữ liệu từ bản sao lưu Time Machine.</li>
+    </ol>
+    <div class="warn">
+      <p><b>Bước kéo thả file để chọn đúng bản là cách cộng đồng hay dùng</b>, Apple chỉ hướng dẫn bấm Actions → Restore, cách đó cài bản macOS mới nhất. Muốn lên bản mới thì cứ vào Cài đặt hệ thống → Cài đặt chung → Cập nhật phần mềm, không cần file IPSW.</p>
+      <p>Bản sao lưu làm trên macOS mới hơn có thể không chuyển về được macOS cũ hơn. Đây là thao tác nâng cao, không chắc thì mang máy tới nơi bảo hành.</p>
+    </div>
   </section>
 
   <section class="guide glass" id="ha-cap" aria-labelledby="t-down">
@@ -368,7 +390,7 @@ footer a{color:var(--muted)}
   function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
   function vnDate(iso){ var p = (iso||"").split("-"); return p.length === 3 ? p[2]+"/"+p[1]+"/"+p[0] : iso; }
   function gb(n){ return n ? (n/1e9).toFixed(1).replace(".", ",") + " GB" : ""; }
-  function fam(id){ return id.indexOf("iPad") === 0 ? "iPad" : "iPhone"; }
+  function fam(id){ return id.indexOf("iPad") === 0 ? "iPad" : (/^(Mac|iMac)/.test(id) ? "Mac" : "iPhone"); }
   function toast(t){ var el = $("toast"); el.textContent = t; el.hidden = false; clearTimeout(toast.t); toast.t = setTimeout(function(){ el.hidden = true; }, 1800); }
 
   function copy(text){
@@ -413,9 +435,12 @@ footer a{color:var(--muted)}
       return;
     }
     var on = rows.filter(function(r){ return r.signed; }), off = rows.filter(function(r){ return !r.signed; });
-    var limit = state.showAll ? off.length : Math.max(0, 4 - Math.min(on.length, 2));
-    var html = on.map(row).join("") + off.slice(0, limit).map(row).join("");
-    if (off.length > limit) html += '<button class="btn more" type="button" id="moreBtn">Hiện thêm '+(off.length - limit)+' bản đã khoá</button>';
+    // Mac: Apple còn ký rất nhiều bản macOS cũ, nên chỉ hiện trước 6 bản còn ký mới nhất
+    var onShow = state.showAll ? on.length : Math.min(on.length, 6);
+    var limit = state.showAll ? off.length : (on.length > 6 ? 0 : Math.max(0, 4 - Math.min(on.length, 2)));
+    var html = on.slice(0, onShow).map(row).join("") + off.slice(0, limit).map(row).join("");
+    var restOn = on.length - onShow, restOff = off.length - limit;
+    if (restOn + restOff > 0) html += '<button class="btn more" type="button" id="moreBtn">Hiện thêm ' + (restOn ? restOn + " bản còn ký" + (restOff ? ", " : "") : "") + (restOff ? restOff + " bản đã khoá" : "") + '</button>';
     box.innerHTML = html;
   }
 
@@ -439,7 +464,12 @@ footer a{color:var(--muted)}
     else el.innerHTML = "Với <b>" + esc(name) + "</b>, hiện Apple không còn ký bản " + osn + " nào, nên chưa hạ về được. Bot kiểm tra lại mỗi giờ.";
   }
 
+  function guides(){
+    var mac = state.fam === "Mac";
+    $("mac-cai").hidden = !mac; $("ha-cap").hidden = mac; $("cach-cai").hidden = mac;
+  }
   function loadDevice(){
+    guides();
     var id = state.dev; if (!id) return;
     $("devid").textContent = id;
     try{ history.replaceState(null, "", "#" + id); }catch(e){}
