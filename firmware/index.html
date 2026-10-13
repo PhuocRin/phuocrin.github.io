@@ -429,5 +429,26 @@ footer a{color:var(--muted)}
   });
 })();
 </script>
+<script>
+/* THỐNG KÊ: cùng Umami với trang chủ (không cookie). Đếm lượt tải IPSW, chép SHA, xem video hạ cấp. */
+(function(){
+  var ID = "a7624ff1-b780-424f-abc8-75ad73c9fc75";
+  if (!ID) return;
+  var s = document.createElement("script"); s.defer = true; s.src = "https://cloud.umami.is/script.js"; s.setAttribute("data-website-id", ID);
+  document.head.appendChild(s);
+  function track(name, data){ try { if (window.umami) window.umami.track(name, data); } catch(e){} }
+  function dev(){ var o = (document.getElementById("dev") || {}).selectedOptions; return o && o[0] ? o[0].textContent : ""; }
+  document.addEventListener("click", function(e){
+    var el = e.target.closest ? e.target.closest("a, [data-sha]") : null; if (!el) return;
+    if (el.hasAttribute("data-sha")){ track("Chép SHA-256", {may: dev()}); return; }
+    var h = el.getAttribute("href") || "";
+    if (/updates\.cdn-apple\.com/.test(h)){
+      var card = el.closest(".fw"), b = card ? card.querySelector(".fw-t b") : null;
+      track("Tải IPSW", {may: dev(), ban: b ? b.textContent : h.split("/").pop()}); return;
+    }
+    if (/youtu/.test(h)){ track("Video hạ cấp"); return; }
+  }, true);
+})();
+</script>
 </body>
 </html>
