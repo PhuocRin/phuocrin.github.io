@@ -709,6 +709,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   /* HÌNH NỀN — mỗi hình có 4 file trong wallpapers/<bo>/: <id>_phone.jpg, <id>_desktop.jpg và thumb/<id>_phone.jpg, thumb/<id>_desktop.jpg */
   var WALLS = [
     /* loai: "kinh" hoặc "minh-hoa" để lọc trong "Xem tất cả". Hình mới nhất đặt lên đầu. ai:true thì hiện nhãn "Ảnh AI" (ní đã chọn tắt, 12/10/2026) */
+    {bo:"bo-03", id:"song-su-trang",       label:"Sóng Sứ Trắng",       sub:"Sứ 3D · trắng bạc",     loai:"kinh",     ai:false},
     {bo:"bo-02", id:"tau-mat-guong",       label:"Tàu Mặt Gương",       sub:"Phong cảnh · hồng tím",  loai:"minh-hoa", ai:false, spatial:true, clockB:51.75},
     {bo:"bo-02", id:"o-kinh-hoang-hon",   label:"Ô Kính Hoàng Hôn",    sub:"Kính mờ · cam xanh",    loai:"kinh",     ai:false},
     {bo:"bo-02", id:"meo-xe-giay",         label:"Mèo Xé Giấy",         sub:"Mèo xám · nền kem",     loai:"minh-hoa", ai:false},
@@ -731,7 +732,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 
   /* HÌNH NỀN MỚI NHẤT — mỗi lần đăng video tặng hình nền, chỉ sửa khối này:
      set: bộ chứa hình ("kl" hoặc "bcs"), index: vị trí hình trong bộ, video: tên + link video tặng hình */
-  var LATEST = { set:"kl", index:0, video:{ title:"Video mới nhất", url:"https://www.youtube.com/@phuocrin/videos" } };
+  var LATEST = { set:"kl", index:1, video:{ title:"Video mới nhất", url:"https://www.youtube.com/@phuocrin/videos" } };
   var latestItem = ITEMS[LATEST.set].splice(LATEST.index, 1)[0];
   latestItem.isNew = true; latestItem.video = LATEST.video;
   ITEMS[LATEST.set].unshift(latestItem);
