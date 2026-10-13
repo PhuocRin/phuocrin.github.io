@@ -236,13 +236,14 @@ footer a{color:var(--muted)}
       <span class="vtx"><small>Video hướng dẫn</small><b>Hạ cấp iOS không mất dữ liệu iOS 27 về iOS 26</b><span>Xem trên YouTube ↗</span></span>
     </a>
     <ol>
-      <li><b>Sao lưu trước</b> bằng Finder (Mac) hoặc iTunes, app Thiết bị Apple (Windows): cắm máy, chọn iPhone, chọn sao lưu toàn bộ vào máy tính, tích <b>Mã hóa bản sao lưu cục bộ</b> (Encrypt local backup), đặt mật khẩu rồi chờ sao lưu xong. Theo Apple, bản mã hoá giữ luôn mật khẩu đã lưu, Wi-Fi, lịch sử duyệt web, dữ liệu Sức khoẻ và lịch sử cuộc gọi. Nhớ kỹ mật khẩu này, quên là không mở được bản sao lưu.</li>
+      <li><b>Sao lưu trước</b> bằng Finder (Mac) hoặc iTunes, app Thiết bị Apple (Windows): cắm máy, chọn iPhone, chọn sao lưu toàn bộ vào máy tính. <b>Không tích Mã hóa bản sao lưu cục bộ</b> (Encrypt local backup), để trống ô này rồi chờ sao lưu xong. Máy nào trước đây đã bật mã hoá thì bỏ tích, máy sẽ hỏi mật khẩu sao lưu cũ.</li>
       <li>Tải bản iOS 26 đang <b>Còn ký</b> của đúng máy mình ở danh sách phía trên.</li>
       <li>Làm theo từng bước trong video của mình.</li>
     </ol>
     <p>Hạ các bản iOS khác, ví dụ từ beta về bản chính thức hay từ bản mới về bản cũ hơn, cũng làm tương tự: sao lưu trước, tải bản đang <b>Còn ký</b> của đúng máy mình, rồi làm các bước như trong video.</p>
     <div class="warn">
-      <p><b>Bản sao lưu làm trên iOS 27 có thể không khôi phục được lên máy đang chạy iOS 26.</b> Nó là đường lui: hạ cấp mà lỗi thì các bạn quay lại iOS 27 bằng bản sao lưu này, không mất gì.</p>
+      <p><b>Sao lưu không mã hoá thì không giữ mật khẩu đã lưu, Wi-Fi, lịch sử duyệt web, dữ liệu Sức khoẻ và lịch sử cuộc gọi</b> (theo Apple). Bạn nào cần giữ mấy thứ này thì bật đồng bộ Mật khẩu và Sức khoẻ lên iCloud trước khi làm.</p>
+      <p>Giữ bản sao lưu này cho tới khi hạ xong. Hạ cấp mà lỗi thì các bạn còn đường quay lại.</p>
       <p>Theo Apple, hạ bản là phải khôi phục (xoá máy). Cách giữ dữ liệu trong video là cách mình làm và đã thử, không phải cách Apple hướng dẫn, nên vẫn có rủi ro. Làm sai bước có thể phải khôi phục máy.</p>
     </div>
   </section>
@@ -270,7 +271,7 @@ footer a{color:var(--muted)}
     </div>
 
     <div class="warn">
-      <p><b>Trước khi làm, sao lưu máy bằng Finder hoặc iTunes.</b> Theo Apple, hạ từ beta về bản chính thức phải khôi phục, tức xoá máy. Bản sao lưu tạo lúc đang chạy beta có thể không khôi phục được về bản cũ hơn, nên giữ lại bản sao lưu làm trước khi lên beta.</p>
+      <p><b>Trước khi làm, sao lưu máy bằng Finder hoặc iTunes</b> (không mã hoá, như mục hạ cấp ở trên). Theo Apple, hạ từ beta về bản chính thức phải khôi phục, tức xoá máy. Bản sao lưu tạo lúc đang chạy beta có thể không khôi phục được về bản cũ hơn, nên giữ lại bản sao lưu làm trước khi lên beta.</p>
       <p>Beta là bản thử, có thể lỗi pin, lỗi app. Máy dùng chính thì cân nhắc kỹ.</p>
     </div>
 
@@ -280,7 +281,7 @@ footer a{color:var(--muted)}
       <span>Danh sách bản, dung lượng, mã SHA-256: <a href="https://appledb.dev" target="_blank" rel="noopener">AppleDB</a>. Tên máy: <a href="https://ipsw.me" target="_blank" rel="noopener">IPSW.me</a>.</span>
       <span>Còn ký hay đã khoá: bot hỏi thẳng server ký của Apple mỗi giờ. Vài máy đời mới bot chưa hỏi được, khi cùng bản đó Apple vẫn đang ký cho máy khác thì trang ghi theo IPSW.me hoặc AppleDB và có chú thích ngay dưới bản đó.</span>
       <span>Apple có thể khoá bản bất cứ lúc nào, nên trang có thể trễ tới khoảng một giờ. Finder báo không xác minh được bản cài thì bản đó vừa bị khoá.</span>
-      <span>Hướng dẫn của Apple: <a href="https://developer.apple.com/support/install-beta/" target="_blank" rel="noopener">cài phần mềm beta</a> · <a href="https://support.apple.com/vi-vn/108763" target="_blank" rel="noopener">gỡ bản beta iOS, iPadOS</a> · <a href="https://support.apple.com/vi-vn/108353" target="_blank" rel="noopener">bản sao lưu được mã hoá</a>.</span>
+      <span>Hướng dẫn của Apple: <a href="https://developer.apple.com/support/install-beta/" target="_blank" rel="noopener">cài phần mềm beta</a> · <a href="https://support.apple.com/vi-vn/108763" target="_blank" rel="noopener">gỡ bản beta iOS, iPadOS</a> · <a href="https://support.apple.com/vi-vn/108353" target="_blank" rel="noopener">sao lưu mã hoá và không mã hoá khác nhau thế nào</a>.</span>
     </div>
   </section>
 
