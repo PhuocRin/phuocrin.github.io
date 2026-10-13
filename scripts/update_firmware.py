@@ -2,7 +2,10 @@
 
 Nguồn:
 - Tên máy: IPSW.me (danh sách iPhone, iPad, Mac chip Apple).
-- Danh sách bản (chính thức, beta, RC), link, dung lượng, SHA-256: AppleDB.
+- Bản chính thức đang phát hành: đọc thẳng danh sách của Apple (cái Finder/iTunes dùng để khôi phục máy:
+  s.mzstatic.com/version cho iPhone, iPad; mesu.apple.com cho Mac). Bản mới lên trang ngay lần chạy kế tiếp,
+  không phải chờ AppleDB. Khi AppleDB có bản đó thì dùng dữ liệu AppleDB (có SHA-256, ngày phát hành).
+- Bản cũ, beta, RC, dung lượng, SHA-256: AppleDB.
   Link nào cũng là file trên server Apple (updates.cdn-apple.com); web không lưu file.
 - Còn ký hay đã khoá: bot hỏi thẳng server ký của Apple (gs.apple.com), không lấy số của ai.
 
@@ -11,7 +14,7 @@ Ghi ra:
 - firmware/d/<mã máy>.json: các bản của máy đó.
 Bộ nhớ đệm (không đẩy lên repo): .cache/firmware.json
 """
-import io, json, os, plistlib, re, sys, time, uuid, zipfile
+import gzip, io, json, os, plistlib, re, sys, time, uuid, zipfile
 import urllib.parse, urllib.request
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta, timezone
@@ -199,6 +202,61 @@ def appledb_record(key):
             "kind": kind, "files": files, "adb_signed": sorted(set(d.get("signed") or [])), "fetched": TODAY}
 
 
+# ---------- danh sách chính thức của Apple (Finder/iTunes) ----------
+APPLE_FEEDS = ["https://s.mzstatic.com/version",
+               "https://mesu.apple.com/assets/macos/com_apple_macOSIPSW/com_apple_macOSIPSW.xml"]
+
+
+def get_plist(url):
+    with urllib.request.urlopen(urllib.request.Request(url, headers={"User-Agent": UA}), timeout=120) as r:
+        raw = r.read()
+    if raw[:2] == b"\x1f\x8b":
+        raw = gzip.decompress(raw)
+    return plistlib.loads(raw)
+
+
+def head_size(url):
+    with urllib.request.urlopen(urllib.request.Request(url, method="HEAD", headers={"User-Agent": UA}), timeout=60) as r:
+        return int(r.headers.get("Content-Length") or 0)
+
+
+def apple_feed():
+    """{"iOS;24A446": bản ghi giống appledb_record} cho các bản Apple đang phát hành qua Finder."""
+    out = {}
+    for src in APPLE_FEEDS:
+        try:
+            d = get_plist(src)
+        except Exception as e:
+            log("không đọc được danh sách Apple", src, e)
+            continue
+        for grp in (d.get("MobileDeviceSoftwareVersionsByVersion") or {}).values():
+            for dev, builds in (grp.get("MobileDeviceSoftwareVersions") or {}).items():
+                if dev.startswith("iPhone"):
+                    fam = "iOS"
+                elif dev.startswith("iPad"):
+                    fam = "iPadOS"
+                elif re.match(r"^(Mac|iMac)", dev):
+                    fam = "macOS"
+                else:
+                    continue  # iPod, Apple TV, HomePod, VirtualMac
+                for k, e in (builds or {}).items():
+                    if not isinstance(e, dict):
+                        continue
+                    r = (e.get("Universal") or {}).get("Restore") if k == "Unknown" else e.get("Restore")
+                    if not isinstance(r, dict):
+                        continue
+                    u, b, v = r.get("FirmwareURL", ""), r.get("BuildVersion", ""), r.get("ProductVersion", "")
+                    if not u.startswith(APPLE) or not re.match(r"^\d{2}[A-Z]\d+[a-z]?$", b):
+                        continue
+                    rec = out.setdefault(fam + ";" + b, {"os": fam, "v": v, "b": b, "d": TODAY, "kind": "release",
+                                                         "files": {}, "adb_signed": [], "fetched": TODAY, "feed": True})
+                    f = rec["files"].setdefault(u, {"size": 0, "sha256": "", "devs": []})
+                    if dev not in f["devs"]:
+                        f["devs"].append(dev)
+    log(len(out), "build đang phát hành theo danh sách Apple")
+    return out
+
+
 def main():
     old_index = load(os.path.join(OUT, "devices.json"), {})
     devs = devices(old_index.get("devices", []))
@@ -209,17 +267,23 @@ def main():
     cache = load(CACHE, {})
     index = get_json("https://api.appledb.dev/ios/index.json")
     keys = [k for k in index if re.match(r"^(iOS|iPadOS|macOS);\d{2}[A-Z]\d+[a-z]?(-RC)?$", k)]
+    # bản Apple vừa phát hành mà AppleDB chưa có thì lấy thẳng từ danh sách của Apple
+    feed = apple_feed()
+    have = set(keys)
+    # iPad trước iOS 13 AppleDB ghi là "iOS", nên iPadOS;<build> đã có dạng iOS;<build> thì không thêm
+    feed_only = {k: r for k, r in feed.items() if k not in have and "iOS;" + r["b"] not in have}
     fam = lambda k: "mac" if k.startswith("macOS;") else "ios"
     major = lambda k: int(k.split(";")[1][:2])
-    tops = {f: sorted({major(k) for k in keys if fam(k) == f})[-MAJORS:] for f in ("ios", "mac")}
+    tops = {f: sorted({major(k) for k in keys + list(feed_only) if fam(k) == f})[-MAJORS:] for f in ("ios", "mac")}
     keys = [k for k in keys if major(k) in tops[fam(k)]]
+    feed_keys = [k for k in feed_only if major(k) in tops[fam(k)]]
     majors = tops["ios"]
     recent = (NOW - timedelta(days=30)).strftime("%Y-%m-%d")
 
     # 1) cập nhật danh sách bản từ AppleDB (bản mới, bản 30 ngày gần đây, bản còn ký thì hỏi lại)
     def need_refresh(k):
         c = cache.get(k)
-        if not c:
+        if not c or c.get("feed"):
             return True
         still_signed = any(f.get("signed") for f in c["files"].values())
         return (c.get("d", "") >= recent or still_signed) and c.get("fetched") != TODAY
@@ -236,6 +300,19 @@ def main():
                     f["signed"] = prev[url].get("signed")
                     f["checked"] = prev[url].get("checked")
             cache[k] = rec
+    for k in feed_keys:
+        rec, prev = feed_only[k], cache.get(k) or {}
+        rec["d"] = prev.get("d", TODAY)  # Apple không ghi ngày: dùng ngày bot thấy bản này lần đầu
+        for url, f in rec["files"].items():
+            p = (prev.get("files") or {}).get(url, {})
+            f["size"] = p.get("size") or _safe(head_size, url) or 0
+            for x in ("signed", "checked", "src"):
+                if x in p:
+                    f[x] = p[x]
+        cache[k] = rec
+    if feed_keys:
+        log("thêm từ danh sách Apple (AppleDB chưa có):", ", ".join(feed_keys))
+    keys = keys + feed_keys
     for k in [k for k in cache if k not in keys]:
         del cache[k]
 
