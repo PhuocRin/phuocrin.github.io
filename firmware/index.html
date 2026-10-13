@@ -162,6 +162,19 @@ h3{margin:0;font-size:17px;line-height:1.3;letter-spacing:-.01em}
 .warn p{color:var(--ink)}
 .src{font-size:13px;color:var(--muted);display:grid;gap:6px}
 .src a,.guide a{color:var(--accent)}
+.downst{font-size:15.5px!important;color:var(--ink)!important;padding:14px 16px;border-radius:18px;background:var(--off-bg)}
+.downst b{color:inherit}
+.downst.ok{background:var(--ok-bg)}
+.vid{display:grid;grid-template-columns:minmax(0,180px) minmax(0,1fr);gap:14px;align-items:center;text-decoration:none;color:var(--ink);padding:10px;border-radius:22px;background:var(--off-bg)}
+@media (max-width:480px){.vid{grid-template-columns:minmax(0,1fr)}}
+.vth{position:relative;display:block;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#000}
+.vth img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.play{position:absolute;left:50%;top:50%;width:48px;height:48px;margin:-24px 0 0 -24px;border-radius:50%;background:rgba(255,255,255,.35);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:inset 0 1px 0 rgba(255,255,255,.7)}
+.play::before{content:"";position:absolute;left:19px;top:14px;border-left:14px solid #fff;border-top:10px solid transparent;border-bottom:10px solid transparent}
+.vtx{display:grid;gap:4px;min-width:0}
+.vtx small{font:500 11.5px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.vtx b{font-size:16px;line-height:1.35}
+.vtx span{font-size:13px;color:var(--muted)}
 footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;font-size:13px;color:var(--muted);padding-top:20px;border-top:1px solid var(--glass-line)}
 footer a{color:var(--muted)}
 .toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 22px);transform:translateX(-50%);z-index:30;padding:10px 18px;border-radius:999px;font-size:14px;font-weight:600}
@@ -207,10 +220,31 @@ footer a{color:var(--muted)}
       <span class="devid" id="devid"></span>
     </div>
     <p class="legend"><b style="color:var(--ok)">Còn ký</b>: Apple còn cho cài bản này. <b style="color:var(--off)">Đã khoá</b>: vẫn tải được nhưng không cài lên máy được nữa.</p>
+    <p class="legend"><b>SHA-256</b> là mã kiểm tra của file. Tải xong, bạn nào kỹ thì so mã này để chắc file nguyên vẹn, không lỗi khi tải. Trên Mac mở Terminal, gõ <span class="path">shasum -a 256 </span> rồi kéo file .ipsw vào, bấm Enter.</p>
   </section>
 
   <section class="list" id="list" aria-live="polite">
     <div class="skel"></div><div class="skel"></div><div class="skel"></div>
+  </section>
+
+  <section class="guide glass" id="ha-cap" aria-labelledby="t-down">
+    <span class="kicker">Hạ cấp</span>
+    <h2 id="t-down">Hạ iOS 27 về iOS 26 không mất dữ liệu</h2>
+    <p class="downst" id="downSt">Chọn máy ở trên để xem máy đó còn hạ về iOS 26 được không.</p>
+    <a class="vid" href="https://youtu.be/AK_-h9ZEmqo" target="_blank" rel="noopener">
+      <span class="vth"><img src="https://i.ytimg.com/vi/AK_-h9ZEmqo/hqdefault.jpg" alt="" loading="lazy" width="480" height="360"><span class="play" aria-hidden="true"></span></span>
+      <span class="vtx"><small>Video hướng dẫn</small><b>Hạ cấp iOS không mất dữ liệu iOS 27 về iOS 26</b><span>Xem trên YouTube ↗</span></span>
+    </a>
+    <ol>
+      <li><b>Sao lưu trước</b> bằng Finder (Mac) hoặc iTunes, app Thiết bị Apple (Windows): cắm máy, chọn iPhone, chọn sao lưu toàn bộ vào máy tính, tích <b>Mã hóa bản sao lưu cục bộ</b> (Encrypt local backup), đặt mật khẩu rồi chờ sao lưu xong. Theo Apple, bản mã hoá giữ luôn mật khẩu đã lưu, Wi-Fi, lịch sử duyệt web, dữ liệu Sức khoẻ và lịch sử cuộc gọi. Nhớ kỹ mật khẩu này, quên là không mở được bản sao lưu.</li>
+      <li>Tải bản iOS 26 đang <b>Còn ký</b> của đúng máy mình ở danh sách phía trên.</li>
+      <li>Làm theo từng bước trong video của mình.</li>
+    </ol>
+    <p>Hạ các bản iOS khác, ví dụ từ beta về bản chính thức hay từ bản mới về bản cũ hơn, cũng làm tương tự: sao lưu trước, tải bản đang <b>Còn ký</b> của đúng máy mình, rồi làm các bước như trong video.</p>
+    <div class="warn">
+      <p><b>Bản sao lưu làm trên iOS 27 có thể không khôi phục được lên máy đang chạy iOS 26.</b> Nó là đường lui: hạ cấp mà lỗi thì các bạn quay lại iOS 27 bằng bản sao lưu này, không mất gì.</p>
+      <p>Theo Apple, hạ bản là phải khôi phục (xoá máy). Cách giữ dữ liệu trong video là cách mình làm và đã thử, không phải cách Apple hướng dẫn, nên vẫn có rủi ro. Làm sai bước có thể phải khôi phục máy.</p>
+    </div>
   </section>
 
   <section class="guide glass" id="cach-cai" aria-labelledby="t-guide">
@@ -236,7 +270,7 @@ footer a{color:var(--muted)}
     </div>
 
     <div class="warn">
-      <p><b>Trước khi làm, sao lưu máy.</b> Hạ từ beta về bản chính thức là phải khôi phục, tức xoá máy. Bản sao lưu tạo lúc đang chạy beta có thể không khôi phục được về bản cũ hơn, nên giữ lại bản sao lưu làm trước khi lên beta.</p>
+      <p><b>Trước khi làm, sao lưu máy bằng Finder hoặc iTunes.</b> Theo Apple, hạ từ beta về bản chính thức phải khôi phục, tức xoá máy. Bản sao lưu tạo lúc đang chạy beta có thể không khôi phục được về bản cũ hơn, nên giữ lại bản sao lưu làm trước khi lên beta.</p>
       <p>Beta là bản thử, có thể lỗi pin, lỗi app. Máy dùng chính thì cân nhắc kỹ.</p>
     </div>
 
@@ -246,7 +280,7 @@ footer a{color:var(--muted)}
       <span>Danh sách bản, dung lượng, mã SHA-256: <a href="https://appledb.dev" target="_blank" rel="noopener">AppleDB</a>. Tên máy: <a href="https://ipsw.me" target="_blank" rel="noopener">IPSW.me</a>.</span>
       <span>Còn ký hay đã khoá: bot hỏi thẳng server ký của Apple mỗi giờ. Vài máy đời mới bot chưa hỏi được, khi cùng bản đó Apple vẫn đang ký cho máy khác thì trang ghi theo IPSW.me hoặc AppleDB và có chú thích ngay dưới bản đó.</span>
       <span>Apple có thể khoá bản bất cứ lúc nào, nên trang có thể trễ tới khoảng một giờ. Finder báo không xác minh được bản cài thì bản đó vừa bị khoá.</span>
-      <span>Hướng dẫn của Apple: <a href="https://developer.apple.com/support/install-beta/" target="_blank" rel="noopener">cài phần mềm beta</a> · <a href="https://support.apple.com/vi-vn/108763" target="_blank" rel="noopener">gỡ bản beta iOS, iPadOS</a>.</span>
+      <span>Hướng dẫn của Apple: <a href="https://developer.apple.com/support/install-beta/" target="_blank" rel="noopener">cài phần mềm beta</a> · <a href="https://support.apple.com/vi-vn/108763" target="_blank" rel="noopener">gỡ bản beta iOS, iPadOS</a> · <a href="https://support.apple.com/vi-vn/108353" target="_blank" rel="noopener">bản sao lưu được mã hoá</a>.</span>
     </div>
   </section>
 
@@ -318,6 +352,19 @@ footer a{color:var(--muted)}
     box.innerHTML = html;
   }
 
+  // Hạ cấp: đời iOS muốn hạ về (đổi khi có video hạ cấp mới)
+  var DOWN_TO = "26";
+  function downStatus(){
+    var el = $("downSt"), d = state.data; if (!el || !d) return;
+    var name = ($("dev").selectedOptions[0] || {}).textContent || state.dev;
+    var rows = d.release.concat(d.beta).filter(function(r){ return r.v.split(".")[0] === DOWN_TO; });
+    var on = rows.filter(function(r){ return r.signed; }), osn = (fam(state.dev) === "iPad" ? "iPadOS " : "iOS ") + DOWN_TO;
+    el.classList.toggle("ok", on.length > 0);
+    if (!rows.length) el.innerHTML = "Máy <b>" + esc(name) + "</b> ra mắt với bản mới hơn, không có " + osn + " để hạ về.";
+    else if (on.length) el.innerHTML = "Với <b>" + esc(name) + "</b>, Apple đang còn ký: <b>" + on.map(function(r){ return esc(r.os + " " + r.v) + " (build " + esc(r.b) + ")"; }).join(", ") + "</b>. Đây là bản hạ về được lúc này, tải ở danh sách phía trên" + (on.some(function(r){ return r.kind !== "release"; }) ? ", mục Beta &amp; RC." : ".");
+    else el.innerHTML = "Với <b>" + esc(name) + "</b>, hiện Apple không còn ký bản " + osn + " nào, nên chưa hạ về được. Bot kiểm tra lại mỗi giờ.";
+  }
+
   function loadDevice(){
     var id = state.dev; if (!id) return;
     $("devid").textContent = id;
@@ -327,7 +374,7 @@ footer a{color:var(--muted)}
     $("list").innerHTML = '<div class="skel"></div><div class="skel"></div><div class="skel"></div>';
     fetch("d/" + encodeURIComponent(id) + ".json", { cache: "no-cache" })
       .then(function(r){ if (!r.ok) throw r.status; return r.json(); })
-      .then(function(j){ if (state.dev !== id) return; state.data = j; render(); })
+      .then(function(j){ if (state.dev !== id) return; state.data = j; render(); downStatus(); })
       .catch(function(){ $("list").innerHTML = '<div class="empty glass">Chưa tải được danh sách. Các bạn thử tải lại trang giúp mình nha.</div>'; });
   }
 
@@ -340,6 +387,11 @@ footer a{color:var(--muted)}
     state.kind = b.getAttribute("data-kind"); selectTab(this, "data-kind", state.kind); state.showAll = false; render();
   });
   $("dev").addEventListener("change", function(){ state.dev = this.value; loadDevice(); });
+  window.addEventListener("hashchange", function(){
+    var id = decodeURIComponent(location.hash.slice(1));
+    if (!state.have[id] || id === state.dev) return;
+    state.dev = id; state.fam = fam(id); selectTab($("famSeg"), "data-fam", state.fam); fillDevices(); loadDevice();
+  });
   $("list").addEventListener("click", function(e){
     var m = e.target.closest("#moreBtn"); if (m){ state.showAll = true; render(); return; }
     var s = e.target.closest("[data-sha]");
