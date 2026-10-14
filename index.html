@@ -710,6 +710,15 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   /* HÌNH NỀN — mỗi hình có 4 file trong wallpapers/<bo>/: <id>_phone.jpg, <id>_desktop.jpg và thumb/<id>_phone.jpg, thumb/<id>_desktop.jpg */
   var WALLS = [
     /* loai: "kinh" hoặc "minh-hoa" để lọc trong "Xem tất cả"; vn:true thì hiện thêm ở nút lọc "Việt Nam". Hình mới nhất đặt lên đầu. ai:true thì hiện nhãn "Ảnh AI" (ní đã chọn tắt, 12/10/2026) */
+    {bo:"bo-07", id:"duong-ham-cay",         label:"Đường Hầm Cây",         sub:"Phong cảnh · cây xanh", loai:"minh-hoa", ai:false},
+    {bo:"bo-07", id:"song-long-xanh-tim",    label:"Sóng Lỏng Xanh Tím",    sub:"Chất lỏng · xanh tím",  loai:"kinh",     ai:false},
+    {bo:"bo-07", id:"meo-ngu-dong-co",       label:"Mèo Ngủ Đồng Cỏ",       sub:"Mèo · đồng cỏ xanh",    loai:"minh-hoa", ai:false},
+    {bo:"bo-07", id:"khoi-cau-bac",          label:"Khối Cầu Bạc",          sub:"3D · bạc xanh",         loai:"kinh",     ai:false},
+    {bo:"bo-07", id:"thuyen-ra-khoi",        label:"Thuyền Ra Khơi",        sub:"Biển · xanh trời",      loai:"minh-hoa", ai:false, vn:true},
+    {bo:"bo-07", id:"do-choi-kinh",          label:"Đồ Chơi Kính",          sub:"Kính 3D · xanh cam",    loai:"kinh",     ai:false},
+    {bo:"bo-07", id:"bien-may-tim",          label:"Biển Mây Tím",          sub:"Mây · tím hồng",        loai:"minh-hoa", ai:false},
+    {bo:"bo-07", id:"song-kinh-xanh-duong",  label:"Sóng Kính Xanh Dương",  sub:"Kính mờ · xanh dương",  loai:"kinh",     ai:false},
+    {bo:"bo-07", id:"luc-giac-xanh-dem",     label:"Lục Giác Xanh Đêm",     sub:"Hình học · xanh đêm",   loai:"kinh",     ai:false},
     {bo:"bo-06", id:"doi-xanh-ho-hoa",     label:"Đồi Xanh Hồ Hoa",     sub:"Phong cảnh · xanh lá",    loai:"minh-hoa", ai:false, spatial:true, clockB:25.1},
     {bo:"bo-06", id:"duong-que-hoang-hon", label:"Đường Quê Hoàng Hôn", sub:"Việt Nam · đồng lúa",     loai:"minh-hoa", ai:false, vn:true, spatial:true, clockB:39.9},
     {bo:"bo-06", id:"rong-vang-ha-long",   label:"Rồng Vàng Hạ Long",   sub:"Việt Nam · hoàng hôn",    loai:"minh-hoa", ai:false, vn:true},
@@ -759,7 +768,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 
   /* HÌNH NỀN MỚI NHẤT — mỗi lần đăng video tặng hình nền, chỉ sửa khối này:
      set: bộ chứa hình ("kl" hoặc "bcs"), index: vị trí hình trong bộ, video: tên + link video tặng hình */
-  var LATEST = { set:"kl", index:18, video:{ title:"iOS 27.2 beta 4 có gì mới?", url:"https://www.youtube.com/watch?v=vvti4DNFjB8" } };
+  var LATEST = { set:"kl", index:27, video:{ title:"iOS 27.2 beta 4 có gì mới?", url:"https://www.youtube.com/watch?v=vvti4DNFjB8" } };
   var latestItem = ITEMS[LATEST.set].splice(LATEST.index, 1)[0];
   latestItem.isNew = true; latestItem.video = LATEST.video;
   ITEMS[LATEST.set].unshift(latestItem);
