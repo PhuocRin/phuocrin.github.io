@@ -1,6 +1,11 @@
 {
  "latest": [
   {
+   "id": "vvti4DNFjB8",
+   "title": "iOS 27.2 beta 4 có gì mới?",
+   "published": "2026-10-14T04:00:00+00:00"
+  },
+  {
    "id": "OzgK_KG-rQw",
    "title": "Tải firmware iOS và hình nền 4K miễn phí: mình tự làm hẳn một trang web",
    "published": "2026-10-13T09:15:24+00:00"
@@ -24,11 +29,6 @@
    "id": "8Wo-PJZe-50",
    "title": "iPadOS 27.0.1 sau 6 ngày?",
    "published": "2026-10-05T08:15:09+00:00"
-  },
-  {
-   "id": "cGZ18v0-KwQ",
-   "title": "cách xem màn hình iPhone 18 Pro và Pro Max do Samsung hay LG sản xuất",
-   "published": "2026-10-03T12:00:35+00:00"
   }
  ],
  "tips": [
@@ -204,6 +204,14 @@
     "title": "macOS 27.0.1 có gì mới?",
     "kind": "moi",
     "published": "2026-09-30T01:15:18+00:00"
+   }
+  ],
+  "ios 27.2 beta 4": [
+   {
+    "id": "vvti4DNFjB8",
+    "title": "iOS 27.2 beta 4 có gì mới?",
+    "published": "2026-10-14T04:00:00+00:00",
+    "kind": "moi"
    }
   ]
  }

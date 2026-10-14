@@ -51,7 +51,10 @@ def os_videos(videos, old):
         kind = "sau" if re.search(r"\bsau\b", rest) else "moi"
         key = os_key(osn, m.group(2), m.group(3))
         lst = out.setdefault(key, [])
-        if not any(x["id"] == v["id"] for x in lst):
+        hit = [x for x in lst if x["id"] == v["id"]]
+        if hit:
+            hit[0].update({"title": v["title"], "kind": kind, "published": v.get("published", "") or hit[0].get("published", "")})
+        else:
             lst.append({"id": v["id"], "title": v["title"], "kind": kind, "published": v.get("published", "")})
         lst.sort(key=lambda x: x.get("published", ""))
     return out
@@ -65,8 +68,12 @@ def main():
     try:
         cid = channel_id()
         allv = feed(f"https://www.youtube.com/feeds/videos.xml?channel_id={cid}", True)
-        data["latest"] = allv[:6] or old.get("latest", [])
-        data["os"] = os_videos(allv, old.get("os", {}))
+        # RSS của YouTube hay trễ vài tiếng: giữ video thêm tay (mới hơn mọi video trong RSS) cho tới khi RSS có nó
+        top = allv[0]["published"] if allv else ""
+        ids = {v["id"] for v in allv}
+        keep = [v for v in old.get("latest", []) if v["id"] not in ids and v.get("published", "") > top]
+        data["latest"] = sorted(keep + allv, key=lambda v: v.get("published", ""), reverse=True)[:6] or old.get("latest", [])
+        data["os"] = os_videos(keep + allv, old.get("os", {}))
     except Exception as e:
         print("latest failed:", e)
     try:
