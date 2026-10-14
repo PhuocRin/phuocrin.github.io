@@ -709,6 +709,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   /* HÌNH NỀN — mỗi hình có 4 file trong wallpapers/<bo>/: <id>_phone.jpg, <id>_desktop.jpg và thumb/<id>_phone.jpg, thumb/<id>_desktop.jpg */
   var WALLS = [
     /* loai: "kinh" hoặc "minh-hoa" để lọc trong "Xem tất cả". Hình mới nhất đặt lên đầu. ai:true thì hiện nhãn "Ảnh AI" (ní đã chọn tắt, 12/10/2026) */
+    {bo:"bo-05", id:"ho-xanh-ngoc",        label:"Hồ Xanh Ngọc",        sub:"Phong cảnh · xanh ngọc",  loai:"minh-hoa", ai:false},
     {bo:"bo-05", id:"duong-rung-thu",      label:"Đường Rừng Thu",      sub:"Phong cảnh · lá đỏ",      loai:"minh-hoa", ai:false},
     {bo:"bo-05", id:"bien-dua-giong-bao",  label:"Biển Dừa Giông Bão",  sub:"Phong cảnh · biển xanh",  loai:"minh-hoa", ai:false},
     {bo:"bo-05", id:"xoay-lua-nuoc",       label:"Xoáy Lửa Nước",       sub:"Chất lỏng · đỏ xanh",     loai:"kinh",     ai:false},
@@ -750,7 +751,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 
   /* HÌNH NỀN MỚI NHẤT — mỗi lần đăng video tặng hình nền, chỉ sửa khối này:
      set: bộ chứa hình ("kl" hoặc "bcs"), index: vị trí hình trong bộ, video: tên + link video tặng hình */
-  var LATEST = { set:"kl", index:10, video:{ title:"iOS 27.2 beta 4 có gì mới?", url:"https://www.youtube.com/watch?v=vvti4DNFjB8" } };
+  var LATEST = { set:"kl", index:11, video:{ title:"iOS 27.2 beta 4 có gì mới?", url:"https://www.youtube.com/watch?v=vvti4DNFjB8" } };
   var latestItem = ITEMS[LATEST.set].splice(LATEST.index, 1)[0];
   latestItem.isNew = true; latestItem.video = LATEST.video;
   ITEMS[LATEST.set].unshift(latestItem);
