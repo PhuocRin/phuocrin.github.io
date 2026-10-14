@@ -710,13 +710,13 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   /* HÌNH NỀN — mỗi hình có 4 file trong wallpapers/<bo>/: <id>_phone.jpg, <id>_desktop.jpg và thumb/<id>_phone.jpg, thumb/<id>_desktop.jpg */
   var WALLS = [
     /* loai: "kinh" hoặc "minh-hoa" để lọc trong "Xem tất cả"; vn:true thì hiện thêm ở nút lọc "Việt Nam". Hình mới nhất đặt lên đầu. ai:true thì hiện nhãn "Ảnh AI" (ní đã chọn tắt, 12/10/2026) */
-    {bo:"bo-06", id:"doi-xanh-ho-hoa",     label:"Đồi Xanh Hồ Hoa",     sub:"Phong cảnh · xanh lá",    loai:"minh-hoa", ai:false},
-    {bo:"bo-06", id:"duong-que-hoang-hon", label:"Đường Quê Hoàng Hôn", sub:"Việt Nam · đồng lúa",     loai:"minh-hoa", ai:false, vn:true},
+    {bo:"bo-06", id:"doi-xanh-ho-hoa",     label:"Đồi Xanh Hồ Hoa",     sub:"Phong cảnh · xanh lá",    loai:"minh-hoa", ai:false, spatial:true, clockB:25.1},
+    {bo:"bo-06", id:"duong-que-hoang-hon", label:"Đường Quê Hoàng Hôn", sub:"Việt Nam · đồng lúa",     loai:"minh-hoa", ai:false, vn:true, spatial:true, clockB:39.9},
     {bo:"bo-06", id:"rong-vang-ha-long",   label:"Rồng Vàng Hạ Long",   sub:"Việt Nam · hoàng hôn",    loai:"minh-hoa", ai:false, vn:true},
     {bo:"bo-06", id:"corgi-luot-song",     label:"Corgi Lướt Sóng",     sub:"Cún · biển xanh",         loai:"minh-hoa", ai:false},
     {bo:"bo-06", id:"the-kinh-viet-nam",   label:"Thẻ Kính Việt Nam",   sub:"Việt Nam · kính mờ",      loai:"kinh",     ai:false, vn:true},
-    {bo:"bo-06", id:"cau-treo-suong-mu",   label:"Cầu Treo Sương Mù",   sub:"Phong cảnh · sương xám",  loai:"minh-hoa", ai:false},
-    {bo:"bo-06", id:"do-ninh-binh",        label:"Đò Ninh Bình",        sub:"Việt Nam · sông núi",     loai:"minh-hoa", ai:false, vn:true},
+    {bo:"bo-06", id:"cau-treo-suong-mu",   label:"Cầu Treo Sương Mù",   sub:"Phong cảnh · sương xám",  loai:"minh-hoa", ai:false, spatial:true, clockB:44.6},
+    {bo:"bo-06", id:"do-ninh-binh",        label:"Đò Ninh Bình",        sub:"Việt Nam · sông núi",     loai:"minh-hoa", ai:false, vn:true, spatial:true, clockB:35.6},
     {bo:"bo-05", id:"ho-xanh-ngoc",        label:"Hồ Xanh Ngọc",        sub:"Phong cảnh · xanh ngọc",  loai:"minh-hoa", ai:false, spatial:true, clockB:31.4},
     {bo:"bo-05", id:"duong-rung-thu",      label:"Đường Rừng Thu",      sub:"Phong cảnh · lá đỏ",      loai:"minh-hoa", ai:false, spatial:true, clockB:33.5},
     {bo:"bo-05", id:"bien-dua-giong-bao",  label:"Biển Dừa Giông Bão",  sub:"Phong cảnh · biển xanh",  loai:"minh-hoa", ai:false, spatial:true, clockB:42.7},
