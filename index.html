@@ -184,13 +184,17 @@ h2{margin:0;font-weight:800;font-size:clamp(30px,5vw,46px);line-height:1.16;lett
 .item h3{margin:2px 0 0;font-size:17px;line-height:1.25;font-weight:700;letter-spacing:-.01em}
 .soon{justify-self:start;font-size:12.5px;font-weight:600;padding:7px 12px;border-radius:999px;border:1px dashed var(--glass-line);color:var(--muted)}
 
-.acc{margin-top:28px;display:grid;gap:12px}
+.acc{margin-top:8px;display:grid}
 .acc-t{margin:0;font-size:18px;letter-spacing:-.01em}
-.acc-row{display:flex;flex-wrap:wrap;gap:10px}
-.acc-row .glass{display:flex;align-items:center;gap:10px;padding:10px 16px 10px 10px;border-radius:999px;font-weight:600;font-size:14px}
-.acc-row .ico{width:34px;height:34px;border-radius:50%}
-.acc-row .ico svg{width:18px;height:18px}
-.acc-row small{font:500 11px var(--f-mono);color:var(--muted);margin-left:2px}
+.acc-row{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(min(100%,270px),1fr))}
+.acc-row .glass{display:flex;align-items:center;gap:12px;min-height:56px;min-width:0;box-sizing:border-box;padding:10px 14px 10px 10px;border-radius:20px;color:inherit;text-decoration:none}
+.acc-row .ico{width:38px;height:38px;border-radius:13px;flex:none}
+.acc-row .ico svg{width:19px;height:19px}
+.acc-row .acc-n{display:grid;gap:2px;min-width:0;flex:1}
+.acc-row b{font-size:14.5px;line-height:1.3;font-weight:650}
+.acc-row small{font-size:12px;line-height:1.35;color:var(--muted)}
+.acc-row .arrow{flex:none;color:var(--muted);font-size:15px}
+.acc-group{display:grid;gap:12px;margin-top:22px}
 .all-row{display:flex;justify-content:center;margin-top:6px}
 .sheet{position:fixed;inset:0;z-index:50;background:var(--bg);overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding-inline:16px;padding-block:0 calc(env(safe-area-inset-bottom,0px) + 28px)}
 .sheet-head{position:sticky;top:0;z-index:2;max-width:1160px;margin:0 auto;display:grid;gap:12px;padding-top:calc(env(safe-area-inset-top,0px) + 14px);padding-bottom:14px;background:linear-gradient(var(--bg) 78%,transparent)}
@@ -573,13 +577,14 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     <div class="head">
       <div class="head-t">
         <span class="kicker">Đồ mình dùng</span>
-        <h2 id="t-gear">Mấy món mình đang dùng</h2>
-        <p>Thiết bị và phụ kiện mình đang dùng hằng ngày để quay, dựng và test video. Món nào có link mua đúng sản phẩm hoặc sản phẩm tương tự, hay có video review, thì mình gắn kèm để các bạn xem thêm.</p>
+        <h2 id="t-gear">Mấy món mình dùng</h2>
+        <p>Thiết bị và phụ kiện mình đang dùng hằng ngày hoặc đã dùng qua để quay, dựng và test video. Món nào có link mua đúng sản phẩm hoặc sản phẩm tương tự, hay có video review, thì mình gắn kèm để các bạn xem thêm.</p>
       </div>
     </div>
     <div class="gear" id="gear"></div>
     <div class="head gear-more"><div class="head-t"><h3>Gợi ý thêm</h3><p>Mấy món mình chưa dùng, để các bạn tham khảo thêm.</p></div></div>
     <div class="gear" id="gear2"></div>
+    <div class="acc" id="acc"></div>
   </section>
 
   <section id="kenh" aria-labelledby="t-ch">
@@ -1063,8 +1068,10 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     {icon:"phone",  cat:"Điện thoại",     name:"iPhone 13 Pro Max"},
     {icon:"laptop", cat:"Laptop",         name:"MacBook Pro M4 Pro"},
     {icon:"tablet", cat:"Máy tính bảng",  name:"iPad Pro M2"},
-    {icon:"mic",    cat:"Micro",          name:"DJI Mic Mini"},
+    {icon:"mic",    cat:"Micro",          name:"DJI Mic Mini", note:"Mình đang dùng Mic Mini, đã dùng qua bản Mini 2. Link là bản Mini 2.", links:[{u:S+"40hJruvjk6", t:"Xem Mic Mini 2"}]},
+    {icon:"plug",   cat:"Củ sạc",         name:"UGREEN Nexode Uno 65W 3 cổng", note:"Mình đã dùng qua", links:[{u:S+"4B0k4AmgpP"}]},
     {icon:"bank",   cat:"Sạc dự phòng",   name:"UGREEN Q2.2", links:[{u:S+"9zySJorl0v"}]},
+    {icon:"keyboard", cat:"Bàn phím + chuột", name:"Logitech Pebble 2 Combo", note:"Mình đã dùng qua", links:[{u:S+"20wFUEXS7D"}]},
     {icon:"sleeve", cat:"Túi chống sốc",  name:"tomtoc A13 Protective 360", links:[{u:S+"60SJXxNPw1"}]},
     {icon:"shield", cat:"Kính cường lực", name:"Kính cường lực Hoda", links:[{u:S+"7faXYUEY4X"},{u:S+"1VzuDATVb3", t:"Shop khác"}], backup:[S+"7faXYX67Ps", S+"BUWcmWHVw"]},
     {icon:"shield", cat:"Dán màn hình",   name:"Dán màn hình ZAGG", links:[{u:S+"80DNxFAT8g"}]}
@@ -1085,6 +1092,49 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   ICONS.bank='<svg viewBox="0 0 24 24"><rect x="4" y="7" width="15" height="10" rx="2.5"/><path d="M21 10.5v3M9 10l-1.5 2.2H10L8.5 14.5"/></svg>';
   ICONS.sleeve='<svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="13" rx="2.5"/><path d="M3 10h18M9 6V4.5h6V6"/></svg>';
   ICONS.shield='<svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.6"/><path d="M9.5 8l5-3M9.5 12.5l5-3"/></svg>';
+  ICONS.plug='<svg viewBox="0 0 24 24"><rect x="6" y="8" width="12" height="11" rx="2.5"/><path d="M9.5 8V4M14.5 8V4M12 19v2.5"/></svg>';
+  ICONS.cable='<svg viewBox="0 0 24 24"><path d="M7 3v5M7 8c0 7 10 2 10 9v4"/><rect x="5" y="2.5" width="4" height="3" rx="1"/><rect x="15" y="18.5" width="4" height="3" rx="1"/></svg>';
+  ICONS.pad='<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5"/></svg>';
+  ICONS.keyboard='<svg viewBox="0 0 24 24"><rect x="2.5" y="6.5" width="19" height="11" rx="2"/><path d="M6 10h.01M9.5 10h.01M13 10h.01M16.5 10h.01M8 14h8"/></svg>';
+  ICONS.hub='<svg viewBox="0 0 24 24"><rect x="5" y="7" width="14" height="10" rx="2.5"/><path d="M12 7V3M8.5 12h1M14.5 12h1"/></svg>';
+  ICONS.mouse='<svg viewBox="0 0 24 24"><rect x="7" y="3" width="10" height="18" rx="5"/><path d="M12 6.5v3"/></svg>';
+  ICONS.ear='<svg viewBox="0 0 24 24"><path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="3" y="14" width="4" height="6" rx="1.5"/><rect x="17" y="14" width="4" height="6" rx="1.5"/></svg>';
+  /* PHỤ KIỆN THEO NHÓM (ní chưa dùng, hiện dưới "Gợi ý thêm")
+     u: mã link Shopee affiliate (s.shopee.vn/<u>); s: một dòng phụ. Không ghi giá, lượt bán trên trang. */
+  var ACC = [
+    {t:"Ốp và kính cho iPhone", items:[
+      {i:"case",   n:"Ốp UGREEN trong suốt",        s:"18 Pro Max · giá rẻ, lưng cứng viền mềm", u:"3qNthkLQ6J"},
+      {i:"case",   n:"Ốp TORRAS D1 MagSafe",        s:"18 Pro Max · có giá đỡ, không ố vàng", u:"7VHC4XkSvh"},
+      {i:"case",   n:"Ốp ESR Classic Hybrid HaloLock", s:"iPhone 17 series · tương thích MagSafe", u:"2gBwHQViqv"},
+      {i:"shield", n:"Kính UGREEN HD không viền",   s:"18 Pro Max · hộp 2 miếng", u:"20wFUC7rVl"},
+      {i:"shield", n:"Kính UGREEN viền đen",        s:"18 Pro Max · hộp 2 miếng", u:"9APQ3eOP64"},
+      {i:"shield", n:"Kính UGREEN chống nhìn trộm", s:"18 Pro Max · nhớ chọn loại Chống nhìn trộm", u:"7pu2TCZjeX"}
+    ]},
+    {t:"Củ sạc, cáp, sạc không dây", items:[
+      {i:"plug",  n:"Anker Zolo 20/30W kèm cáp",   s:"Củ sạc GaN", u:"6fi52D92xh"},
+      {i:"plug",  n:"Anker 20W/30W PowerIQ 3.0",   s:"Củ sạc GaN", u:"3qNtfVxcte"},
+      {i:"plug",  n:"UGREEN Nexode Robot Uno",     s:"Bản 30W và 65W", u:"2gBwHPo8bH"},
+      {i:"plug",  n:"Baseus 20W GaN5",             s:"Củ sạc PD nhỏ gọn", u:"80DSdFXHwq"},
+      {i:"cable", n:"Cáp Baseus USB-C sang Lightning", s:"Cho iPhone đời dùng cổng Lightning", u:"6VOeqUlnYR"},
+      {i:"pad",   n:"UGREEN MagFlow 2 trong 1",    s:"Đế sạc không dây từ tính", u:"1LgYgy76HE"},
+      {i:"pad",   n:"UGREEN đế sạc từ tính 2 trong 1 Qi2", s:"Sạc iPhone và AirPods cùng lúc", u:"6AloUAHPx6"}
+    ]},
+    {t:"Sạc dự phòng", items:[
+      {i:"bank", n:"Anker Zolo 10.000/20.000mAh", s:"22.5W", u:"1gJP5Yj4Iq"},
+      {i:"bank", n:"Anker Zolo 25.000mAh",        s:"165W", u:"6VOeqPwH23"},
+      {i:"bank", n:"Anker sạc dự phòng từ tính",  s:"10.000mAh, hít mặt lưng iPhone", u:"60SOFV2e5o"}
+    ]},
+    {t:"iPad và AirPods", items:[
+      {i:"tablet", n:"Ốp ESR Shift Magnetic",          s:"iPad Pro M4 / iPad Air", u:"40hJrsZ28X"},
+      {i:"tablet", n:"Bao da ESR Rebound 360 kèm bàn phím", s:"iPad Air", u:"5VW7edhHKC"},
+      {i:"ear",    n:"Ốp ESR Orbit Hybrid",            s:"AirPods 4", u:"3g4TTGgDNa"}
+    ]},
+    {t:"Bàn làm việc và âm thanh", items:[
+      {i:"hub",   n:"Hub Baseus USB-C",            s:"HDMI 4K, USB 3.0, khe thẻ SD", u:"70KvRPoIKA"},
+      {i:"mouse", n:"Chuột Logitech M185",         s:"Không dây", u:"4qGQrRSALT"},
+      {i:"ear",   n:"Anker Soundcore P40i",        s:"Tai nghe chống ồn", u:"1qcpHrr1iO"}
+    ]}
+  ];
   function gearCard(g){
     var d = document.createElement("article"); d.className = "item glass";
     d.innerHTML = '<span class="ico" aria-hidden="true">'+ICONS[g.icon]+'</span><div><span class="cat"></span><h3></h3></div>';
@@ -1106,6 +1156,21 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   /* món chưa có link mua hoặc video review thì ẩn, khi có link chỉ cần thêm links vào là tự hiện */
   GEAR.filter(function(g){ return (g.links && g.links.length) || g.review; }).forEach(function(g){ gear.appendChild(gearCard(g)); });
   GOIY.forEach(function(g){ gear2.appendChild(gearCard(g)); });
+  var accBox = document.getElementById("acc");
+  ACC.forEach(function(grp){
+    var box = document.createElement("div"); box.className = "acc-group";
+    var h = document.createElement("h4"); h.className = "acc-t"; h.textContent = grp.t; box.appendChild(h);
+    var row = document.createElement("div"); row.className = "acc-row";
+    grp.items.forEach(function(it){
+      var a = document.createElement("a"); a.className = "glass"; a.href = S + it.u; a.target = "_blank"; a.rel = "noopener sponsored";
+      a.setAttribute("data-mon", it.n);
+      a.innerHTML = '<span class="ico" aria-hidden="true">'+ICONS[it.i]+'</span><span class="acc-n"><b></b><small></small></span><span class="arrow" aria-hidden="true">↗</span>';
+      a.querySelector("b").textContent = it.n; a.querySelector("small").textContent = it.s;
+      a.setAttribute("aria-label", it.n + " – xem trên Shopee");
+      row.appendChild(a);
+    });
+    box.appendChild(row); accBox.appendChild(box);
+  });
 
   /* copy email */
   var copyBtn = document.getElementById("copyMail"), mailOut = document.getElementById("mailOut");
@@ -1282,7 +1347,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
       track("Tải hình nền", {hinh: n ? n.textContent : h, ban: /_desktop/.test(h) ? "máy tính" : "điện thoại"}); return;
     }
     if (/shopee\./.test(h)){
-      var it = a.closest(".item"); track("Shopee", {mon: it ? it.querySelector("h3").textContent : h, nut: a.textContent}); return;
+      var it = a.closest("[data-mon], .item"); track("Shopee", {mon: it ? (it.getAttribute("data-mon") || it.querySelector("h3").textContent) : h, nut: a.getAttribute("data-mon") ? "Phụ kiện" : a.textContent}); return;
     }
     if (/paypal\./.test(h)){ track("PayPal"); return; }
     if (/^mailto:/.test(h)){ track("Gửi email"); return; }
