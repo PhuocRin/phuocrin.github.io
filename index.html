@@ -1134,7 +1134,12 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   var vname = document.getElementById("vname"), vsub = document.getElementById("vsub"), vhint = document.getElementById("vhint");
   var vlock = document.getElementById("vlock"), vlockLayer = document.getElementById("vlockLayer"), vstage = document.getElementById("vstage");
   var cur = null, token = 0, lastUrl = null;
-  var HINT = "iPhone: nhấn giữ hình rồi chọn Lưu vào Ảnh. Nút Tải sẽ lưu file gốc vào Tệp.";
+  /* iPhone/iPad: thuộc tính download chỉ lưu vào app Tệp, nên nút tải mở bảng chia sẻ (có "Lưu hình ảnh" vào app Ảnh) */
+  var IOS = /iP(hone|ad|od)/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  var CAN_SHARE = IOS && !!(window.fetch && window.File && navigator.share && navigator.canShare);
+  var HINT = CAN_SHARE
+    ? "iPhone: bấm Lưu vào Ảnh rồi chọn Lưu hình ảnh, hoặc nhấn giữ hình rồi chọn Lưu vào Ảnh."
+    : "iPhone: nhấn giữ hình rồi chọn Lưu vào Ảnh. Nút Tải sẽ lưu file gốc vào Tệp.";
   var dlPhone = document.getElementById("dlPhone"), dlDesk = document.getElementById("dlDesk");
   var vphoneEl = document.querySelector(".vphone"), vmac = document.getElementById("vmac"), mscreen = document.getElementById("mscreen");
   var vmimg = document.getElementById("vmimg"), vmload = document.getElementById("vmload"), mui = document.getElementById("mui");
@@ -1171,6 +1176,10 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     var base = it.file, name = it.label.replace(/[^0-9A-Za-z]+/g, "-");
     dlPhone.href = base + "_phone.jpg"; dlPhone.setAttribute("download", "phuocrin-" + base.split("/").pop() + "_phone.jpg");
     dlDesk.href = base + "_desktop.jpg"; dlDesk.setAttribute("download", "phuocrin-" + base.split("/").pop() + "_desktop.jpg");
+    if (CAN_SHARE){ // tải sẵn để bấm là mở bảng chia sẻ ngay
+      dlPhone.textContent = "Lưu vào Ảnh"; dlDesk.textContent = "Tải cho máy tính";
+      getShareFile(dlPhone.href, dlPhone.getAttribute("download"));
+    }
     // the small preview is only a backdrop; the <img> people long-press is always the 4K file
     vimg.parentNode.style.backgroundImage = "url(" + (it.src || card.querySelector("canvas").toDataURL("image/jpeg", 0.8)) + ")";
     vimg.style.opacity = 0; vload.hidden = false; vload.textContent = "Đang tải bản gốc…";
@@ -1195,10 +1204,41 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   /* Tải hình: file nằm ở tên miền khác (img.phuocrin.com) nên thuộc tính download bị trình duyệt bỏ qua.
      Tải về dạng blob (bucket R2 đã bật CORS cho phuocrin.com) rồi lưu đúng tên; lỗi thì mở thẳng file 4K.
      cache:"no-store" vì bản <img> đã tải trước đó không kèm header CORS, dùng lại bộ nhớ đệm trình duyệt sẽ bị chặn. */
+  /* Safari chỉ mở bảng chia sẻ ngay lúc bấm, nên file được tải sẵn khi mở hình (giữ tối đa 2 file).
+     Nếu chưa tải xong mà Safari không cho mở, nút đổi thành "Bấm lần nữa để lưu" (lúc đó file đã sẵn). */
+  var shareFiles = {}, shareOrder = [];
+  function getShareFile(href, name){
+    if (shareFiles[href]) return shareFiles[href];
+    var p = fetch(href, {mode:"cors", cache:"no-store"}).then(function(r){ if (!r.ok) throw 0; return r.blob(); })
+      .then(function(b){ var f = new File([b], name || "phuocrin-hinh-nen.jpg", {type: "image/jpeg"}); p.file = f; return f; });
+    p.catch(function(){ delete shareFiles[href]; });
+    shareFiles[href] = p; shareOrder.push(href);
+    while (shareOrder.length > 2){ delete shareFiles[shareOrder.shift()]; }
+    return p;
+  }
+  if (CAN_SHARE){ dlPhone.textContent = "Lưu vào Ảnh"; }
   [dlPhone, dlDesk].forEach(function(a){
+    var baseLabel = a.textContent;
     a.addEventListener("click", function(e){
       var href = a.href, name = a.getAttribute("download") || "";
       if (!window.fetch || !window.URL || href.indexOf(location.origin) === 0) return;
+      if (CAN_SHARE){
+        e.preventDefault();
+        var p = getShareFile(href, name);
+        var share = function(f){
+          if (!navigator.canShare({files: [f]})) throw 0;
+          a.textContent = baseLabel;
+          return navigator.share({files: [f]}).catch(function(err){
+            if (err && err.name === "NotAllowedError") a.textContent = "Bấm lần nữa để lưu";
+          });
+        };
+        if (p.file){ try { share(p.file); return; } catch(x){} }
+        else {
+          a.textContent = "Đang tải…";
+          p.then(share).catch(function(){ a.textContent = baseLabel; location.href = href; });
+          return;
+        }
+      }
       e.preventDefault(); var label = a.textContent; a.textContent = "Đang tải…";
       fetch(href, {mode:"cors", cache:"no-store"}).then(function(r){ if (!r.ok) throw 0; return r.blob(); }).then(function(b){
         var u = URL.createObjectURL(b), t = document.createElement("a");
