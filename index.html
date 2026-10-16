@@ -741,6 +741,35 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   /* HÌNH NỀN — mỗi hình có 4 file trong wallpapers/<bo>/: <id>_phone.jpg, <id>_desktop.jpg và thumb/<id>_phone.jpg, thumb/<id>_desktop.jpg */
   var WALLS = [
     /* loai: "kinh" hoặc "minh-hoa" để lọc trong "Xem tất cả"; vn:true thì hiện thêm ở nút lọc "Việt Nam". Hình mới nhất đặt lên đầu. ai:true thì hiện nhãn "Ảnh AI" (ní đã chọn tắt, 12/10/2026) */
+    {bo:"bo-08", id:"khoi-kinh-den",        label:"Khối Kính Đen",  sub:"Kính · đen xám",         loai:"kinh",     ai:false},
+    {bo:"bo-08", id:"dai-lua-vang-trang",   label:"Dải Lụa Vàng Trắng", sub:"Chất lỏng · vàng trắng", loai:"kinh",     ai:false},
+    {bo:"bo-08", id:"dua-hau-ho-boi",       label:"Dưa Hấu Hồ Bơi", sub:"Mùa hè · xanh ngọc",     loai:"minh-hoa", ai:false},
+    {bo:"bo-08", id:"dao-giay-hong",        label:"Đào Giấy Hồng",  sub:"Giấy cắt · hồng phấn",   loai:"minh-hoa", ai:false},
+    {bo:"bo-08", id:"dai-son-pastel",       label:"Dải Sơn Pastel", sub:"Chất lỏng · pastel",     loai:"kinh",     ai:false},
+    {bo:"bo-08", id:"dia-kinh-xanh-tim",    label:"Đĩa Kính Xanh Tím", sub:"Kính · xanh tím",        loai:"kinh",     ai:false},
+    {bo:"bo-08", id:"ong-sang-ho-phach",    label:"Ống Sáng Hổ Phách", sub:"Kính · cam đen",         loai:"kinh",     ai:false},
+    {bo:"bo-08", id:"da-cuoi-pastel",       label:"Đá Cuội Pastel", sub:"Thiền · pastel",         loai:"minh-hoa", ai:false},
+    {bo:"bo-08", id:"da-chanh-bac-ha",      label:"Đá Chanh Bạc Hà", sub:"Đá lạnh · xanh lá",      loai:"minh-hoa", ai:false},
+    {bo:"bo-08", id:"vuon-hong-tim",        label:"Vườn Hồng Tím",  sub:"Hoa hồng · tím",         loai:"minh-hoa", ai:false},
+    {bo:"bo-08", id:"man-da-la-giay",       label:"Mạn Đà La Giấy", sub:"Giấy cắt · hồng",        loai:"minh-hoa", ai:false},
+    {bo:"bo-08", id:"la-xanh-giot-suong",   label:"Lá Xanh Giọt Sương", sub:"Lá · giọt nước",         loai:"minh-hoa", ai:false},
+    {bo:"bo-08", id:"la-thu-giot-nuoc",     label:"Lá Thu Giọt Nước", sub:"Lá · cam hổ phách",      loai:"minh-hoa", ai:false},
+    {bo:"bo-08", id:"tung-giay-mat-troi",   label:"Tùng Giấy Mặt Trời", sub:"Giấy cắt · xám cam",     loai:"minh-hoa", ai:false},
+    {bo:"bo-08", id:"khoi-hinh-bay",        label:"Khối Hình Bay",  sub:"3D · xanh pastel",       loai:"kinh",     ai:false},
+    {bo:"bo-08", id:"canh-hoa-cam",         label:"Cánh Hoa Cam",   sub:"Cánh hoa · cam đào",     loai:"minh-hoa", ai:false},
+    {bo:"bo-08", id:"canh-hoa-do",          label:"Cành Hoa Đỏ",    sub:"Hoa · đỏ trên nền đen",  loai:"minh-hoa", ai:false},
+    {bo:"bo-08", id:"la-cau-vong",          label:"Lá Cầu Vồng",    sub:"Giọt nước · nhiều màu",  loai:"minh-hoa", ai:false},
+    {bo:"bo-08", id:"giot-kinh-lua-xanh",   label:"Giọt Kính Lụa Xanh", sub:"Kính · lụa xanh dương",  loai:"kinh",     ai:false},
+    {bo:"bo-08", id:"khoi-kinh-cau-vong",   label:"Khối Kính Cầu Vồng", sub:"Kính · ánh cầu vồng",    loai:"kinh",     ai:false},
+    {bo:"bo-08", id:"hoa-dao-nang-som",     label:"Hoa Đào Nắng Sớm", sub:"Hoa đào · hồng",         loai:"minh-hoa", ai:false},
+    {bo:"bo-08", id:"tao-thuy-tinh",        label:"Táo Thủy Tinh",  sub:"Kính · trắng xanh",      loai:"kinh",     ai:false},
+    {bo:"bo-08", id:"dam-sen-suong-som",    label:"Đầm Sen Sương Sớm", sub:"Hoa sen · sương mù",     loai:"minh-hoa", vn:true, ai:false},
+    {bo:"bo-08", id:"nui-giay-cam",         label:"Núi Giấy Cam",   sub:"Giấy cắt · cam đất",     loai:"minh-hoa", ai:false},
+    {bo:"bo-08", id:"long-vu-vang",         label:"Lông Vũ Vàng",   sub:"Lông vũ · nâu vàng",     loai:"minh-hoa", ai:false},
+    {bo:"bo-08", id:"song-anh-sang",        label:"Sóng Ánh Sáng",  sub:"Ánh sáng · xanh đỏ",     loai:"kinh",     ai:false},
+    {bo:"bo-08", id:"to-ong-anh-xanh",      label:"Tổ Ong Ánh Xanh", sub:"3D · lục giác xanh",     loai:"kinh",     ai:false},
+    {bo:"bo-08", id:"cay-anh-sang",         label:"Cây Ánh Sáng",   sub:"Phát sáng · xanh băng",  loai:"minh-hoa", ai:false},
+    {bo:"bo-08", id:"trai-dat-xanh-ngoc",   label:"Trái Đất Xanh Ngọc", sub:"Vũ trụ · xanh ngọc",     loai:"minh-hoa", ai:false},
     {bo:"bo-07", id:"duong-ham-cay",         label:"Đường Hầm Cây",         sub:"Phong cảnh · cây xanh", loai:"minh-hoa", ai:false},
     {bo:"bo-07", id:"song-long-xanh-tim",    label:"Sóng Lỏng Xanh Tím",    sub:"Chất lỏng · xanh tím",  loai:"kinh",     ai:false},
     {bo:"bo-07", id:"meo-ngu-dong-co",       label:"Mèo Ngủ Đồng Cỏ",       sub:"Mèo · đồng cỏ xanh",    loai:"minh-hoa", ai:false},
@@ -799,7 +828,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 
   /* HÌNH NỀN MỚI NHẤT — mỗi lần đăng video tặng hình nền, chỉ sửa khối này:
      set: bộ chứa hình ("kl" hoặc "bcs"), index: vị trí hình trong bộ, video: tên + link video tặng hình */
-  var LATEST = { set:"kl", index:27, video:{ title:"iOS 27.2 beta 4 có gì mới?", url:"https://www.youtube.com/watch?v=vvti4DNFjB8" } };
+  var LATEST = { set:"kl", index:56, video:{ title:"iOS 27.2 beta 4 có gì mới?", url:"https://www.youtube.com/watch?v=vvti4DNFjB8" } };
   var latestItem = ITEMS[LATEST.set].splice(LATEST.index, 1)[0];
   latestItem.isNew = true; latestItem.video = LATEST.video;
   ITEMS[LATEST.set].unshift(latestItem);
