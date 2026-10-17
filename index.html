@@ -741,6 +741,26 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   /* HÌNH NỀN — mỗi hình có 4 file trong wallpapers/<bo>/: <id>_phone.jpg, <id>_desktop.jpg và thumb/<id>_phone.jpg, thumb/<id>_desktop.jpg */
   var WALLS = [
     /* loai: "kinh" hoặc "minh-hoa" để lọc trong "Xem tất cả"; vn:true thì hiện thêm ở nút lọc "Việt Nam". Hình mới nhất đặt lên đầu. ai:true thì hiện nhãn "Ảnh AI" (ní đã chọn tắt, 12/10/2026) */
+    {bo:"bo-10", id:"trang-nui-tuyet",       label:"Trăng Núi Tuyết",  sub:"Phong cảnh · đêm trăng",       loai:"minh-hoa", ai:false},
+    {bo:"bo-10", id:"song-kinh-ngoc",        label:"Sóng Kính Ngọc",   sub:"Kính · xanh ngọc",             loai:"kinh",     ai:false},
+    {bo:"bo-10", id:"tung-vach-dem-trang",   label:"Tùng Vách Đêm Trăng", sub:"Phong cảnh · xanh đêm",        loai:"minh-hoa", ai:false},
+    {bo:"bo-10", id:"leu-duoi-ngan-ha",      label:"Lều Dưới Ngân Hà", sub:"Đêm sao · tuyết trắng",        loai:"minh-hoa", ai:false},
+    {bo:"bo-10", id:"bai-cat-bien-ngoc",     label:"Bãi Cát Biển Ngọc", sub:"Biển · nhìn từ trên cao",      loai:"minh-hoa", ai:false},
+    {bo:"bo-10", id:"canh-bang-gia",         label:"Cành Băng Giá",    sub:"Mùa đông · xanh băng",         loai:"minh-hoa", ai:false},
+    {bo:"bo-10", id:"hai-au-song-bien",      label:"Hải Âu Sóng Biển", sub:"Biển · xanh trời",             loai:"minh-hoa", ai:false},
+    {bo:"bo-10", id:"tung-hoang-hon-bien",   label:"Tùng Hoàng Hôn Biển", sub:"Biển · hoàng hôn",             loai:"minh-hoa", ai:false},
+    {bo:"bo-10", id:"duong-xuyen-rung",      label:"Đường Xuyên Rừng", sub:"Nhìn từ trên cao · xanh lá",   loai:"minh-hoa", ai:false},
+    {bo:"bo-10", id:"ho-thu-suong-som",      label:"Hồ Thu Sương Sớm", sub:"Mùa thu · cam đỏ",             loai:"minh-hoa", ai:false},
+    {bo:"bo-10", id:"ho-bang-nui-tuyet",     label:"Hồ Băng Núi Tuyết", sub:"Phong cảnh · băng xanh",       loai:"minh-hoa", ai:false},
+    {bo:"bo-10", id:"song-nhanh-ngoc",       label:"Sông Nhánh Ngọc",  sub:"Nhìn từ trên cao · xám ngọc",  loai:"minh-hoa", ai:false},
+    {bo:"bo-10", id:"cay-co-thu-reu",        label:"Cây Cổ Thụ Rêu",   sub:"Rừng · xanh rêu",              loai:"minh-hoa", ai:false},
+    {bo:"bo-10", id:"rung-thong-nang-som",   label:"Rừng Thông Nắng Sớm", sub:"Rừng · nắng vàng",             loai:"minh-hoa", ai:false},
+    {bo:"bo-10", id:"hem-nui-song-ngoc",     label:"Hẻm Núi Sông Ngọc", sub:"Phong cảnh · đỏ ngọc",         loai:"minh-hoa", ai:false},
+    {bo:"bo-10", id:"nha-go-dem-tuyet",      label:"Nhà Gỗ Đêm Tuyết", sub:"Phong cảnh · đêm tuyết",       loai:"minh-hoa", ai:false},
+    {bo:"bo-10", id:"ho-bac-da-voi",         label:"Hồ Bậc Đá Vôi",    sub:"Phong cảnh · trắng ngọc",      loai:"minh-hoa", ai:false},
+    {bo:"bo-10", id:"hoang-hon-tren-bien",   label:"Hoàng Hôn Trên Biển", sub:"Biển · cam tím",               loai:"minh-hoa", ai:false},
+    {bo:"bo-10", id:"thac-rung-xanh",        label:"Thác Rừng Xanh",   sub:"Rừng · thác nước",             loai:"minh-hoa", ai:false},
+    {bo:"bo-10", id:"ho-lang-hoang-hon",     label:"Hồ Lặng Hoàng Hôn", sub:"Phong cảnh · cam xanh",        loai:"minh-hoa", ai:false},
     {bo:"bo-09", id:"tung-vach-bien-may",   label:"Tùng Vách Biển Mây", sub:"Phong cảnh · xám cam",   loai:"minh-hoa", ai:false},
     {bo:"bo-08", id:"khoi-kinh-den",        label:"Khối Kính Đen",  sub:"Kính · đen xám",         loai:"kinh",     ai:false},
     {bo:"bo-08", id:"dai-lua-vang-trang",   label:"Dải Lụa Vàng Trắng", sub:"Chất lỏng · vàng trắng", loai:"kinh",     ai:false},
@@ -829,7 +849,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 
   /* HÌNH NỀN MỚI NHẤT — mỗi lần đăng video tặng hình nền, chỉ sửa khối này:
      set: bộ chứa hình ("kl" hoặc "bcs"), index: vị trí hình trong bộ, video: tên + link video tặng hình */
-  var LATEST = { set:"kl", index:0, video:{ title:"iOS 27.2 beta 4 sau vài ngày?", url:"https://www.youtube.com/watch?v=EYRjT0gkBq0" } };
+  var LATEST = { set:"kl", index:20, video:{ title:"iOS 27.2 beta 4 sau vài ngày?", url:"https://www.youtube.com/watch?v=EYRjT0gkBq0" } };
   var latestItem = ITEMS[LATEST.set].splice(LATEST.index, 1)[0];
   latestItem.isNew = true; latestItem.video = LATEST.video;
   ITEMS[LATEST.set].unshift(latestItem);
