@@ -741,6 +741,26 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   /* HÌNH NỀN — mỗi hình có 4 file trong wallpapers/<bo>/: <id>_phone.jpg, <id>_desktop.jpg và thumb/<id>_phone.jpg, thumb/<id>_desktop.jpg */
   var WALLS = [
     /* loai: "kinh" hoặc "minh-hoa" để lọc trong "Xem tất cả"; vn:true thì hiện thêm ở nút lọc "Việt Nam". Hình mới nhất đặt lên đầu. ai:true thì hiện nhãn "Ảnh AI" (ní đã chọn tắt, 12/10/2026) */
+    {bo:"bo-11", id:"nguoi-tuyet-giang-sinh", label:"Người Tuyết Giáng Sinh", sub:"Giáng sinh · đỏ xanh", loai:"minh-hoa", ai:false},
+    {bo:"bo-11", id:"khinh-khi-cau-binh-minh", label:"Khinh Khí Cầu Bình Minh", sub:"Phong cảnh · bình minh", loai:"minh-hoa", ai:false},
+    {bo:"bo-11", id:"ca-sang-dem-xanh", label:"Cá Sáng Đêm Xanh", sub:"Dưới nước · xanh đêm", loai:"minh-hoa", ai:false},
+    {bo:"bo-11", id:"guong-may-trang", label:"Gương Mây Trắng", sub:"Bầu trời · xanh trắng", loai:"minh-hoa", ai:false},
+    {bo:"bo-11", id:"ho-lau-suong-som", label:"Hồ Lau Sương Sớm", sub:"Phong cảnh · vàng nhạt", loai:"minh-hoa", ai:false},
+    {bo:"bo-11", id:"dao-nhiet-doi", label:"Đảo Nhiệt Đới", sub:"Biển · xanh ngọc", loai:"minh-hoa", ai:false},
+    {bo:"bo-11", id:"ran-san-ho", label:"Rạn San Hô", sub:"Dưới biển · cam ngọc", loai:"minh-hoa", ai:false},
+    {bo:"bo-11", id:"cau-be-bien-sao", label:"Cậu Bé Biển Sao", sub:"Minh hoạ · hoàng hôn", loai:"minh-hoa", ai:false},
+    {bo:"bo-11", id:"vong-sang-thung-lung", label:"Vòng Sáng Thung Lũng", sub:"Kỳ ảo · xanh điện", loai:"minh-hoa", ai:false},
+    {bo:"bo-11", id:"nui-lua-sam-set", label:"Núi Lửa Sấm Sét", sub:"Thiên nhiên · đỏ tím", loai:"minh-hoa", ai:false},
+    {bo:"bo-11", id:"tinh-van-xanh", label:"Tinh Vân Xanh", sub:"Vũ trụ · xanh lam", loai:"minh-hoa", ai:false},
+    {bo:"bo-11", id:"thien-ha-xoan-oc", label:"Thiên Hà Xoắn Ốc", sub:"Vũ trụ · tím cam", loai:"minh-hoa", ai:false},
+    {bo:"bo-11", id:"sao-tho-vanh-dai", label:"Sao Thổ Vành Đai", sub:"Vũ trụ · nền đen", loai:"minh-hoa", ai:false},
+    {bo:"bo-11", id:"phe-tich-sa-mac", label:"Phế Tích Sa Mạc", sub:"Sa mạc · vàng cát", loai:"minh-hoa", ai:false},
+    {bo:"bo-11", id:"tranh-thuy-mac", label:"Tranh Thuỷ Mặc", sub:"Thuỷ mặc · trắng ngà", loai:"minh-hoa", ai:false},
+    {bo:"bo-11", id:"hai-cau-tren-bang", label:"Hải Cẩu Trên Băng", sub:"Động vật · trắng băng", loai:"minh-hoa", ai:false},
+    {bo:"bo-11", id:"meo-tra-sua", label:"Mèo Trà Sữa", sub:"3D dễ thương · tím pastel", loai:"minh-hoa", ai:false},
+    {bo:"bo-11", id:"meo-xam-cau-co", label:"Mèo Xám Cau Có", sub:"3D dễ thương · xám trắng", loai:"minh-hoa", ai:false},
+    {bo:"bo-11", id:"bong-long-sac-mau", label:"Bông Lông Sắc Màu", sub:"3D dễ thương · nhiều màu", loai:"minh-hoa", ai:false},
+    {bo:"bo-11", id:"mam-cay-trang-sach", label:"Mầm Cây Trang Sách", sub:"Tĩnh vật · nâu ấm", loai:"minh-hoa", ai:false},
     {bo:"bo-10", id:"trang-nui-tuyet",       label:"Trăng Núi Tuyết",  sub:"Phong cảnh · đêm trăng",       loai:"minh-hoa", ai:false},
     {bo:"bo-10", id:"song-kinh-ngoc",        label:"Sóng Kính Ngọc",   sub:"Kính · xanh ngọc",             loai:"kinh",     ai:false},
     {bo:"bo-10", id:"tung-vach-dem-trang",   label:"Tùng Vách Đêm Trăng", sub:"Phong cảnh · xanh đêm",        loai:"minh-hoa", ai:false},
@@ -849,7 +869,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 
   /* HÌNH NỀN MỚI NHẤT — mỗi lần đăng video tặng hình nền, chỉ sửa khối này:
      set: bộ chứa hình ("kl" hoặc "bcs"), index: vị trí hình trong bộ, video: tên + link video tặng hình */
-  var LATEST = { set:"kl", index:63, video:{ title:"iOS 27.2 RC có gì mới?", url:"https://www.youtube.com/watch?v=CrMzwpVQnUM" } };
+  var LATEST = { set:"kl", index:83, video:{ title:"iOS 27.2 RC có gì mới?", url:"https://www.youtube.com/watch?v=CrMzwpVQnUM" } };
   var latestItem = ITEMS[LATEST.set].splice(LATEST.index, 1)[0];
   latestItem.isNew = true; latestItem.video = LATEST.video;
   ITEMS[LATEST.set].unshift(latestItem);
