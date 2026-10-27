@@ -1,6 +1,16 @@
 {
  "latest": [
   {
+   "id": "HIXv869WT9U",
+   "title": "iPadOS 27.2 chính thức có gì mới?",
+   "published": "2026-10-27T06:45:23+00:00"
+  },
+  {
+   "id": "adea--VvSTo",
+   "title": "iOS 27.2 chính thức có gì mới?",
+   "published": "2026-10-27T01:10:33+00:00"
+  },
+  {
    "id": "RGW1lwRUCuM",
    "title": "iOS 27.2 RC sau vài ngày?",
    "published": "2026-10-24T07:45:39+00:00"
@@ -19,16 +29,6 @@
    "id": "CrMzwpVQnUM",
    "title": "iOS 27.2 RC có gì mới?",
    "published": "2026-10-20T02:00:25+00:00"
-  },
-  {
-   "id": "EYRjT0gkBq0",
-   "title": "iOS 27.2 beta 4 sau vài ngày?",
-   "published": "2026-10-17T08:00:25+00:00"
-  },
-  {
-   "id": "vvti4DNFjB8",
-   "title": "iOS 27.2 beta 4 có gì mới?",
-   "published": "2026-10-14T02:35:01+00:00"
   }
  ],
  "tips": [
@@ -232,6 +232,22 @@
     "title": "iOS 27.2 RC sau vài ngày?",
     "kind": "sau",
     "published": "2026-10-24T07:45:39+00:00"
+   }
+  ],
+  "ipados 27.2": [
+   {
+    "id": "HIXv869WT9U",
+    "title": "iPadOS 27.2 chính thức có gì mới?",
+    "kind": "moi",
+    "published": "2026-10-27T06:45:23+00:00"
+   }
+  ],
+  "ios 27.2": [
+   {
+    "id": "adea--VvSTo",
+    "title": "iOS 27.2 chính thức có gì mới?",
+    "kind": "moi",
+    "published": "2026-10-27T01:10:33+00:00"
    }
   ]
  }
