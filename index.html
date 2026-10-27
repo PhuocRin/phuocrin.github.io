@@ -870,7 +870,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 
   /* HÌNH NỀN MỚI NHẤT — mỗi lần đăng video tặng hình nền, chỉ sửa khối này:
      set: bộ chứa hình ("kl" hoặc "bcs"), index: vị trí hình trong bộ, video: tên + link video tặng hình */
-  var LATEST = { set:"kl", index:0, video:{ title:"video mới trên kênh", url:"https://www.youtube.com/@phuocrin/videos" } };
+  /* id: tên file hình trên R2. Có id thì tự tìm vị trí, thêm hình mới vào WALLS không cần sửa index */
+  var LATEST = { set:"kl", id:"cau-be-bien-sao", index:0, video:{ title:"video mới trên kênh", url:"https://www.youtube.com/@phuocrin/videos" } };
+  if (LATEST.id){ var li = ITEMS[LATEST.set].findIndex(function(it){ return it.file === IMG + LATEST.id; }); if (li >= 0) LATEST.index = li; }
   var latestItem = ITEMS[LATEST.set].splice(LATEST.index, 1)[0];
   latestItem.isNew = true; latestItem.video = LATEST.video;
   ITEMS[LATEST.set].unshift(latestItem);
