@@ -1,6 +1,11 @@
 {
  "latest": [
   {
+   "id": "lI4Hrw4Nmgw",
+   "title": "iPadOS 27.2 sau 6 ngày?",
+   "published": "2026-11-02T02:30:14+00:00"
+  },
+  {
    "id": "MBK9y6fXIcQ",
    "title": "iOS 27.2 sau 4 ngày?",
    "published": "2026-10-31T08:45:10+00:00"
@@ -24,11 +29,6 @@
    "id": "RGW1lwRUCuM",
    "title": "iOS 27.2 RC sau vài ngày?",
    "published": "2026-10-24T07:45:39+00:00"
-  },
-  {
-   "id": "w5DG2i-cS0o",
-   "title": "So sánh củ sạc dynamic 40W-60W và củ sạc 65W cho iPhone 18 pro max",
-   "published": "2026-10-23T06:30:04+00:00"
   }
  ],
  "tips": [
@@ -240,6 +240,12 @@
     "title": "iPadOS 27.2 chính thức có gì mới?",
     "kind": "moi",
     "published": "2026-10-27T06:45:23+00:00"
+   },
+   {
+    "id": "lI4Hrw4Nmgw",
+    "title": "iPadOS 27.2 sau 6 ngày?",
+    "kind": "sau",
+    "published": "2026-11-02T02:30:14+00:00"
    }
   ],
   "ios 27.2": [
