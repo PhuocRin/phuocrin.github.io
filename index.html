@@ -444,10 +444,13 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 
 /* thanh menu: 6 mục, máy hẹp thì gọn lại (Hợp tác ẩn dưới 720px, "Mời cà phê" thành "Cà phê" dưới 520px) */
 .lnk-cf .ts{display:none}
-@media (max-width:720px){.nav a.lnk-hide{display:none}.brand span:not(.orb){display:none}.brand{padding:6px}}
+@media (max-width:820px){.nav a.lnk-hide{display:none}}
+@media (max-width:720px){.brand span:not(.orb){display:none}.brand{padding:6px}}
 @media (max-width:520px){.lnk-cf .tl{display:none}.lnk-cf .ts{display:inline}.nav .glass{gap:0;padding:5px}.nav a.lnk{font-size:13px;padding:0 7px}.brand{padding:4px}}
 @media (max-width:400px){.nav a.lnk{font-size:12.5px;padding:0 5px}.orb{width:22px;height:22px}}
 @media (max-width:350px){.nav a.lnk{font-size:12px;padding:0 4px}.nav a.lnk-vid{display:none}}
+/* thanh menu chật trên điện thoại: ẩn "Đồ dùng" (mục này vẫn nằm trên trang khi cuộn) */
+@media (max-width:520px){.nav a.lnk-gear{display:none}}
 @media (max-width:360px){.me>span{min-width:0}.me small{font-size:11px;letter-spacing:0}}
 
 /* Spatial Scene: nhãn trên thẻ + lớp chủ thể đè lên đồng hồ trong trình xem */
@@ -472,8 +475,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
       <a class="lnk" href="#hinh-nen">Hình nền</a>
       <a class="lnk lnk-cf" href="#cafe" aria-label="Mời Phước ly cà phê"><span aria-hidden="true">☕</span><span class="t"> <span class="tl">Mời cà phê</span><span class="ts">Cà phê</span></span></a>
       <a class="lnk lnk-vid" href="#video">Video</a>
-      <a class="lnk" href="#do-dung">Đồ dùng</a>
+      <a class="lnk lnk-gear" href="#do-dung">Đồ dùng</a>
       <a class="lnk lnk-fw" href="firmware/">Firmware</a>
+      <a class="lnk lnk-rd" href="rindock/">RinDock</a>
       <a class="lnk lnk-hide" href="#hop-tac">Hợp tác</a>
     </div>
   </nav>
