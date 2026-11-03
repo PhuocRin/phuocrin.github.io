@@ -246,6 +246,9 @@ h2{margin:0;font-weight:800;font-size:clamp(30px,5vw,46px);line-height:1.16;lett
 .fwcard h3{margin:8px 0 0;font-size:clamp(22px,3.6vw,28px);line-height:1.2;letter-spacing:-.025em}
 .fwcard p{margin:8px 0 0;color:var(--muted);max-width:56ch}
 .fwcard .btn{justify-self:start}
+.rdcard{display:flex;gap:16px;align-items:flex-start;min-width:0}
+.rdcard img{flex:none;width:72px;height:72px;filter:drop-shadow(0 10px 20px rgba(80,70,200,.3))}
+.rdcard>div{min-width:0}
 /* coffee */
 .coffee{display:grid;gap:20px;align-items:center;padding:24px;max-width:680px}
 .qr{aspect-ratio:1;max-width:100%;border-radius:20px;border:1.5px dashed var(--glass-line);display:grid;place-items:center;text-align:center;font-size:11.5px;line-height:1.35;color:var(--muted);padding:8px}
@@ -573,6 +576,18 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     <a class="btn btn-solid" href="firmware/">Mở trang firmware</a>
   </section>
 
+  <section class="fwcard glass" id="rindock" aria-labelledby="t-rd">
+    <div class="rdcard">
+      <img src="img/rindock-icon.png" srcset="img/rindock-icon.png 1x, img/rindock-icon@2x.png 2x" width="72" height="72" alt="" loading="lazy">
+      <div>
+        <span class="kicker">App Mac của mình</span>
+        <h3 id="t-rd">RinDock: bấm Dock để thu nhỏ app</h3>
+        <p>Bấm icon app trên Dock là thu nhỏ, bấm lại là hiện lên, giống taskbar trên Windows. Miễn phí, mã nguồn mở, chạy trên Mac chip Apple và Intel.</p>
+      </div>
+    </div>
+    <a class="btn btn-solid" href="rindock/">Xem và tải RinDock</a>
+  </section>
+
   <section id="do-dung" aria-labelledby="t-gear">
     <div class="head">
       <div class="head-t">
@@ -621,7 +636,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 
   <footer>
     <span>© 2026 Phước Rin · Hình nền dùng miễn phí cho máy cá nhân.</span>
-    <a href="firmware/" style="color:inherit">Tải firmware iOS, macOS</a>
+    <span><a href="rindock/" style="color:inherit">RinDock cho Mac</a> · <a href="firmware/" style="color:inherit">Tải firmware iOS, macOS</a></span>
   </footer>
 </div>
 
