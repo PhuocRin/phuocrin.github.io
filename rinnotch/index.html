@@ -235,42 +235,100 @@ footer a{color:var(--muted)}
 .fwcard .btn{justify-self:start}
 
 
-/* minh hoạ: tai thỏ bung ra → dạng gọn khi phát nhạc → rê chuột vào thì mở rộng (CSS thuần) */
-.demo{padding:clamp(16px,3vw,26px);display:grid;gap:12px;justify-items:center}
-.scene{position:relative;width:100%;max-width:620px;aspect-ratio:16/10;border-radius:22px;overflow:hidden;
+/* minh hoạ 24 giây, 6 cảnh: nhạc gọn → nhạc bung → kéo file vào kệ → tai nghe → cắm sạc → hẹn giờ (CSS thuần) */
+.demo{padding:clamp(16px,3vw,26px);display:grid;gap:14px;justify-items:center}
+.scene{position:relative;width:100%;max-width:640px;aspect-ratio:16/10;border-radius:22px;overflow:hidden;container-type:inline-size;
   background:radial-gradient(60% 70% at 18% 20%,var(--aura-1),transparent 70%),radial-gradient(55% 65% at 85% 25%,var(--aura-2),transparent 70%),radial-gradient(60% 70% at 60% 95%,var(--aura-4),transparent 70%),var(--bg);
   box-shadow:inset 0 0 0 1px var(--glass-line)}
 .mbar{position:absolute;left:0;right:0;top:0;height:6.4%;background:var(--glass);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
-.nt{position:absolute;left:50%;top:0;width:22%;height:6.4%;transform:translateX(-50%);background:#000;border-radius:0 0 14px 14px;overflow:hidden;
-  box-shadow:0 14px 30px -14px rgba(0,0,0,.6);animation:ntBox 9s cubic-bezier(.32,1.25,.5,1) infinite}
-.nt .cmp,.nt .exp{position:absolute;inset:0;opacity:0}
-.nt .cmp{animation:ntCmp 9s ease infinite}
-.nt .exp{animation:ntExp 9s ease infinite}
-.cmp .art{position:absolute;left:5%;top:18%;height:64%;aspect-ratio:1;border-radius:22%;background:linear-gradient(135deg,#ffb547,#ff4f8b)}
-.cmp .eq{position:absolute;right:5%;top:22%;height:56%;display:flex;gap:2px;align-items:center}
-.cmp .eq s{display:block;width:3px;border-radius:2px;background:#fff;animation:eq .5s ease-in-out infinite alternate}
-.cmp .eq s:nth-child(1){height:50%}.cmp .eq s:nth-child(2){height:90%;animation-delay:-.2s}.cmp .eq s:nth-child(3){height:60%;animation-delay:-.35s}.cmp .eq s:nth-child(4){height:80%;animation-delay:-.1s}
+.mbar::before,.mbar::after{content:"";position:absolute;top:35%;height:30%;border-radius:4px;background:var(--ink);opacity:.25}
+.mbar::before{left:3%;width:14%}.mbar::after{right:3%;width:10%}
+.desk{position:absolute;left:8%;bottom:10%;display:grid;gap:3cqw;justify-items:center}
+.desk i{display:block;width:7cqw;height:8.5cqw;border-radius:1cqw;background:linear-gradient(160deg,#fff,#dfe6f5);box-shadow:0 6px 14px -6px rgba(0,0,0,.4)}
+.desk i:nth-child(2){background:linear-gradient(160deg,#9ec5ff,#5b7cfa)}
+.nt{position:absolute;left:50%;top:0;width:22%;height:6.4%;transform:translateX(-50%);background:#000;border-radius:0 0 2.4cqw 2.4cqw;overflow:hidden;color:#fff;
+  box-shadow:0 2cqw 4cqw -2cqw rgba(0,0,0,.6);animation:ntBox 24s cubic-bezier(.32,1.2,.5,1) infinite}
+.ly{position:absolute;inset:0;opacity:0;animation:24s ease infinite}
+.ly.l1{animation-name:v1}.ly.l2{animation-name:v2}.ly.l3{animation-name:v3}.ly.l4{animation-name:v4}.ly.l5{animation-name:v5}.ly.l6{animation-name:v6}
+/* nhạc gọn */
+.l1 .art{position:absolute;left:5%;top:18%;height:64%;aspect-ratio:1;border-radius:22%;background:linear-gradient(135deg,#ffb547,#ff4f8b)}
+.eq{position:absolute;right:5%;top:22%;height:56%;display:flex;gap:2px;align-items:center}
+.eq s{display:block;width:3px;border-radius:2px;background:#fff;animation:eq .5s ease-in-out infinite alternate}
+.eq s:nth-child(1){height:50%}.eq s:nth-child(2){height:90%;animation-delay:-.2s}.eq s:nth-child(3){height:60%;animation-delay:-.35s}.eq s:nth-child(4){height:80%;animation-delay:-.1s}
 @keyframes eq{from{transform:scaleY(.35)}to{transform:scaleY(1)}}
-.exp .tabs{position:absolute;left:5%;top:16%;display:flex;gap:2.5%;width:70%}
-.exp .tabs i{display:block;height:16px;flex:0 0 9%;border-radius:999px;background:rgba(255,255,255,.12)}
-.exp .tabs i:first-child{flex-basis:20%;background:rgba(255,255,255,.28)}
-.exp .big{position:absolute;left:5%;top:36%;width:20%;aspect-ratio:1;border-radius:16%;background:linear-gradient(135deg,#ffb547,#ff4f8b);box-shadow:0 8px 18px -8px rgba(0,0,0,.8)}
-.exp .ln{position:absolute;left:30%;height:7%;border-radius:999px;background:#fff}
-.exp .ln.a{top:40%;width:34%}.exp .ln.b{top:52%;width:22%;background:rgba(255,255,255,.45)}
-.exp .bar{position:absolute;left:30%;top:66%;width:60%;height:4%;border-radius:999px;background:rgba(255,255,255,.2);overflow:hidden}
-.exp .bar::after{content:"";position:absolute;inset:0;width:40%;background:#fff;border-radius:inherit;animation:prog 9s linear infinite}
-@keyframes prog{0%,45%{width:38%}80%,100%{width:52%}}
-.exp .ctl{position:absolute;left:44%;top:76%;display:flex;gap:12%;width:30%;justify-content:center;color:#fff;font-size:clamp(10px,2.2vw,15px)}
-.cur{position:absolute;width:clamp(16px,3.4vw,24px);left:0;top:0;transform-origin:20% 10%;filter:drop-shadow(0 2px 3px rgba(0,0,0,.35));animation:ntCur 9s cubic-bezier(.45,0,.25,1) infinite}
+/* thanh mục khi bung */
+.tabs{position:absolute;left:5%;top:15%;display:flex;gap:1.4cqw;align-items:center}
+.tabs i{display:block;height:3.2cqw;width:4.6cqw;border-radius:999px;background:rgba(255,255,255,.12)}
+.tabs i.on{width:11cqw;background:rgba(255,255,255,.3)}
+/* nhạc bung */
+.l2 .big{position:absolute;left:5%;top:34%;width:21%;aspect-ratio:1;border-radius:16%;background:linear-gradient(135deg,#ffb547,#ff4f8b);box-shadow:0 8px 18px -8px rgba(0,0,0,.8)}
+.ln{position:absolute;height:3.4%;border-radius:999px;background:#fff}
+.l2 .ln.a{left:31%;top:38%;width:30%}.l2 .ln.b{left:31%;top:48%;width:19%;background:rgba(255,255,255,.45)}
+.l2 .bar{position:absolute;left:31%;top:62%;width:60%;height:3%;border-radius:999px;background:rgba(255,255,255,.2);overflow:hidden}
+.l2 .bar::after{content:"";position:absolute;inset:0;width:30%;background:#fff;border-radius:inherit;animation:prog 24s linear infinite}
+@keyframes prog{0%,17%{width:30%}33%,100%{width:46%}}
+.l2 .ctl{position:absolute;left:46%;top:72%;width:30%;display:flex;justify-content:space-between;font-size:3cqw;line-height:1}
+/* kệ file */
+.l3 .drop{position:absolute;left:5%;right:5%;top:32%;bottom:12%;border:2px dashed rgba(255,255,255,.35);border-radius:3cqw}
+.l3 .th{position:absolute;top:40%;width:13%;aspect-ratio:4/5;border-radius:1.4cqw;background:linear-gradient(160deg,#fff,#dfe6f5)}
+.l3 .th.t1{left:10%}.l3 .th.t2{left:27%;background:linear-gradient(160deg,#9ec5ff,#5b7cfa);animation:pop 24s ease infinite}
+.l3 .cap2{position:absolute;left:45%;top:48%;width:40%;height:3.4%;border-radius:999px;background:rgba(255,255,255,.35)}
+@keyframes pop{0%,40%{transform:scale(.4);opacity:0}42%{transform:scale(1.08);opacity:1}44%,100%{transform:none;opacity:1}}
+.fly{position:absolute;width:7cqw;height:8.5cqw;border-radius:1cqw;background:linear-gradient(160deg,#9ec5ff,#5b7cfa);box-shadow:0 10px 20px -8px rgba(0,0,0,.5);opacity:0;animation:fly 24s cubic-bezier(.45,0,.25,1) infinite}
+@keyframes fly{0%,34%{left:8%;top:72%;opacity:0}35%{opacity:1}40%{left:46.5%;top:3%;opacity:1;transform:scale(.7)}41%,100%{left:46.5%;top:3%;opacity:0;transform:scale(.5)}}
+/* banner tai nghe */
+.l4 .pods{position:absolute;left:7%;top:38%;width:13%;aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 40%,#fff 0 18%,transparent 19%),radial-gradient(circle at 65% 40%,#fff 0 18%,transparent 19%),linear-gradient(#fff,#fff) 38% 75%/7% 40% no-repeat,linear-gradient(#fff,#fff) 62% 75%/7% 40% no-repeat}
+.l4 .ln.a{left:25%;top:42%;width:42%}
+.l4 .chips{position:absolute;left:25%;top:62%;display:flex;gap:2cqw}
+.l4 .chips i{display:block;width:8cqw;height:2.6cqw;border-radius:999px;background:rgba(48,209,88,.85)}
+.l4 .chips i:last-child{width:10cqw;background:rgba(48,209,88,.55)}
+/* banner sạc */
+.l5 .bat{position:absolute;left:7%;top:42%;width:16%;height:28%;border:2px solid rgba(255,255,255,.55);border-radius:1.4cqw;box-sizing:border-box;padding:3px}
+.l5 .bat::after{content:"";display:block;height:100%;border-radius:.8cqw;background:#30d158;animation:fill 24s ease infinite}
+@keyframes fill{0%,69%{width:8%}76%,100%{width:72%}}
+.l5 .ln.a{left:28%;top:44%;width:24%;background:#30d158}
+.l5 .ln.b{left:28%;top:58%;width:30%;background:rgba(255,255,255,.4)}
+.l5 .pct{position:absolute;right:7%;top:38%;font:700 6cqw/1 var(--f-body);color:#30d158}
+/* hẹn giờ gọn */
+.l6 .tm{position:absolute;left:6%;top:20%;font:700 2.6cqw/1 var(--f-mono);color:#ff9f0a;display:flex;align-items:center;gap:1cqw;height:60%}
+.l6 .ring{position:absolute;right:6%;top:20%;height:60%;aspect-ratio:1;border-radius:50%;background:conic-gradient(#ff9f0a 0 72%,rgba(255,255,255,.18) 72% 100%);-webkit-mask:radial-gradient(circle,transparent 52%,#000 54%);mask:radial-gradient(circle,transparent 52%,#000 54%)}
+.cur{position:absolute;width:clamp(16px,3.4cqw,24px);left:0;top:0;transform-origin:20% 10%;filter:drop-shadow(0 2px 3px rgba(0,0,0,.35));animation:cur 24s cubic-bezier(.45,0,.25,1) infinite;z-index:3}
 @keyframes ntBox{
-  0%,12%{width:22%;height:6.4%;border-radius:0 0 14px 14px}
-  18%,40%{width:44%;height:6.4%;border-radius:0 0 16px 16px}
-  48%,80%{width:76%;height:56%;border-radius:0 0 30px 30px}
-  88%,100%{width:22%;height:6.4%;border-radius:0 0 14px 14px}}
-@keyframes ntCmp{0%,14%{opacity:0}19%,40%{opacity:1}44%,100%{opacity:0}}
-@keyframes ntExp{0%,48%{opacity:0}53%,78%{opacity:1}82%,100%{opacity:0}}
-@keyframes ntCur{0%,30%{left:72%;top:66%}44%{left:52%;top:4%}80%{left:56%;top:40%}92%,100%{left:72%;top:66%}}
-@media (prefers-reduced-motion:reduce){.nt,.nt .exp,.nt .cmp,.cur,.cmp .eq s,.exp .bar::after{animation:none}.nt{width:76%;height:56%;border-radius:0 0 30px 30px}.nt .exp{opacity:1}.cur{left:56%;top:40%}}
+  0%{width:22%;height:6.4%;border-radius:0 0 2.4cqw 2.4cqw}
+  2.5%,15.5%{width:44%;height:6.4%;border-radius:0 0 2.6cqw 2.6cqw}
+  18%,31.5%{width:76%;height:56%;border-radius:0 0 5cqw 5cqw}
+  33.5%,39%{width:22%;height:6.4%;border-radius:0 0 2.4cqw 2.4cqw}
+  40.5%,48.5%{width:76%;height:56%;border-radius:0 0 5cqw 5cqw}
+  50%{width:22%;height:6.4%;border-radius:0 0 2.4cqw 2.4cqw}
+  52%,64.5%{width:56%;height:24%;border-radius:0 0 4.5cqw 4.5cqw}
+  66.5%{width:22%;height:6.4%;border-radius:0 0 2.4cqw 2.4cqw}
+  68.5%,81.5%{width:56%;height:24%;border-radius:0 0 4.5cqw 4.5cqw}
+  83.5%{width:22%;height:6.4%;border-radius:0 0 2.4cqw 2.4cqw}
+  85.5%,98%{width:44%;height:6.4%;border-radius:0 0 2.6cqw 2.6cqw}
+  100%{width:22%;height:6.4%;border-radius:0 0 2.4cqw 2.4cqw}}
+@keyframes v1{0%,3%{opacity:0}5%,15%{opacity:1}16.5%,100%{opacity:0}}
+@keyframes v2{0%,19%{opacity:0}21%,31%{opacity:1}32.5%,100%{opacity:0}}
+@keyframes v3{0%,40.5%{opacity:0}42%,48%{opacity:1}49.5%,100%{opacity:0}}
+@keyframes v4{0%,53%{opacity:0}55%,64%{opacity:1}65.5%,100%{opacity:0}}
+@keyframes v5{0%,69.5%{opacity:0}71.5%,81%{opacity:1}82.5%,100%{opacity:0}}
+@keyframes v6{0%,86%{opacity:0}88%,97.5%{opacity:1}99%,100%{opacity:0}}
+@keyframes cur{
+  0%,8%{left:74%;top:70%}
+  16%{left:53%;top:4%}
+  20%,24%{left:58%;top:30%}
+  27%{left:61%;top:42%}29%{transform:scale(.85)}30%{transform:none}
+  34%{left:9%;top:74%}
+  40%{left:49%;top:6%}
+  46%{left:55%;top:36%}
+  52%,100%{left:74%;top:70%}}
+.feat-strip{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;max-width:640px}
+.feat-strip span{font-size:13px;font-weight:600;padding:6px 12px;border-radius:999px;color:var(--muted);background:var(--off-bg);animation:chip 24s linear infinite}
+.feat-strip span:nth-child(2){animation-delay:-20s}.feat-strip span:nth-child(3){animation-delay:-16s}
+.feat-strip span:nth-child(4){animation-delay:-12s}.feat-strip span:nth-child(5){animation-delay:-8s}.feat-strip span:nth-child(6){animation-delay:-4s}
+@keyframes chip{0%,16%{color:#fff;background:linear-gradient(135deg,#4084ff,#8a62ff)}16.7%,100%{color:var(--muted);background:var(--off-bg)}}
+@media (prefers-reduced-motion:reduce){
+  .nt,.ly,.cur,.fly,.eq s,.l2 .bar::after,.l3 .th.t2,.l5 .bat::after,.feat-strip span{animation:none}
+  .nt{width:76%;height:56%;border-radius:0 0 5cqw 5cqw}.ly.l2{opacity:1}.cur{left:58%;top:30%}}
 
 .shots{margin:0;padding:0;list-style:none;display:grid;gap:18px;counter-reset:sh}
 .shots li{display:grid;gap:10px;color:var(--muted);counter-increment:sh;align-items:start}
@@ -316,13 +374,20 @@ footer a{color:var(--muted)}
   <section class="demo glass" aria-label="Minh hoạ cách RinNotch hoạt động">
     <div class="scene" aria-hidden="true">
       <div class="mbar"></div>
+      <div class="desk"><i></i><i></i></div>
       <div class="nt">
-        <div class="cmp"><i class="art"></i><b class="eq"><s></s><s></s><s></s><s></s></b></div>
-        <div class="exp"><div class="tabs"><i></i><i></i><i></i><i></i><i></i><i></i></div><i class="big"></i><i class="ln a"></i><i class="ln b"></i><i class="bar"></i><div class="ctl"><span>◀◀</span><span>❚❚</span><span>▶▶</span></div></div>
+        <div class="ly l1"><i class="art"></i><b class="eq"><s></s><s></s><s></s><s></s></b></div>
+        <div class="ly l2"><div class="tabs"><i class="on"></i><i></i><i></i><i></i><i></i><i></i></div><i class="big"></i><i class="ln a"></i><i class="ln b"></i><i class="bar"></i><div class="ctl"><span>◀◀</span><span>❚❚</span><span>▶▶</span></div></div>
+        <div class="ly l3"><div class="tabs"><i></i><i class="on"></i><i></i><i></i><i></i><i></i></div><i class="drop"></i><i class="th t1"></i><i class="th t2"></i><i class="cap2"></i></div>
+        <div class="ly l4"><i class="pods"></i><i class="ln a"></i><div class="chips"><i></i><i></i><i></i></div></div>
+        <div class="ly l5"><i class="bat"></i><i class="ln a"></i><i class="ln b"></i><b class="pct">80%</b></div>
+        <div class="ly l6"><span class="tm">⏱ 04:59</span><i class="ring"></i></div>
       </div>
+      <i class="fly"></i>
       <svg class="cur" viewBox="0 0 24 30"><path d="M2 1.5v23.2l6.2-6 4 9.3 4.1-1.8-4-9.1h8.6z" fill="#fff" stroke="#151a2e" stroke-width="1.8" stroke-linejoin="round"/></svg>
     </div>
-    <p class="cap"><b>Đang phát nhạc</b>: hai bên tai thỏ hiện ảnh bìa và cột nhạc. <b>Rê chuột lên</b>: tai thỏ bung ra, điều khiển nhạc, mở kệ file, ghi chú… ngay tại chỗ.</p>
+    <div class="feat-strip" aria-hidden="true"><span>🎵 Đang phát</span><span>🎛️ Điều khiển nhạc</span><span>🗂️ Kéo file vào kệ</span><span>🎧 Tai nghe + pin</span><span>🔋 Cắm sạc</span><span>⏱️ Hẹn giờ</span></div>
+    <p class="cap">Tai thỏ <b>ôm hai bên</b> khi đang phát nhạc hay hẹn giờ, <b>bung ra</b> khi rê chuột lên hoặc kéo file vào, <b>thả xuống</b> báo khi cắm sạc hay kết nối tai nghe.</p>
   </section>
 
   <section aria-labelledby="t-feat" style="display:grid;gap:16px">
