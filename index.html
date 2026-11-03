@@ -451,6 +451,16 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 @media (max-width:350px){.nav a.lnk{font-size:12px;padding:0 4px}.nav a.lnk-vid{display:none}}
 /* thanh menu chật trên điện thoại: ẩn "Đồ dùng" (mục này vẫn nằm trên trang khi cuộn) */
 @media (max-width:520px){.nav a.lnk-gear{display:none}}
+/* thẻ App Mac của mình */
+.applist{display:grid;gap:10px;margin-top:14px}
+.applist a{display:flex;align-items:center;gap:14px;padding:10px 14px 10px 10px;border-radius:20px;background:var(--lg-fill);box-shadow:inset 0 1px 1px var(--lg-hi),inset 0 -1px 2px var(--lg-lo);color:var(--ink);text-decoration:none;min-height:44px}
+.applist img{width:56px;height:56px;flex:none;filter:drop-shadow(0 8px 16px rgba(80,70,200,.25))}
+.applist span{display:grid;gap:2px;min-width:0}
+.applist b{font-size:16px}
+.applist small{font-size:13.5px;color:var(--muted);line-height:1.4}
+@media (hover:hover){.applist a:hover{background:var(--seg-on)}}
+/* "Ứng dụng" dài hơn "RinDock": gọn thêm ở máy rất hẹp */
+@media (max-width:380px){.nav a.lnk{font-size:12px;padding:0 4px}}
 @media (max-width:360px){.me>span{min-width:0}.me small{font-size:11px;letter-spacing:0}}
 
 /* Spatial Scene: nhãn trên thẻ + lớp chủ thể đè lên đồng hồ trong trình xem */
@@ -477,7 +487,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
       <a class="lnk lnk-vid" href="#video">Video</a>
       <a class="lnk lnk-gear" href="#do-dung">Đồ dùng</a>
       <a class="lnk lnk-fw" href="firmware/">Firmware</a>
-      <a class="lnk lnk-rd" href="rindock/">RinDock</a>
+      <a class="lnk lnk-rd" href="ung-dung/">Ứng dụng</a>
       <a class="lnk lnk-hide" href="#hop-tac">Hợp tác</a>
     </div>
   </nav>
@@ -581,15 +591,15 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   </section>
 
   <section class="fwcard glass" id="rindock" aria-labelledby="t-rd">
-    <div class="rdcard">
-      <img src="img/rindock-icon.png" srcset="img/rindock-icon.png 1x, img/rindock-icon@2x.png 2x" width="72" height="72" alt="" loading="lazy">
-      <div>
-        <span class="kicker">App Mac của mình</span>
-        <h3 id="t-rd">RinDock: bấm Dock để thu nhỏ app</h3>
-        <p>Bấm icon app trên Dock là thu nhỏ, bấm lại là hiện lên, giống taskbar trên Windows. Miễn phí, mã nguồn mở, chạy trên Mac chip Apple và Intel.</p>
+    <div>
+      <span class="kicker">App Mac của mình</span>
+      <h3 id="t-rd">App Mac miễn phí mình làm</h3>
+      <div class="applist">
+        <a href="rinnotch/"><img src="img/rinnotch-icon.png" srcset="img/rinnotch-icon.png 1x, img/rinnotch-icon@2x.png 2x" width="56" height="56" alt="" loading="lazy"><span><b>RinNotch</b><small>Tai thỏ MacBook bung ra thành nhạc, kệ file, ghi chú, hẹn giờ</small></span></a>
+        <a href="rindock/"><img src="img/rindock-icon.png" srcset="img/rindock-icon.png 1x, img/rindock-icon@2x.png 2x" width="56" height="56" alt="" loading="lazy"><span><b>RinDock</b><small>Bấm Dock để thu nhỏ app, giống taskbar trên Windows</small></span></a>
       </div>
     </div>
-    <a class="btn btn-solid" href="rindock/">Xem và tải RinDock</a>
+    <a class="btn btn-solid" href="ung-dung/">Xem các app</a>
   </section>
 
   <section id="do-dung" aria-labelledby="t-gear">
@@ -640,7 +650,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 
   <footer>
     <span>© 2026 Phước Rin · Hình nền dùng miễn phí cho máy cá nhân.</span>
-    <span><a href="rindock/" style="color:inherit">RinDock cho Mac</a> · <a href="firmware/" style="color:inherit">Tải firmware iOS, macOS</a></span>
+    <span><a href="ung-dung/" style="color:inherit">App Mac: RinNotch, RinDock</a> · <a href="firmware/" style="color:inherit">Tải firmware iOS, macOS</a></span>
   </footer>
 </div>
 
