@@ -168,6 +168,14 @@ h3{margin:0;font-size:17px;line-height:1.3;letter-spacing:-.01em}
 .guide ol,.guide ul{margin:0;padding-left:20px;display:grid;gap:6px}
 .guide b,.guide strong{color:var(--ink)}
 .path{font:500 13.5px var(--f-mono);color:var(--ink);background:var(--off-bg);padding:2px 8px;border-radius:8px;overflow-wrap:anywhere}
+.tips{display:grid;gap:10px}
+.tips details{padding:4px 16px;border-radius:20px;background:var(--off-bg)}
+.tips summary{cursor:pointer;font-weight:600;font-size:16px;color:var(--ink);list-style:none;display:flex;align-items:center;gap:10px;min-height:48px}
+.tips summary::-webkit-details-marker{display:none}
+.tips summary::after{content:"";margin-left:auto;flex:none;width:8px;height:8px;margin-top:-4px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .2s}
+.tips details[open] summary::after{transform:rotate(-135deg);margin-top:4px}
+.tips details ul{padding-bottom:14px}
+@media (prefers-reduced-motion:reduce){.tips summary::after{transition:none}}
 .step{display:grid;gap:8px;padding:16px;border-radius:20px;background:var(--off-bg)}
 .warn{display:grid;gap:6px;padding:14px 16px;border-radius:18px;background:var(--rc-bg)}
 .warn p{color:var(--ink)}
@@ -394,7 +402,7 @@ footer a{color:var(--muted)}
     <h2 id="t-feat">RinNotch làm được gì</h2>
     <div class="feats">
       <div class="feat glass"><i aria-hidden="true">🎵</i><b>Nhạc và video</b><span>Ảnh bìa, tên bài, thanh thời lượng, nút lùi / phát / tới. Đang dừng YouTube mà Apple Music hay Spotify vẫn chạy thì tự chuyển qua bài đó.</span></div>
-      <div class="feat glass"><i aria-hidden="true">🗂️</i><b>Kệ file</b><span>Kéo file thả lên tai thỏ để giữ tạm, có ảnh xem trước. Kéo ra là sao chép, giữ ⌘ khi kéo là chuyển file, có nút AirDrop.</span></div>
+      <div class="feat glass"><i aria-hidden="true">🗂️</i><b>Kệ file</b><span>Kéo file thả lên tai thỏ để giữ tạm, có ảnh xem trước. Kéo chuột để chọn nhiều file, kéo ra là sao chép, giữ ⌘ khi kéo là chuyển file, có nút AirDrop.</span></div>
       <div class="feat glass"><i aria-hidden="true">📋</i><b>Bộ nhớ tạm</b><span>20 thứ bạn copy gần nhất, bấm một dòng là copy lại. Chỉ giữ trong máy, bỏ qua mật khẩu copy từ trình quản lý mật khẩu.</span></div>
       <div class="feat glass"><i aria-hidden="true">✍️</i><b>Ghi chú nhanh</b><span>Gõ ý tưởng ngay trên tai thỏ, ⌘ Enter là lưu thẳng vào app Notes, thư mục RinNotch, mở iPhone là thấy.</span></div>
       <div class="feat glass"><i aria-hidden="true">⏱️</i><b>Hẹn giờ</b><span>Bấm giờ chạy từ 00:00:00 hoặc đếm ngược 1 phút tới 1 giờ. Đang chạy thì giờ hiện hai bên tai thỏ, hết giờ có chuông.</span></div>
@@ -431,6 +439,56 @@ footer a{color:var(--muted)}
         <div><b>Bluetooth</b><span>Để đọc % pin AirPods khi kết nối.</span></div>
       </div>
       <p>Không dùng tính năng nào thì không bao giờ bị hỏi quyền đó. Các bản cập nhật sau RinNotch tự cài, không phải làm lại.</p>
+    </div>
+  </section>
+
+  <section class="guide glass" id="meo-dung" aria-labelledby="t-tips">
+    <span class="kicker">Mẹo dùng</span>
+    <h2 id="t-tips">Mấy thao tác nên biết</h2>
+    <p>Trong app cũng có sẵn phần này: bấm icon RinNotch trên thanh menu → <b>Mẹo dùng</b>, hoặc bấm nút <b>?</b> trên tai thỏ để xem đúng mục đang mở.</p>
+    <div class="tips">
+      <details open>
+        <summary><span aria-hidden="true">✨</span>Bắt đầu</summary>
+        <ul>
+          <li>Rê chuột lên tai thỏ để mở, rê ra ngoài là tự thu lại. Máy không có tai thỏ thì rê lên giữa cạnh trên màn hình.</li>
+          <li>Kéo file thả lên tai thỏ là mở ngay Kệ file.</li>
+          <li><b>⌥⌘N</b> để ẩn / hiện RinNotch, <b>Esc</b> để thu tai thỏ lại.</li>
+          <li>Icon RinNotch trên thanh menu có Cài đặt, Mở mục, Kiểm tra cập nhật, Báo lỗi.</li>
+        </ul>
+      </details>
+      <details>
+        <summary><span aria-hidden="true">🗂️</span>Kệ file</summary>
+        <ul>
+          <li>Kéo file ra là <b>sao chép</b>. Giữ <b>⌘</b> rồi mới kéo là <b>chuyển file</b>, chuyển xong file tự rời kệ.</li>
+          <li>Kéo chuột trên chỗ trống để <b>chọn nhiều file</b>, rồi kéo cả nhóm ra cùng lúc.</li>
+          <li><b>⌘ + bấm</b> để chọn thêm hoặc bỏ một file, <b>⇧ + bấm</b> để chọn liền một dãy. Bấm chỗ trống để bỏ chọn.</li>
+          <li>Bấm đúp để mở. Chuột phải: Mở, AirDrop, Sao chép, Hiện trong Finder, Chọn tất cả, Bỏ khỏi kệ.</li>
+          <li>RinNotch chỉ nhớ vị trí file, không sao chép thêm bản nào nên không tốn dung lượng.</li>
+        </ul>
+      </details>
+      <details>
+        <summary><span aria-hidden="true">🎵</span>Nhạc và video</summary>
+        <ul>
+          <li>Bấm vào thanh thời lượng để tua tới chỗ đó.</li>
+          <li>Đang phát thì tai thỏ hiện gọn hai bên, không cần mở ra. Không thích thì tắt trong Cài đặt.</li>
+          <li>macOS chỉ chọn một app "Đang phát". App đó dừng mà Apple Music hoặc Spotify đang phát thì RinNotch tự chuyển qua.</li>
+        </ul>
+      </details>
+      <details>
+        <summary><span aria-hidden="true">✍️</span>Ghi chú và bộ nhớ tạm</summary>
+        <ul>
+          <li>Ghi chú: <b>Enter</b> xuống dòng, <b>⌘ Enter</b> lưu vào app Notes, thư mục RinNotch.</li>
+          <li>Bộ nhớ tạm giữ 20 thứ copy gần nhất, bấm một dòng là copy lại. Thoát app là xoá hết.</li>
+        </ul>
+      </details>
+      <details>
+        <summary><span aria-hidden="true">🔔</span>Thông báo và hẹn giờ</summary>
+        <ul>
+          <li>Tai nghe, cắm / rút sạc, pin yếu và hết giờ đếm ngược đều thả xuống từ tai thỏ.</li>
+          <li>App đang ghi âm thì tai thỏ hiện sóng âm và thời gian (sóng âm cần quyền micro).</li>
+          <li>Bật / tắt từng loại trong <span class="path">icon RinNotch → Cài đặt…</span></li>
+        </ul>
+      </details>
     </div>
   </section>
 
