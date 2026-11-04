@@ -1,6 +1,11 @@
 {
  "latest": [
   {
+   "id": "Qoa9E6-dZiY",
+   "title": "iOS 27.3 beta 1 có gì mới?",
+   "published": "2026-11-04T02:20:16+00:00"
+  },
+  {
    "id": "lI4Hrw4Nmgw",
    "title": "iPadOS 27.2 sau 6 ngày?",
    "published": "2026-11-02T02:30:14+00:00"
@@ -24,11 +29,6 @@
    "id": "adea--VvSTo",
    "title": "iOS 27.2 chính thức có gì mới?",
    "published": "2026-10-27T01:10:33+00:00"
-  },
-  {
-   "id": "RGW1lwRUCuM",
-   "title": "iOS 27.2 RC sau vài ngày?",
-   "published": "2026-10-24T07:45:39+00:00"
   }
  ],
  "tips": [
@@ -268,6 +268,14 @@
     "title": "macOS 27.2 chính thức có gì mới?",
     "kind": "moi",
     "published": "2026-10-28T07:45:02+00:00"
+   }
+  ],
+  "ios 27.3 beta": [
+   {
+    "id": "Qoa9E6-dZiY",
+    "title": "iOS 27.3 beta 1 có gì mới?",
+    "kind": "moi",
+    "published": "2026-11-04T02:20:16+00:00"
    }
   ]
  }
