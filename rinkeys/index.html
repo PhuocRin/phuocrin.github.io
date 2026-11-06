@@ -1,0 +1,539 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>RinKeys: xem mọi phím tắt của app đang dùng · Phước Rin</title>
+<meta name="description" content="RinKeys là app Mac miễn phí của Phước Rin: nhấn ⌘ hai lần là hiện toàn bộ phím tắt của app đang dùng, tìm nhanh, bấm để chạy lệnh, dịch tên lệnh sang tiếng Việt và lưu thành ảnh. macOS 14 trở lên.">
+<meta name="theme-color" content="#edf1f7" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0b0f17" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://phuocrin.com/rinkeys/">
+<link rel="icon" href="../favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="../img/icon-pr-32.png?v=3">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png?v=3">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Phước Rin">
+<meta property="og:title" content="RinKeys: xem mọi phím tắt của app đang dùng · Phước Rin">
+<meta property="og:description" content="App Mac miễn phí: nhấn ⌘ hai lần là thấy hết phím tắt của Final Cut Pro, Photoshop, Safari… tìm nhanh, dịch tiếng Việt, lưu thành ảnh.">
+<meta property="og:url" content="https://phuocrin.com/rinkeys/">
+<meta property="og:image" content="https://phuocrin.com/img/og-rinkeys.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="RinKeys: xem toàn bộ phím tắt của app đang dùng, tại phuocrin.com/rinkeys">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Trang RinKeys: cùng hệ kính mờ với trang chủ, firmware, RinDock và RinNotch. */
+:root{
+  --bg:#edf1f7; --ink:#0b1220; --muted:#5a6477; --accent:#2a6cf0;
+  --glass:rgba(255,255,255,.56); --glass-solid:rgba(255,255,255,.9); --glass-hi:rgba(255,255,255,.9); --glass-line:rgba(18,30,55,.09);
+  --spec:rgba(255,255,255,.55); --shadow:rgba(30,45,80,.28); --seg-on:#ffffff;
+  --aura-1:#8fd0ff; --aura-2:#c5b2ff; --aura-3:#ffcfe3; --aura-4:#9cecd2;
+  --lg-fill:rgba(255,255,255,.38); --lg-hi:rgba(255,255,255,.95); --lg-lo:rgba(20,30,60,.10); --lg-sheen:.9; --lg-rimop:.9;
+  --coffee-ink:#b2580c;
+  --ok:#14834a; --ok-bg:rgba(30,170,95,.14); --off:#6b7385; --off-bg:rgba(100,110,130,.12);
+  --beta:#6d3fd6; --beta-bg:rgba(120,80,240,.13); --rc:#b0570b; --rc-bg:rgba(255,150,60,.16);
+  --f-body:"Be Vietnam Pro",-apple-system,"Segoe UI",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#05070d; --ink:#eef2f9; --muted:#98a2b6; --accent:#8cc6ff;
+  --glass:rgba(255,255,255,.065); --glass-solid:rgba(22,26,36,.92); --glass-hi:rgba(255,255,255,.22); --glass-line:rgba(255,255,255,.1);
+  --spec:rgba(255,255,255,.14); --shadow:rgba(0,0,0,.7); --seg-on:rgba(255,255,255,.16);
+  --aura-1:#1f4fd6; --aura-2:#6d35d8; --aura-3:#b8226f; --aura-4:#0c8a78;
+  --lg-fill:rgba(255,255,255,.09); --lg-hi:rgba(255,255,255,.38); --lg-lo:rgba(0,0,0,.45); --lg-sheen:.45; --lg-rimop:.5; --coffee-ink:#ffb46e;
+  --ok:#5fe0a0; --ok-bg:rgba(60,220,140,.14); --off:#9aa3b5; --off-bg:rgba(255,255,255,.08);
+  --beta:#c3a8ff; --beta-bg:rgba(150,110,255,.18); --rc:#ffbf80; --rc-bg:rgba(255,160,80,.16); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#05070d; --ink:#eef2f9; --muted:#98a2b6; --accent:#8cc6ff;
+  --glass:rgba(255,255,255,.065); --glass-solid:rgba(22,26,36,.92); --glass-hi:rgba(255,255,255,.22); --glass-line:rgba(255,255,255,.1);
+  --spec:rgba(255,255,255,.14); --shadow:rgba(0,0,0,.7); --seg-on:rgba(255,255,255,.16);
+  --aura-1:#1f4fd6; --aura-2:#6d35d8; --aura-3:#b8226f; --aura-4:#0c8a78;
+  --lg-fill:rgba(255,255,255,.09); --lg-hi:rgba(255,255,255,.38); --lg-lo:rgba(0,0,0,.45); --lg-sheen:.45; --lg-rimop:.5; --coffee-ink:#ffb46e;
+  --ok:#5fe0a0; --ok-bg:rgba(60,220,140,.14); --off:#9aa3b5; --off-bg:rgba(255,255,255,.08);
+  --beta:#c3a8ff; --beta-bg:rgba(150,110,255,.18); --rc:#ffbf80; --rc-bg:rgba(255,160,80,.16); color-scheme:dark}
+
+html{background:var(--bg)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+.aura{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.aura i{position:absolute;width:70vmax;height:70vmax;border-radius:50%;opacity:.55;animation:drift 28s ease-in-out infinite alternate}
+.aura i:nth-child(1){background:radial-gradient(circle,var(--aura-1) 0%,transparent 62%);top:-30vmax;left:-20vmax}
+.aura i:nth-child(2){background:radial-gradient(circle,var(--aura-2) 0%,transparent 62%);top:-10vmax;right:-30vmax;animation-duration:34s}
+.aura i:nth-child(3){background:radial-gradient(circle,var(--aura-3) 0%,transparent 62%);bottom:-35vmax;left:10vmax;animation-duration:40s}
+.aura i:nth-child(4){background:radial-gradient(circle,var(--aura-4) 0%,transparent 62%);bottom:-20vmax;right:-25vmax;animation-duration:31s;opacity:.4}
+@keyframes drift{from{transform:translate3d(0,0,0) scale(1)}to{transform:translate3d(6vmax,4vmax,0) scale(1.12)}}
+
+.glass{position:relative;background:var(--glass);-webkit-backdrop-filter:blur(26px) saturate(170%);backdrop-filter:blur(26px) saturate(170%);
+  border:1px solid var(--glass-line);border-radius:30px;box-shadow:inset 0 1px 0 var(--glass-hi),0 24px 60px -30px var(--shadow)}
+.glass::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(180deg,var(--spec),transparent 38%)}
+.glass>*{position:relative}
+@supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){.glass{background:var(--glass-solid)}}
+
+.page{position:relative;z-index:1;max-width:920px;margin:0 auto;padding-inline:16px;padding-block:14px 56px;display:grid;gap:clamp(28px,5vw,44px)}
+.page>*{min-width:0}
+
+/* nav */
+.nav{position:sticky;top:calc(env(safe-area-inset-top,0px) + 10px);z-index:20;display:flex;justify-content:center}
+.nav .glass{display:flex;align-items:center;gap:2px;padding:6px;border-radius:999px;max-width:100%}
+.brand{flex:none;display:flex;align-items:center;gap:8px;min-height:44px;box-sizing:border-box;padding:6px 12px 6px 8px;font-weight:700;font-size:15px;color:var(--ink);text-decoration:none;white-space:nowrap}
+.orb{width:26px;height:26px;border-radius:50%;flex:none;background:url(../img/logo-96.png) center/cover no-repeat;box-shadow:0 4px 14px -4px rgba(90,140,255,.7)}
+.nav a.lnk{color:var(--ink);text-decoration:none;font-size:14px;font-weight:500;padding:8px 13px;border-radius:999px;white-space:nowrap;opacity:.82;min-height:44px;box-sizing:border-box;display:inline-flex;align-items:center}
+.nav a.lnk:hover{opacity:1}
+.nav a.lnk[aria-current="page"]{opacity:1;font-weight:600;background:var(--lg-fill);box-shadow:inset 0 1px 1px var(--lg-hi),inset 0 -1px 2px var(--lg-lo)}
+.nav a.lnk-cf{color:var(--coffee-ink);font-weight:600}
+@media (max-width:520px){.brand span:not(.orb){display:none}.brand{padding:6px}.nav a.lnk{font-size:13px;padding:8px 9px}}
+
+
+/* head */
+.top{padding-top:clamp(12px,4vw,40px);display:grid;gap:14px}
+.kicker{font:500 12px var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+h1{margin:0;font-weight:800;font-size:clamp(34px,7vw,58px);line-height:1.18;letter-spacing:-.04em;text-wrap:balance}
+h1 em{font-style:normal;background:linear-gradient(95deg,#3d8bff 0%,#8b6bff 45%,#ff6fb1 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lede{margin:0;font-size:clamp(16px,2.2vw,18px);color:var(--muted);max-width:56ch}
+.facts{display:flex;flex-wrap:wrap;gap:8px}
+.fact{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:600;padding:8px 14px;border-radius:999px}
+.fact i{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 0 4px var(--ok-bg);flex:none}
+.fact small{font:500 12px var(--f-mono);color:var(--muted)}
+.fact.warn-f i{background:var(--rc);box-shadow:0 0 0 4px var(--rc-bg)}
+.stale{margin:0;font-size:14px;padding:12px 16px;border-radius:18px;background:var(--rc-bg);color:var(--ink);max-width:62ch}
+.fact small{font:500 12px var(--f-mono);color:var(--muted)}
+
+/* picker */
+.pick{padding:clamp(16px,3vw,24px);display:grid;gap:14px}
+.row{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+.seg{display:inline-flex;padding:4px;border-radius:999px;gap:2px;background:var(--off-bg)}
+.seg button{appearance:none;border:0;background:transparent;color:var(--ink);font:600 14px var(--f-body);min-height:40px;padding:0 18px;border-radius:999px;cursor:pointer;opacity:.7;white-space:nowrap}
+.seg button[aria-selected="true"]{background:var(--seg-on);opacity:1;box-shadow:inset 0 1px 0 var(--glass-hi),0 4px 14px -6px var(--shadow)}
+.seg button small{font:500 12px var(--f-mono);opacity:.7;margin-left:4px}
+.sel{position:relative;flex:1 1 240px;min-width:0}
+.sel select{appearance:none;-webkit-appearance:none;width:100%;min-height:48px;box-sizing:border-box;border-radius:16px;border:1px solid var(--glass-line);
+  background:var(--seg-on);color:var(--ink);font:600 16px var(--f-body);padding:0 44px 0 16px;box-shadow:inset 0 1px 0 var(--glass-hi);cursor:pointer;text-overflow:ellipsis}
+.sel::after{content:"";position:absolute;right:18px;top:50%;width:8px;height:8px;margin-top:-6px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);pointer-events:none}
+.devid{font:500 12.5px var(--f-mono);color:var(--muted)}
+.legend{margin:0;font-size:13px;color:var(--muted)}
+
+/* list */
+.list{display:grid;gap:10px}
+.fw{padding:16px 18px;border-radius:24px;display:grid;gap:10px;grid-template-columns:minmax(0,1fr) auto;align-items:center}
+.fw.off{opacity:.86}
+.fw-t{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.fw-t b{font-size:18px;letter-spacing:-.01em;line-height:1.3}
+.tag{font:700 11px var(--f-body);letter-spacing:.03em;padding:3px 9px;border-radius:999px;text-transform:uppercase}
+.tag.beta{color:var(--beta);background:var(--beta-bg)}.tag.rc{color:var(--rc);background:var(--rc-bg)}
+.st{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;padding:3px 10px 3px 8px;border-radius:999px}
+.st i{width:7px;height:7px;border-radius:50%;background:currentColor}
+.st.on{color:var(--ok);background:var(--ok-bg)}.st.no{color:var(--off);background:var(--off-bg)}
+.meta{font:500 12.5px var(--f-mono);color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 14px}
+.via{font-size:12px;color:var(--muted)}
+.vids{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.vchip{display:inline-flex;align-items:center;gap:7px;min-height:36px;box-sizing:border-box;padding:4px 12px 4px 6px;border-radius:999px;font-size:13px;font-weight:600;color:var(--ink);text-decoration:none;background:var(--off-bg);box-shadow:inset 0 0 0 1px var(--glass-line)}
+.vchip i{width:22px;height:22px;border-radius:50%;flex:none;background:linear-gradient(145deg,#ff5a52,#d7192a);position:relative}
+.vchip i::before{content:"";position:absolute;left:9px;top:7px;border-left:6px solid #fff;border-top:4px solid transparent;border-bottom:4px solid transparent}
+@media (hover:hover){.vchip:hover{background:var(--seg-on)}}
+.acts{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}
+@media (max-width:620px){.fw{grid-template-columns:minmax(0,1fr)}.acts{justify-content:flex-start}}
+.more{justify-self:center}
+.empty{padding:22px;border-radius:24px;color:var(--muted);text-align:center}
+.skel{height:86px;border-radius:24px;background:linear-gradient(100deg,var(--off-bg) 30%,var(--glass) 50%,var(--off-bg) 70%);background-size:220% 100%;animation:sh 1.6s linear infinite}
+@keyframes sh{from{background-position:120% 0}to{background-position:-120% 0}}
+
+/* buttons (liquid glass) */
+.btn{position:relative;display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:999px;min-height:44px;box-sizing:border-box;padding:0 18px;font:600 14.5px var(--f-body);
+  text-decoration:none;cursor:pointer;color:var(--ink);white-space:nowrap;
+  background:var(--lg-fill);-webkit-backdrop-filter:blur(18px) saturate(190%);backdrop-filter:blur(18px) saturate(190%);border:0;isolation:isolate;
+  box-shadow:inset 0 1px 1px var(--lg-hi),inset 0 -1px 2px var(--lg-lo),0 10px 26px -12px var(--shadow);transition:transform .2s cubic-bezier(.3,.7,.4,1.5),filter .2s}
+.btn::before{content:"";position:absolute;inset:0;border-radius:inherit;z-index:-1;pointer-events:none;opacity:var(--lg-sheen);
+  background:radial-gradient(120% 75% at 28% 0%,rgba(255,255,255,.75),rgba(255,255,255,.12) 46%,transparent 62%),linear-gradient(180deg,transparent 62%,rgba(255,255,255,.2))}
+.btn::after{content:"";position:absolute;inset:0;border-radius:inherit;padding:1px;pointer-events:none;opacity:var(--lg-rimop);
+  background:linear-gradient(140deg,rgba(255,255,255,.95),rgba(255,255,255,.18) 34%,rgba(255,255,255,.04) 62%,rgba(255,255,255,.6));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);mask-composite:exclude}
+.btn:active{transform:scale(.95);filter:brightness(1.1) saturate(1.15)}
+@media (hover:hover){.btn:hover{filter:brightness(1.06)}}
+.btn-solid{background:linear-gradient(135deg,rgba(64,132,255,.92),rgba(138,98,255,.9));color:#fff;
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.7),inset 0 -1px 2px rgba(20,10,80,.3),0 14px 32px -12px rgba(90,100,255,.75)}
+.btn-sm{min-height:44px;padding:0 14px;font-size:13.5px}
+a:focus-visible,button:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+
+/* guide */
+.guide{padding:clamp(18px,4vw,32px);display:grid;gap:16px}
+h2{margin:0;font-weight:800;font-size:clamp(24px,4.4vw,34px);line-height:1.18;letter-spacing:-.03em;text-wrap:balance}
+h3{margin:0;font-size:17px;line-height:1.3;letter-spacing:-.01em}
+.guide p,.guide li{color:var(--muted);font-size:15px}
+.guide p{margin:0}
+.guide ol,.guide ul{margin:0;padding-left:20px;display:grid;gap:6px}
+.guide b,.guide strong{color:var(--ink)}
+.path{font:500 13.5px var(--f-mono);color:var(--ink);background:var(--off-bg);padding:2px 8px;border-radius:8px;overflow-wrap:anywhere}
+.tips{display:grid;gap:10px}
+.tips details{padding:4px 16px;border-radius:20px;background:var(--off-bg)}
+.tips summary{cursor:pointer;font-weight:600;font-size:16px;color:var(--ink);list-style:none;display:flex;align-items:center;gap:10px;min-height:48px}
+.tips summary::-webkit-details-marker{display:none}
+.tips summary::after{content:"";margin-left:auto;flex:none;width:8px;height:8px;margin-top:-4px;border-right:2px solid var(--muted);border-bottom:2px solid var(--muted);transform:rotate(45deg);transition:transform .2s}
+.tips details[open] summary::after{transform:rotate(-135deg);margin-top:4px}
+.tips details ul{padding-bottom:14px}
+@media (prefers-reduced-motion:reduce){.tips summary::after{transition:none}}
+.step{display:grid;gap:8px;padding:16px;border-radius:20px;background:var(--off-bg)}
+.warn{display:grid;gap:6px;padding:14px 16px;border-radius:18px;background:var(--rc-bg)}
+.warn p{color:var(--ink)}
+.src{font-size:13px;color:var(--muted);display:grid;gap:6px}
+.src a,.guide a{color:var(--accent)}
+.downst{font-size:15.5px!important;color:var(--ink)!important;padding:14px 16px;border-radius:18px;background:var(--off-bg)}
+.downst b{color:inherit}
+.downst.ok{background:var(--ok-bg)}
+.vid{display:grid;grid-template-columns:minmax(0,180px) minmax(0,1fr);gap:14px;align-items:center;text-decoration:none;color:var(--ink);padding:10px;border-radius:22px;background:var(--off-bg)}
+@media (max-width:480px){.vid{grid-template-columns:minmax(0,1fr)}}
+.vth{position:relative;display:block;aspect-ratio:16/9;border-radius:14px;overflow:hidden;background:#000}
+.vth img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.play{position:absolute;left:50%;top:50%;width:48px;height:48px;margin:-24px 0 0 -24px;border-radius:50%;background:rgba(255,255,255,.35);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:inset 0 1px 0 rgba(255,255,255,.7)}
+.play::before{content:"";position:absolute;left:19px;top:14px;border-left:14px solid #fff;border-top:10px solid transparent;border-bottom:10px solid transparent}
+.vtx{display:grid;gap:4px;min-width:0}
+.vtx small{font:500 11.5px var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+.vtx b{font-size:16px;line-height:1.35}
+.vtx span{font-size:13px;color:var(--muted)}
+.kv{display:grid;gap:4px;margin:8px 0;padding:12px 14px;border-radius:14px;background:var(--off-bg);font:500 13.5px var(--f-mono);color:var(--ink)}
+.kv b{color:var(--accent)}
+footer{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px;font-size:13px;color:var(--muted);padding-top:20px;border-top:1px solid var(--glass-line)}
+footer a{color:var(--muted)}
+/* mở trong app (TikTok, Facebook…): app không tải được file IPSW, hiện khung hướng dẫn mở bằng trình duyệt */
+.mnote{display:none}
+@media (hover:none) and (pointer:coarse){.mnote{display:block}}
+.iab{position:fixed;inset:0;z-index:40;display:grid;place-items:center;padding:16px;background:rgba(10,12,20,.45)}
+.iab[hidden]{display:none}
+.iab-card{width:min(420px,100%);box-sizing:border-box;display:grid;gap:12px;padding:20px;border-radius:26px}
+.iab-card h2{margin:0;font-size:19px;line-height:1.25}
+.iab-card p{margin:0;font-size:14.5px;line-height:1.5;color:var(--muted)}
+.iab-card ol{margin:0;padding-left:20px;display:grid;gap:6px;font-size:14.5px;line-height:1.45;color:var(--ink)}
+.iab-acts{display:flex;flex-wrap:wrap;gap:8px}
+.iab-acts .btn{flex:1 1 140px}
+.toast{position:fixed;left:50%;bottom:calc(env(safe-area-inset-bottom,0px) + 22px);transform:translateX(-50%);z-index:30;padding:10px 18px;border-radius:999px;font-size:14px;font-weight:600}
+
+/* thanh menu: 6 mục, máy hẹp thì gọn lại (Hợp tác ẩn dưới 720px, "Mời cà phê" thành "Cà phê" dưới 520px) */
+.lnk-cf .ts{display:none}
+@media (max-width:720px){.nav a.lnk-hide{display:none}.brand span:not(.orb){display:none}.brand{padding:6px}}
+@media (max-width:520px){.lnk-cf .tl{display:none}.lnk-cf .ts{display:inline}.nav .glass{gap:0;padding:5px}.nav a.lnk{font-size:13px;padding:0 7px}.brand{padding:4px}}
+@media (max-width:400px){.nav a.lnk{font-size:12.5px;padding:0 5px}.orb{width:22px;height:22px}}
+@media (max-width:380px){.nav a.lnk{font-size:12px;padding:0 4px}}
+@media (max-width:350px){.nav a.lnk{font-size:12px;padding:0 4px}.nav a.lnk-vid{display:none}}
+
+/* App */
+.app{display:grid;gap:22px;align-items:center;padding-top:clamp(12px,4vw,40px)}
+@media (min-width:760px){.app{grid-template-columns:auto minmax(0,1fr);gap:32px}}
+.app-ic{width:clamp(112px,22vw,168px);height:auto;filter:drop-shadow(0 22px 40px rgba(80,70,200,.35))}
+.app-t{display:grid;gap:14px;min-width:0}
+.dl{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.dl .btn-solid{min-height:52px;padding:0 24px;font-size:16px}
+.ver{font:500 12.5px var(--f-mono);color:var(--muted)}
+.feats{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr))}
+.feat{padding:18px;border-radius:24px;display:grid;gap:6px;align-content:start}
+.feat b{font-size:16px;line-height:1.35}
+.feat span{font-size:14.5px;color:var(--muted)}
+.feat i{font-style:normal;font-size:22px;line-height:1}
+.tbl{display:grid;gap:8px}
+.tbl div{display:grid;grid-template-columns:minmax(0,150px) minmax(0,1fr);gap:10px;padding:12px 14px;border-radius:16px;background:var(--off-bg);font-size:14.5px}
+.tbl div b{color:var(--ink)}
+@media (max-width:480px){.tbl div{grid-template-columns:minmax(0,1fr)}}
+.fwcard{display:grid;gap:18px;align-items:center;padding:clamp(20px,4vw,32px)}
+@media (min-width:760px){.fwcard{grid-template-columns:minmax(0,1fr) auto}}
+.fwcard h3{margin:8px 0 0;font-size:clamp(22px,3.6vw,28px);line-height:1.2;letter-spacing:-.025em}
+.fwcard p{margin:8px 0 0;color:var(--muted);max-width:56ch}
+.fwcard .btn{justify-self:start}
+
+/* minh hoạ 20 giây, 4 cảnh (CSS thuần): nhấn ⌘ hai lần → bảng hiện ra → gõ tìm "blade" → bấm Dịch → bấm Lưu ảnh, ảnh bay ra màn hình */
+:root{--sc-panel:rgba(246,248,253,.74);--sc-card:rgba(255,255,255,.62);--sc-head:rgba(20,30,60,.07);--sc-line:rgba(20,30,60,.1);--sc-cap:rgba(20,30,60,.08);--sc-ink:#121a2e;--sc-mut:#69728a}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--sc-panel:rgba(34,38,50,.72);--sc-card:rgba(255,255,255,.06);--sc-head:rgba(255,255,255,.08);--sc-line:rgba(255,255,255,.1);--sc-cap:rgba(255,255,255,.1);--sc-ink:#eef2f9;--sc-mut:#9aa3b8}}
+:root[data-theme="dark"]{--sc-panel:rgba(34,38,50,.72);--sc-card:rgba(255,255,255,.06);--sc-head:rgba(255,255,255,.08);--sc-line:rgba(255,255,255,.1);--sc-cap:rgba(255,255,255,.1);--sc-ink:#eef2f9;--sc-mut:#9aa3b8}
+
+.demo{padding:clamp(16px,3vw,26px);display:grid;gap:14px;justify-items:center}
+.cap{margin:0;font-size:14.5px;color:var(--muted);text-align:center;max-width:60ch}
+.cap b{color:var(--ink)}
+.scene{position:relative;width:100%;max-width:680px;aspect-ratio:16/10;border-radius:22px;overflow:hidden;container-type:inline-size;
+  background:radial-gradient(60% 70% at 18% 20%,var(--aura-1),transparent 70%),radial-gradient(55% 65% at 85% 25%,var(--aura-2),transparent 70%),radial-gradient(60% 70% at 60% 95%,var(--aura-4),transparent 70%),var(--bg);
+  box-shadow:inset 0 0 0 1px var(--glass-line)}
+.mbar{position:absolute;left:0;right:0;top:0;height:5.6%;background:var(--glass);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+.mbar::before{content:"";position:absolute;left:3%;top:35%;width:16%;height:30%;border-radius:4px;background:var(--ink);opacity:.25}
+.mb-k{position:absolute;right:3%;top:16%;height:68%;aspect-ratio:1;border:.25cqw solid var(--ink);border-radius:.8cqw;box-sizing:border-box;display:grid;place-items:center;font:700 1.9cqw/1 var(--f-body);color:var(--ink);opacity:.75}
+/* cửa sổ app phía sau (kiểu Final Cut Pro) */
+.win{position:absolute;left:18%;right:4%;top:10%;bottom:6%;border-radius:1.6cqw;background:#1d2027;box-shadow:0 2cqw 5cqw -2cqw rgba(0,0,0,.55);overflow:hidden}
+.win-tb{position:absolute;left:0;right:0;top:0;height:7%;background:#2a2e37;display:flex;gap:.7cqw;align-items:center;padding-left:1.4cqw}
+.win-tb s{display:block;width:1.1cqw;height:1.1cqw;border-radius:50%;background:#ff5f57}.win-tb s:nth-child(2){background:#febc2e}.win-tb s:nth-child(3){background:#28c840}
+.win i{position:absolute;display:block;border-radius:.6cqw}
+.win .vw{left:30%;right:30%;top:12%;height:40%;background:linear-gradient(135deg,#3a4a7a,#7a4f9e 55%,#d07a6b)}
+.win .br{left:2%;width:24%;top:12%;height:40%;background:#262a33}
+.win .ins{right:2%;width:24%;top:12%;height:40%;background:#262a33}
+.win .t1{left:4%;width:52%;top:64%;height:9%;background:#3f6fd6}
+.win .t2{left:58%;width:30%;top:64%;height:9%;background:#7a5bd6}
+.win .t3{left:10%;width:40%;top:77%;height:7%;background:#2f9e74}
+.win .ph{left:42%;width:.3cqw;top:58%;bottom:6%;background:#ff3b30;border-radius:0}
+/* phím ⌘ được nhấn hai lần */
+.kb{position:absolute;left:50%;bottom:9%;display:flex;gap:2cqw;transform:translateX(-50%);opacity:0;animation:kbA 20s ease infinite;z-index:4}
+.kb b{display:grid;place-items:center;width:9cqw;height:8cqw;border-radius:1.8cqw;font:700 4.6cqw/1 var(--f-body);color:#1b2340;
+  background:linear-gradient(180deg,#fff,#e4e8f3);box-shadow:0 .7cqw 0 #b8c0d6,0 2cqw 3cqw -1cqw rgba(0,0,0,.45);animation:kPress 20s ease infinite}
+.kb b:nth-child(2){animation-name:kPress2}
+.kb small{position:absolute;left:50%;top:115%;transform:translateX(-50%);white-space:nowrap;font:600 2cqw/1 var(--f-body);color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.6)}
+@keyframes kbA{0%,2%{opacity:0;transform:translate(-50%,25%)}4%,17%{opacity:1;transform:translate(-50%,0)}20%,100%{opacity:0;transform:translate(-50%,25%)}}
+@keyframes kPress{0%,5%{transform:none;box-shadow:0 .7cqw 0 #b8c0d6,0 2cqw 3cqw -1cqw rgba(0,0,0,.45)}6%{transform:translateY(.6cqw);box-shadow:0 .1cqw 0 #b8c0d6,0 1cqw 2cqw -1cqw rgba(0,0,0,.45)}7.5%,100%{transform:none}}
+@keyframes kPress2{0%,9%{transform:none}10%,17%{transform:translateY(.6cqw);box-shadow:0 .1cqw 0 #b8c0d6,0 1cqw 2cqw -1cqw rgba(0,0,0,.45)}18%,100%{transform:none}}
+/* bảng phím tắt */
+.kp{position:absolute;left:7%;right:7%;top:13%;bottom:9%;border-radius:2.2cqw;background:var(--sc-panel);-webkit-backdrop-filter:blur(14px) saturate(160%);backdrop-filter:blur(14px) saturate(160%);
+  box-shadow:inset 0 0 0 1px var(--sc-line),0 3cqw 6cqw -2cqw rgba(0,0,0,.45);color:var(--sc-ink);font-family:var(--f-body);opacity:0;animation:kpA 20s cubic-bezier(.3,1.2,.45,1) infinite;z-index:3}
+@keyframes kpA{0%,13%{opacity:0;transform:scale(.92)}17%,84%{opacity:1;transform:none}88%,100%{opacity:0;transform:scale(.9) translateY(3%)}}
+.kp-h{position:absolute;left:3%;right:3%;top:3.5%;height:11%;display:flex;align-items:center;gap:1.2cqw;border-bottom:1px solid var(--sc-line)}
+.kp-ic{width:4.2cqw;height:4.2cqw;border-radius:1cqw;flex:none;background:linear-gradient(135deg,#3b3b46,#16161c);box-shadow:inset 0 0 0 .3cqw #f2f2f5}
+.kp-t{display:grid;line-height:1.15;margin-right:auto}
+.kp-t b{font-size:2.3cqw;font-weight:800}
+.kp-t small{font-size:1.4cqw;color:var(--sc-mut)}
+.kp-s{position:relative;width:24%;height:4cqw;border-radius:1cqw;background:var(--sc-cap);display:flex;align-items:center;padding-left:1cqw;box-sizing:border-box;font-size:1.6cqw;overflow:hidden}
+.kp-s::before{content:"⌕";margin-right:.6cqw;color:var(--sc-mut);font-size:1.8cqw}
+.kp-s .ph{color:var(--sc-mut);position:absolute;left:3.4cqw;right:.8cqw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;animation:phA 20s steps(1) infinite}
+.kp-s .q{display:inline-block;overflow:hidden;white-space:nowrap;width:0;animation:qA 20s infinite;font-weight:600}
+.kp-s .q::after{content:"";display:inline-block;width:.15cqw;height:2cqw;margin-left:.15cqw;vertical-align:middle;background:var(--accent)}
+@keyframes phA{0%{opacity:1}30%{opacity:0}48%{opacity:1}100%{opacity:1}}
+@keyframes qA{0%,30%{width:0;animation-timing-function:steps(6,end)}36%,46%{width:6.2ch}47.5%,100%{width:0}}
+.kp-b{width:3.6cqw;height:3.6cqw;border-radius:50%;flex:none;background:var(--sc-cap);display:grid;place-items:center;font-style:normal;font-size:1.5cqw;font-weight:700;color:var(--sc-ink)}
+.kp-b.tr{animation:trB 20s steps(1) infinite}
+.kp-b.sv{animation:svB 20s steps(1) infinite}
+@keyframes trB{0%{background:var(--sc-cap);color:var(--sc-ink)}52%{background:#4f7cff;color:#fff}76%{background:var(--sc-cap);color:var(--sc-ink)}100%{background:var(--sc-cap)}}
+@keyframes svB{0%{background:var(--sc-cap);color:var(--sc-ink)}78%{background:#4f7cff;color:#fff}82%{background:var(--sc-cap);color:var(--sc-ink)}100%{background:var(--sc-cap)}}
+.kp-c{position:absolute;left:3%;right:3%;top:18%;bottom:4%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.6cqw;align-items:start}
+.col{display:grid;gap:1.4cqw}
+.card{border-radius:1.4cqw;background:var(--sc-card);box-shadow:inset 0 0 0 1px var(--sc-line);overflow:hidden}
+.ch{display:block;position:relative;height:3.6cqw;padding:0 1.2cqw;background:var(--sc-head);font-size:1.45cqw;font-weight:800;letter-spacing:.02em;text-transform:uppercase}
+.ch span,.r .t span{position:absolute;left:1.2cqw;top:50%;transform:translateY(-50%);white-space:nowrap}
+.rows{padding:.5cqw .6cqw}
+.r{position:relative;height:4cqw;border-radius:.8cqw;display:flex;align-items:center;justify-content:flex-end;padding-right:.6cqw;animation:dimA 20s infinite}
+.r.hit{animation:hitA 20s infinite}
+.r .t{position:absolute;inset:0 30% 0 0;font-size:1.55cqw}
+.r .t span{left:.6cqw}
+.r .t .vi small{display:block;font-size:1.1cqw;color:var(--sc-mut);line-height:1.1}
+.r .t .vi{line-height:1.15}
+.r .k{display:flex;gap:.35cqw}
+.r .k u{text-decoration:none;display:grid;place-items:center;min-width:2.4cqw;height:2.4cqw;border-radius:.55cqw;background:var(--sc-cap);font-size:1.3cqw;font-weight:700;box-shadow:inset 0 0 0 1px var(--sc-line)}
+.en{animation:enA 20s infinite}
+.vi{opacity:0;animation:viA 20s infinite}
+@keyframes dimA{0%,33%{opacity:1}35%,45.5%{opacity:.16}47.5%,100%{opacity:1}}
+@keyframes hitA{0%,33%{background:transparent}35%,45.5%{background:rgba(79,124,255,.25)}47.5%,100%{background:transparent}}
+@keyframes enA{0%,54%{opacity:1}56%,74%{opacity:0}76%,100%{opacity:1}}
+@keyframes viA{0%,54%{opacity:0}56%,74%{opacity:1}76%,100%{opacity:0}}
+.ch .spk{position:static;transform:none;margin-left:.4cqw;color:#8a62ff}
+/* lưu ảnh: ảnh thu nhỏ bay ra màn hình */
+.shot{position:absolute;z-index:5;border-radius:1cqw;opacity:0;background:linear-gradient(135deg,#5b8cff,#7a5cff 55%,#b05cff);box-shadow:0 1.6cqw 3cqw -1cqw rgba(30,20,80,.6);animation:shotA 20s cubic-bezier(.45,0,.25,1) infinite}
+.shot::before,.shot::after{content:"";position:absolute;left:12%;right:12%;height:10%;border-radius:999px;background:rgba(255,255,255,.75)}
+.shot::before{top:16%;right:40%}.shot::after{top:38%;height:42%;border-radius:8%;background:rgba(255,255,255,.28);box-shadow:inset 0 0 0 1px rgba(255,255,255,.5)}
+@keyframes shotA{0%,79%{opacity:0;left:38%;top:30%;width:24%;height:30%}80.5%{opacity:1;left:38%;top:30%;width:24%;height:30%}88%{opacity:1;left:5.5%;top:62%;width:7%;height:9%}89.5%,100%{opacity:0;left:5.5%;top:62%;width:7%;height:9%}}
+.file{position:absolute;left:2.5%;top:62%;width:13%;display:grid;justify-items:center;gap:.6cqw;opacity:0;z-index:2;animation:fileA 20s ease infinite}
+.file i{display:block;width:7cqw;height:9cqw;border-radius:.8cqw;background:linear-gradient(135deg,#5b8cff,#7a5cff 55%,#b05cff);box-shadow:0 1cqw 2cqw -1cqw rgba(0,0,0,.5),inset 0 0 0 .25cqw rgba(255,255,255,.85)}
+.file span{font:600 1.35cqw/1.2 var(--f-body);color:#fff;text-align:center;text-shadow:0 1px 4px rgba(0,0,0,.6)}
+@keyframes fileA{0%,87%{opacity:0;transform:scale(.6)}89.5%,98%{opacity:1;transform:none}100%{opacity:0}}
+.feat-strip{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;max-width:680px}
+.feat-strip span{font-size:13px;font-weight:600;padding:6px 12px;border-radius:999px;color:var(--muted);background:var(--off-bg);animation:chip 20s linear infinite}
+.feat-strip span:nth-child(2){animation-delay:-15s}.feat-strip span:nth-child(3){animation-delay:-10s}.feat-strip span:nth-child(4){animation-delay:-5s}
+@keyframes chip{0%,24.5%{color:#fff;background:linear-gradient(135deg,#4084ff,#8a62ff)}25%,100%{color:var(--muted);background:var(--off-bg)}}
+@media (prefers-reduced-motion:reduce){
+  .kb,.kb b,.kp,.kp-s .ph,.kp-s .q,.kp-b,.r,.en,.vi,.shot,.file,.feat-strip span{animation:none}
+  .kp{opacity:1}.vi{opacity:1}.en{opacity:0}}
+</style>
+</head>
+<body>
+<div class="aura" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+
+<div class="page">
+  <nav class="nav" aria-label="Mục chính">
+    <div class="glass">
+      <a class="brand" href="../"><span class="orb" aria-hidden="true"></span><span>Phước Rin</span></a>
+      <a class="lnk" href="../#hinh-nen">Hình nền</a>
+      <a class="lnk lnk-cf" href="../#cafe" aria-label="Mời Phước ly cà phê"><span aria-hidden="true">☕</span><span class="t"> <span class="tl">Mời cà phê</span><span class="ts">Cà phê</span></span></a>
+      <a class="lnk lnk-vid" href="../#video">Video</a>
+      <a class="lnk" href="../firmware/">Firmware</a>
+      <a class="lnk" href="../ung-dung/" aria-current="page">Ứng dụng</a>
+    </div>
+  </nav>
+
+  <header class="app">
+    <img class="app-ic" src="../img/rinkeys-icon.png" srcset="../img/rinkeys-icon.png 1x, ../img/rinkeys-icon@2x.png 2x" width="168" height="168" alt="Icon RinKeys">
+    <div class="app-t">
+      <span class="kicker">App Mac miễn phí</span>
+      <h1>RinKeys: xem <em>mọi phím tắt</em> của app đang dùng</h1>
+      <p class="lede">Nhấn ⌘ hai lần rồi giữ là hiện bảng toàn bộ phím tắt của app đang mở, từ Safari tới Final Cut Pro, Photoshop. Tìm nhanh, bấm một dòng là chạy lệnh, app không có tiếng Việt thì dịch luôn tên lệnh. Mình làm app này vì dựng video cả ngày mà nhiều phím vẫn phải đi tìm trong menu.</p>
+      <div class="dl">
+        <a class="btn btn-solid" id="dl" href="https://github.com/PhuocRin/RinKeys/releases/latest">Tải RinKeys cho Mac</a>
+        <a class="btn" href="https://github.com/PhuocRin/RinKeys" target="_blank" rel="noopener">Mã nguồn trên GitHub ↗</a>
+      </div>
+      <span class="ver" id="ver">macOS 14 trở lên · Mac chip Apple và Intel · Miễn phí, mã nguồn mở</span>
+      <p class="legend mnote"><b>Đang xem trên điện thoại?</b> RinKeys là app cho Mac, các bạn mở trang này trên Mac để tải nha.</p>
+    </div>
+  </header>
+
+  <section class="demo glass" aria-label="Minh hoạ cách RinKeys hoạt động">
+    <div class="scene" aria-hidden="true">
+      <div class="mbar"><i class="mb-k">⌘</i></div>
+      <div class="win"><div class="win-tb"><s></s><s></s><s></s></div><i class="br"></i><i class="vw"></i><i class="ins"></i><i class="t1"></i><i class="t2"></i><i class="t3"></i><i class="ph"></i></div>
+      <div class="file"><i></i><span>Phím tắt Final Cut Pro.png</span></div>
+      <div class="kp">
+        <div class="kp-h">
+          <i class="kp-ic"></i>
+          <div class="kp-t"><b>Final Cut Pro</b><small>246 phím tắt</small></div>
+          <div class="kp-s"><span class="ph">Tìm lệnh hoặc phím…</span><span class="q">blade</span></div>
+          <i class="kp-b sv">⤓</i><i class="kp-b tr">文A</i><i class="kp-b">✕</i>
+        </div>
+        <div class="kp-c">
+          <div class="col"><div class="card"><b class="ch"><span class="en">Edit</span><span class="vi">Chỉnh sửa (Edit)</span></b><div class="rows"><div class="r"><span class="t"><span class="en">Undo</span><span class="vi">Hoàn tác<small>Undo</small></span></span><span class="k"><u>⌘</u><u>Z</u></span></div><div class="r"><span class="t"><span class="en">Copy</span><span class="vi">Sao chép<small>Copy</small></span></span><span class="k"><u>⌘</u><u>C</u></span></div><div class="r"><span class="t"><span class="en">Paste</span><span class="vi">Dán<small>Paste</small></span></span><span class="k"><u>⌘</u><u>V</u></span></div><div class="r"><span class="t"><span class="en">Select All</span><span class="vi">Chọn tất cả<small>Select All</small></span></span><span class="k"><u>⌘</u><u>A</u></span></div></div></div></div>
+          <div class="col"><div class="card"><b class="ch"><span class="en">Trim</span><span class="vi">Cắt tỉa (Trim)</span></b><div class="rows"><div class="r hit"><span class="t"><span class="en">Blade</span><span class="vi">Blade</span></span><span class="k"><u>⌘</u><u>B</u></span></div><div class="r"><span class="t"><span class="en">Trim Start</span><span class="vi">Cắt đầu đoạn<small>Trim Start</small></span></span><span class="k"><u>⌥</u><u>[</u></span></div><div class="r"><span class="t"><span class="en">Trim End</span><span class="vi">Cắt cuối đoạn<small>Trim End</small></span></span><span class="k"><u>⌥</u><u>]</u></span></div></div></div><div class="card"><b class="ch"><span class="en">Mark</span><span class="vi">Đánh dấu (Mark)</span></b><div class="rows"><div class="r"><span class="t"><span class="en">Set Range Start</span><span class="vi">Đặt điểm đầu<small>Set Range Start</small></span></span><span class="k"><u>I</u></span></div><div class="r"><span class="t"><span class="en">Set Range End</span><span class="vi">Đặt điểm cuối<small>Set Range End</small></span></span><span class="k"><u>O</u></span></div></div></div></div>
+          <div class="col"><div class="card"><b class="ch"><span class="en">View</span><span class="vi">Xem (View)</span></b><div class="rows"><div class="r"><span class="t"><span class="en">Zoom In</span><span class="vi">Phóng to<small>Zoom In</small></span></span><span class="k"><u>⌘</u><u>=</u></span></div><div class="r"><span class="t"><span class="en">Zoom Out</span><span class="vi">Thu nhỏ<small>Zoom Out</small></span></span><span class="k"><u>⌘</u><u>−</u></span></div><div class="r"><span class="t"><span class="en">Zoom to Fit</span><span class="vi">Thu vừa khung<small>Zoom to Fit</small></span></span><span class="k"><u>⇧</u><u>Z</u></span></div></div></div><div class="card"><b class="ch"><span>Phát lại (mặc định)<i class="spk">✦</i></span></b><div class="rows"><div class="r"><span class="t"><span class="en">Play Forward</span><span class="vi">Phát tới<small>Play Forward</small></span></span><span class="k"><u>L</u></span></div><div class="r"><span class="t"><span class="en">Stop</span><span class="vi">Dừng<small>Stop</small></span></span><span class="k"><u>K</u></span></div></div></div></div>
+        </div>
+      </div>
+      <i class="shot"></i>
+      <div class="kb"><b>⌘</b><b>⌘</b><small>Nhấn ⌘ hai lần rồi giữ</small></div>
+    </div>
+    <div class="feat-strip" aria-hidden="true"><span>⌘⌘ Xem nhanh</span><span>🔍 Tìm lệnh</span><span>🌐 Dịch tên lệnh</span><span>🖼️ Lưu thành ảnh</span></div>
+    <p class="cap"><b>Nhấn ⌘ hai lần rồi giữ</b> là hiện hết phím tắt của app đang dùng. Gõ để <b>tìm</b>, bấm <b>Dịch</b> để xem tên tiếng Việt, bấm <b>Lưu ảnh</b> để chia sẻ bảng phím tắt.</p>
+  </section>
+
+  <section aria-labelledby="t-feat" style="display:grid;gap:16px">
+    <h2 id="t-feat">RinKeys làm được gì</h2>
+    <div class="feats">
+      <div class="feat glass"><i aria-hidden="true">🗂️</i><b>Mọi app trên Mac</b><span>Safari, Finder, Final Cut Pro, Photoshop, Xcode… Mỗi menu là một thẻ riêng, lệnh đang mờ trong menu thì hiện nhạt.</span></div>
+      <div class="feat glass"><i aria-hidden="true">⌘</i><b>Xem nhanh bằng phím ⌘</b><span>Nhấn ⌘ hai lần rồi giữ, thả ra là ẩn. Hoặc bấm icon ⌘ trên thanh menu, bảng mở tới khi bạn bấm ✕ hay Esc.</span></div>
+      <div class="feat glass"><i aria-hidden="true">🔍</i><b>Tìm theo tên hoặc theo phím</b><span>Gõ "cắt", "blade", hoặc gõ luôn ⌘B đều ra. Enter chạy kết quả đầu tiên.</span></div>
+      <div class="feat glass"><i aria-hidden="true">👆</i><b>Bấm là chạy lệnh</b><span>Quên phím cũng không sao: bấm vào dòng đó, RinKeys bấm giúp lệnh trong app.</span></div>
+      <div class="feat glass"><i aria-hidden="true">🌐</i><b>Dịch tên lệnh</b><span>App không có tiếng Việt như Final Cut Pro, Photoshop thì tự dịch, tên gốc nằm ngay dưới. Final Cut giữ nguyên Audition, Storyline, Blade… cho đúng cách gọi của người dựng.</span></div>
+      <div class="feat glass"><i aria-hidden="true">🖼️</i><b>Lưu thành ảnh</b><span>Lưu bảng phím tắt thành ảnh kính mờ để chia sẻ. Đang tìm thì ảnh chỉ có kết quả tìm, đang dịch thì ảnh có cả tiếng Việt.</span></div>
+      <div class="feat glass"><i aria-hidden="true">✨</i><b>Phím ngoài thanh menu</b><span>Final Cut Pro có thêm J, K, L và các phím mũi tên, Photoshop có phím công cụ V, B, M… Đây là phím mặc định của hãng.</span></div>
+      <div class="feat glass"><i aria-hidden="true">📌</i><b>Ghim bảng</b><span>Ghim để bảng luôn mở, chuyển qua app khác là bảng tự đổi theo app đó.</span></div>
+    </div>
+  </section>
+
+  <section class="guide glass" id="cai-dat" aria-labelledby="t-install">
+    <span class="kicker">Cài đặt</span>
+    <h2 id="t-install">Cài RinKeys trong 3 bước</h2>
+    <div class="step">
+      <h3>1. Kéo vào Applications</h3>
+      <p>Tải file <b>.dmg</b> ở nút phía trên, mở ra rồi kéo icon RinKeys vào thư mục <b>Applications</b>.</p>
+    </div>
+    <div class="step">
+      <h3>2. Mở lần đầu</h3>
+      <p>RinKeys chưa được Apple công chứng nên lần đầu mở macOS sẽ chặn. Đây là bình thường với app miễn phí ngoài App Store, chỉ làm một lần:</p>
+      <ol>
+        <li>Hộp thoại hiện lên: bấm <b>Xong</b>. <b>Đừng bấm Chuyển vào Thùng rác.</b></li>
+        <li>Mở <span class="path">Cài đặt hệ thống → Quyền riêng tư &amp; Bảo mật</span>, kéo xuống phần <b>Bảo mật</b>, bấm <b>Vẫn mở</b> cạnh dòng RinKeys.</li>
+        <li>Hộp thoại hỏi lại: bấm <b>Vẫn mở</b>, rồi xác nhận bằng <b>Touch ID</b> hoặc mật khẩu máy.</li>
+      </ol>
+      <p class="note-sm">Các bước giống hệt RinDock, các bạn xem <a href="../rindock/#cai-dat">ảnh chụp từng bước ở trang RinDock</a>.</p>
+    </div>
+    <div class="step">
+      <h3>3. Bật quyền cho RinKeys</h3>
+      <p>RinKeys cần quyền điều khiển máy để đọc thanh menu của app đang dùng và bấm lệnh giúp bạn. Cửa sổ chào mừng của RinKeys có nút <b>Mở cài đặt Trợ năng</b> mở thẳng tới đây, bạn chỉ cần bật công tắc cạnh RinKeys:</p>
+      <div class="tbl">
+        <div><b>macOS 27 trở lên</b><span class="path">Quyền riêng tư &amp; Bảo mật → Điều khiển thiết bị và truy cập dữ liệu</span></div>
+        <div><b>macOS 26 trở về trước</b><span class="path">Quyền riêng tư &amp; Bảo mật → Trợ năng</span></div>
+      </div>
+      <p>Bật xong cửa sổ chào mừng tự đổi sang "Đã có quyền". Các bản cập nhật sau RinKeys tự cài, không phải bật lại.</p>
+    </div>
+  </section>
+
+  <section class="guide glass" id="meo-dung" aria-labelledby="t-tips">
+    <span class="kicker">Mẹo dùng</span>
+    <h2 id="t-tips">Mấy thao tác nên biết</h2>
+    <p>Trong app cũng có sẵn phần này: chuột phải vào icon ⌘ trên thanh menu → <b>Mẹo dùng</b>.</p>
+    <div class="tips">
+      <details open>
+        <summary><span aria-hidden="true">⌘</span>Mở và đóng bảng</summary>
+        <ul>
+          <li>Bấm icon <b>⌘</b> trên thanh menu để xem phím tắt của app đang dùng. Chuột phải vào icon để mở cài đặt.</li>
+          <li>Nhấn <b>⌘ hai lần rồi giữ</b> để xem nhanh, thả ra là ẩn. Muốn giữ bảng lại thì di chuột vào bảng trước khi thả, hoặc bấm ghim.</li>
+          <li>Bấm <b>✕</b> hoặc nhấn <b>Esc</b> để đóng.</li>
+          <li>Thích bấm icon trên Dock hơn thì bật trong <span class="path">Cài đặt… → Hiện icon trên Dock</span>.</li>
+        </ul>
+      </details>
+      <details>
+        <summary><span aria-hidden="true">🔍</span>Tìm và chạy lệnh</summary>
+        <ul>
+          <li>Gõ để tìm theo tên lệnh hoặc theo phím. Đang dịch thì gõ tiếng Việt hay tiếng Anh đều được.</li>
+          <li><b>Enter</b> chạy kết quả đầu tiên, bấm vào một dòng để chạy lệnh đó.</li>
+          <li><b>Ghim</b> để bảng luôn mở, bảng tự đổi theo app bạn chuyển sang.</li>
+        </ul>
+      </details>
+      <details>
+        <summary><span aria-hidden="true">🌐</span>Dịch và lưu ảnh</summary>
+        <ul>
+          <li>App không có tiếng Việt thì tên lệnh được tự dịch, tên gốc nằm dòng dưới. Nút <b>Dịch</b> trên bảng để bật tắt riêng từng app.</li>
+          <li>Lần đầu macOS có thể hỏi tải gói tiếng Việt. Cần macOS 15 trở lên.</li>
+          <li>Nút <b>Lưu</b> lưu bảng thành ảnh PNG. Đang tìm thì ảnh chỉ có kết quả tìm.</li>
+        </ul>
+      </details>
+    </div>
+  </section>
+
+  <section class="guide glass" aria-labelledby="t-limit">
+    <span class="kicker">Giới hạn</span>
+    <h2 id="t-limit">App nào đọc được ít phím?</h2>
+    <p>RinKeys đọc phím tắt trên <b>thanh menu</b> của app. App nào để phần lớn phím trong bảng cài đặt riêng hoặc tự vẽ menu (ví dụ CapCut, một số game) thì RinKeys chỉ thấy vài lệnh. Final Cut Pro và Photoshop có thêm nhóm phím mặc định để bù phần đó. Nếu bạn đã tự đổi phím trong app, nhóm phím mặc định có thể khác phím của bạn.</p>
+  </section>
+
+  <section class="guide glass" aria-labelledby="t-safe">
+    <span class="kicker">An toàn</span>
+    <h2 id="t-safe">RinKeys có an toàn không?</h2>
+    <ul>
+      <li>Quyền điều khiển máy chỉ dùng để <b>đọc thanh menu</b> của app đang dùng và <b>bấm lệnh</b> khi bạn bấm vào một dòng.</li>
+      <li>RinKeys chỉ để ý phím ⌘ để mở bảng xem nhanh, <b>không</b> ghi lại phím bạn gõ, <b>không</b> chụp màn hình.</li>
+      <li>Bản dịch làm bằng bộ dịch có sẵn của macOS <b>ngay trên máy</b>, tên lệnh không gửi đi đâu.</li>
+      <li>Kết nối mạng duy nhất: hỏi GitHub có bản mới không và tải bản mới. Không gửi thông tin gì của bạn.</li>
+      <li>Mỗi bản cập nhật đều được ký số, RinKeys kiểm tra chữ ký trước khi cài, sai là không cài.</li>
+      <li>Mã nguồn mở công khai trên <a href="https://github.com/PhuocRin/RinKeys" target="_blank" rel="noopener">GitHub</a>, ai cũng xem được.</li>
+    </ul>
+    <p>Gặp lỗi thì chuột phải vào icon ⌘ trên thanh menu → <b>Báo lỗi…</b>, app điền sẵn thông tin máy và nhật ký để mình sửa nhanh hơn.</p>
+  </section>
+
+  <section class="fwcard glass" aria-labelledby="t-cf">
+    <div>
+      <span class="kicker">Ủng hộ</span>
+      <h3 id="t-cf">RinKeys miễn phí</h3>
+      <p>Thấy app có ích thì các bạn ủng hộ mình một ly cà phê để mình có thêm động lực làm tiếp. Không ủng hộ vẫn dùng đầy đủ, không khoá tính năng nào.</p>
+    </div>
+    <a class="btn btn-solid" href="../#cafe">☕ Mời Phước ly cà phê</a>
+  </section>
+
+  <footer>
+    <span>© 2026 Phước Rin · RinKeys miễn phí, mã nguồn mở (MIT). Không thuộc Apple.</span>
+    <a href="../ung-dung/">← Các app của mình</a>
+  </footer>
+</div>
+
+<script>
+/* Lấy bản mới nhất từ GitHub để nút Tải trỏ thẳng file .dmg. Lỗi thì giữ link trang phát hành. */
+(function(){
+  var btn = document.getElementById("dl"), ver = document.getElementById("ver");
+  fetch("https://api.github.com/repos/PhuocRin/RinKeys/releases/latest", {headers:{Accept:"application/vnd.github+json"}})
+    .then(function(r){ if (!r.ok) throw 0; return r.json(); })
+    .then(function(rel){
+      var dmg = (rel.assets || []).filter(function(a){ return /\.dmg$/i.test(a.name); })[0];
+      if (!dmg || !/^https:\/\/github\.com\//.test(dmg.browser_download_url)) return;
+      btn.href = dmg.browser_download_url;
+      var v = String(rel.tag_name || "").replace(/^v/, "");
+      var mb = (dmg.size / 1048576).toFixed(1).replace(".", ",");
+      btn.textContent = "Tải RinKeys " + v + " cho Mac";
+      ver.textContent = "Bản " + v + " · " + mb + " MB · macOS 14 trở lên · Mac chip Apple và Intel · Miễn phí, mã nguồn mở";
+    })
+    .catch(function(){});
+})();
+</script>
+<script>
+/* THỐNG KÊ: cùng Umami với trang chủ (không cookie). Đếm lượt tải RinKeys. */
+(function(){
+  var ID = "a7624ff1-b780-424f-abc8-75ad73c9fc75";
+  var s = document.createElement("script"); s.defer = true; s.src = "https://cloud.umami.is/script.js"; s.setAttribute("data-website-id", ID);
+  document.head.appendChild(s);
+  function track(name, data){ try { if (window.umami) window.umami.track(name, data); } catch(e){} }
+  document.addEventListener("click", function(e){
+    var el = e.target.closest ? e.target.closest("a") : null; if (!el) return;
+    if (el.id === "dl") track("Tải RinKeys", {ban: el.textContent});
+    else if (/github\.com\/PhuocRin\/RinKeys/.test(el.href)) track("RinKeys GitHub");
+    else if (/#cafe$/.test(el.getAttribute("href") || "")) track("RinKeys → Cà phê");
+  }, true);
+})();
+</script>
+</body>
+</html>
