@@ -1,6 +1,11 @@
 {
  "latest": [
   {
+   "id": "vDMgIzBIqI4",
+   "title": "iOS 27.3 beta 1 sau vài ngày?",
+   "published": "2026-11-08T07:30:22+00:00"
+  },
+  {
    "id": "O4NZcx_jCYU",
    "title": "iPhone 18 Pro Max sau gần 2 tháng",
    "published": "2026-11-07T02:15:02+00:00"
@@ -24,11 +29,6 @@
    "id": "zC04gDnRw0s",
    "title": "macOS 27.2 chính thức có gì mới?",
    "published": "2026-10-28T07:45:02+00:00"
-  },
-  {
-   "id": "HIXv869WT9U",
-   "title": "iPadOS 27.2 chính thức có gì mới?",
-   "published": "2026-10-27T06:45:23+00:00"
   }
  ],
  "tips": [
@@ -276,6 +276,12 @@
     "title": "iOS 27.3 beta 1 có gì mới?",
     "kind": "moi",
     "published": "2026-11-04T02:20:16+00:00"
+   },
+   {
+    "id": "vDMgIzBIqI4",
+    "title": "iOS 27.3 beta 1 sau vài ngày?",
+    "kind": "sau",
+    "published": "2026-11-08T07:30:22+00:00"
    }
   ]
  }
