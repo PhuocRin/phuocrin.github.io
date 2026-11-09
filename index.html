@@ -92,7 +92,7 @@ body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:1
 .glass>*{position:relative}
 
 .page{position:relative;z-index:1;max-width:1160px;margin:0 auto;padding-inline:16px;padding-block:14px 56px;display:grid;gap:clamp(56px,9vw,104px)}
-section{scroll-margin-top:96px;scroll-margin-top:calc(env(safe-area-inset-top,0px) + 96px)}
+section,#top{scroll-margin-top:96px;scroll-margin-top:calc(env(safe-area-inset-top,0px) + 96px)}
 .page>*,.hero>*,.collab>*,.head>*{min-width:0}
 
 /* nav */
@@ -1521,7 +1521,10 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     var a = e.target.closest ? e.target.closest('a[href^="#"]') : null; if (!a) return;
     var h = a.getAttribute("href"); if (h.length < 2) return;
     var t = document.querySelector(h); if (!t) return;
-    e.preventDefault(); t.scrollIntoView({behavior: reduce ? "auto" : "smooth"});
+    e.preventDefault();
+    /* logo Phước Rin: về hẳn đầu trang, để thanh menu không che dòng tên */
+    if (h === "#top") window.scrollTo({top: 0, behavior: reduce ? "auto" : "smooth"});
+    else t.scrollIntoView({behavior: reduce ? "auto" : "smooth"});
     try { history.replaceState(history.state, "", h); } catch(err){}
   });
   document.addEventListener("keydown", function(e){ if (viewer.hidden) return; if (e.key === "Escape") goBack(1); else if (e.key === "ArrowLeft") nav(-1); else if (e.key === "ArrowRight") nav(1); });
