@@ -139,7 +139,7 @@ h1 em{font-style:normal;background:linear-gradient(95deg,#3d8bff 0%,#8b6bff 45%,
 .clock{font:700 25cqw/1 var(--f-clock);letter-spacing:-.02em}
 .float-chip{position:absolute;display:flex;align-items:center;gap:8px;padding:10px 14px;border-radius:18px;font-size:13px;font-weight:600;white-space:nowrap}
 .float-chip small{display:block;font:500 11px var(--f-mono);color:var(--muted)}
-.chip-a{left:max(0px,calc(50% - 250px));top:44%}
+.chip-a{left:max(0px,calc(50% - 250px));top:calc(24.5% + 14px)}
 .chip-b{position:absolute;right:max(0px,calc(50% - 250px));bottom:14%;padding:12px 18px;font-size:14px}
 .chip-a{color:var(--ink);text-decoration:none}
 #heroPhone{cursor:pointer}
@@ -425,7 +425,8 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 .si{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;color:#fff;flex:none}
 .si svg{width:15px;height:15px;fill:currentColor}
 .stage .chip-b{position:absolute;white-space:nowrap;width:auto}
-@media (max-width:520px){.stage .chip-a{top:44%}.stage .chip-b{bottom:9%}}
+/* chip Hình nền mới nằm ngay dưới số giờ (đáy số giờ ≈ 24,5% chiều cao .stage ở mọi cỡ màn) */
+@media (max-width:520px){.stage .chip-a{top:calc(24.5% + 14px)}.stage .chip-b{bottom:9%}}
 /* hai cột trên màn thấp (iPhone Duo mở ngang, iPad ngang): iPhone minh hoạ vừa chiều cao màn */
 @media (min-width:880px) and (max-height:760px){.hero{padding-top:20px}.hero h1{font-size:clamp(44px,6.4vw,64px)}.device{width:min(290px,calc((100vh - 150px) * 1320 / 2868));width:min(290px,calc((100svh - 150px) * 1320 / 2868))}}
 .gear-links{display:flex;flex-wrap:wrap;gap:8px}
