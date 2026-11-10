@@ -820,7 +820,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     {bo:"bo-14", id:"meo-tach-tulip", label:"Mèo Tách Tulip", sub:"Dễ thương · tím pastel", loai:"minh-hoa", ai:false, ph:"f0dded,9a8a92,c7b1c6"},
     {bo:"bo-13", id:"mai-dinh-hoa-dao", label:"Mái Đình Hoa Đào", sub:"Tết · hồng đào", loai:"minh-hoa", ai:false, vn:true, ph:"edddd9,6f504b,3c2923"},
     {bo:"bo-13", id:"duong-mon-rung-xanh", label:"Đường Mòn Rừng Xanh", sub:"Phong cảnh · xanh lá", loai:"minh-hoa", ai:false, ph:"bde4e3,8bad82,4c5f38"},
-    {bo:"bo-13", id:"pho-doc-mai-anh-dao", label:"Phố Dốc Mai Anh Đào", sub:"Phố núi · hồng sương", loai:"minh-hoa", ai:false, vn:true, ph:"e7d6cf,9c9489,7c7666"},
+    {bo:"bo-13", id:"pho-doc-mai-anh-dao", label:"Phố Dốc Mai Anh Đào", sub:"Phố núi · hồng sương", loai:"minh-hoa", ai:false, vn:true, spatial:true, clockB:39.5, ph:"e7d6cf,9c9489,7c7666"},
     {bo:"bo-13", id:"song-lon-may-trang", label:"Sóng Lớn Mây Trắng", sub:"Biển · xanh ngọc", loai:"minh-hoa", ai:false, ph:"49a5e1,a5d4e8,599db3"},
     {bo:"bo-13", id:"canh-thong-tuyet", label:"Cành Thông Tuyết", sub:"Mùa đông · trắng đỏ", loai:"minh-hoa", ai:false, ph:"e3eaed,919496,a0aaaa"},
     {bo:"bo-12", id:"qua-trang-mau", label:"Quạ Trăng Máu", sub:"Thuỷ mặc · đỏ đen", loai:"minh-hoa", ai:false, ph:"e5bda7,b19482,a59e93"},
@@ -953,7 +953,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   /* HÌNH NỀN MỚI NHẤT — mỗi lần đăng video tặng hình nền, chỉ sửa khối này:
      set: bộ chứa hình ("kl" hoặc "bcs"), index: vị trí hình trong bộ, video: tên + link video tặng hình */
   /* id: tên file hình trên R2. Có id thì tự tìm vị trí, thêm hình mới vào WALLS không cần sửa index */
-  var LATEST = { set:"kl", id:"hai-cau-tren-bang", index:0, video:{ title:"video mới trên kênh", url:"https://www.youtube.com/@phuocrin/videos" } };
+  var LATEST = { set:"kl", id:"pho-doc-mai-anh-dao", index:0, video:{ title:"video mới trên kênh", url:"https://www.youtube.com/@phuocrin/videos" } };
   if (LATEST.id){ var li = ITEMS[LATEST.set].findIndex(function(it){ return it.file === IMG + LATEST.id; }); if (li >= 0) LATEST.index = li; }
   var latestItem = ITEMS[LATEST.set].splice(LATEST.index, 1)[0];
   latestItem.isNew = true; latestItem.video = LATEST.video;
