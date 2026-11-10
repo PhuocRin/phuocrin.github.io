@@ -1,6 +1,16 @@
 {
  "latest": [
   {
+   "id": "9X3rtAZ7f2I",
+   "title": "iPadOS 27.2.1 chính thức có gì mới?",
+   "published": "2026-11-10T06:45:23+00:00"
+  },
+  {
+   "id": "XmLN7BxZnlo",
+   "title": "iOS 27.2.1 chính thức có gì mới?",
+   "published": "2026-11-10T01:15:17+00:00"
+  },
+  {
    "id": "vDMgIzBIqI4",
    "title": "iOS 27.3 beta 1 sau vài ngày?",
    "published": "2026-11-08T07:30:22+00:00"
@@ -19,16 +29,6 @@
    "id": "lI4Hrw4Nmgw",
    "title": "iPadOS 27.2 sau 6 ngày?",
    "published": "2026-11-02T02:30:14+00:00"
-  },
-  {
-   "id": "MBK9y6fXIcQ",
-   "title": "iOS 27.2 sau 4 ngày?",
-   "published": "2026-10-31T08:45:10+00:00"
-  },
-  {
-   "id": "zC04gDnRw0s",
-   "title": "macOS 27.2 chính thức có gì mới?",
-   "published": "2026-10-28T07:45:02+00:00"
   }
  ],
  "tips": [
@@ -282,6 +282,22 @@
     "title": "iOS 27.3 beta 1 sau vài ngày?",
     "kind": "sau",
     "published": "2026-11-08T07:30:22+00:00"
+   }
+  ],
+  "ipados 27.2.1": [
+   {
+    "id": "9X3rtAZ7f2I",
+    "title": "iPadOS 27.2.1 chính thức có gì mới?",
+    "kind": "moi",
+    "published": "2026-11-10T06:45:23+00:00"
+   }
+  ],
+  "ios 27.2.1": [
+   {
+    "id": "XmLN7BxZnlo",
+    "title": "iOS 27.2.1 chính thức có gì mới?",
+    "kind": "moi",
+    "published": "2026-11-10T01:15:17+00:00"
    }
   ]
  }
