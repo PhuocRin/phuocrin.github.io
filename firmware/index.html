@@ -101,6 +101,19 @@ h1 em{font-style:normal;background:linear-gradient(95deg,#3d8bff 0%,#8b6bff 45%,
 .fact small{font:500 12px var(--f-mono);color:var(--muted)}
 .fact.warn-f i{background:var(--rc);box-shadow:0 0 0 4px var(--rc-bg)}
 .stale{margin:0;font-size:14px;padding:12px 16px;border-radius:18px;background:var(--rc-bg);color:var(--ink);max-width:62ch}
+/* bản Apple vừa công bố, chưa có link tải (bot đọc trang Releases của Apple Developer) */
+.news{display:grid;gap:10px;padding:14px 16px;border-radius:20px;max-width:62ch;box-sizing:border-box}
+.news .nk{display:inline-flex;align-items:center;gap:8px;font:700 12px var(--f-body);letter-spacing:.04em;text-transform:uppercase;color:var(--beta)}
+.news .nk i{width:8px;height:8px;border-radius:50%;background:var(--beta);box-shadow:0 0 0 4px var(--beta-bg);animation:nPulse 2s ease-in-out infinite}
+@keyframes nPulse{50%{box-shadow:0 0 0 7px transparent}}
+@media (prefers-reduced-motion:reduce){.news .nk i{animation:none}}
+.news ul{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.news li{display:flex;flex-wrap:wrap;align-items:baseline;column-gap:10px;row-gap:2px;font-size:14.5px;line-height:1.5;color:var(--ink)}
+.news li .nd{font-size:13px;color:var(--muted)}
+.news li code{font:500 12.5px var(--f-mono);color:var(--muted)}
+.news li a{font-size:13.5px;font-weight:600;white-space:nowrap;color:var(--accent);text-decoration:none}
+.news li a:hover{text-decoration:underline}
+.news p{margin:0;font-size:13px;color:var(--muted)}
 .fact small{font:500 12px var(--f-mono);color:var(--muted)}
 
 /* picker */
@@ -238,6 +251,11 @@ footer a{color:var(--muted)}
       <span class="fact glass">File gốc từ Apple</span>
     </div>
     <p class="stale" id="stale" hidden>Bot chưa kiểm tra với Apple hơn 3 tiếng, trạng thái "Còn ký" bên dưới có thể đã cũ. Trước khi cài, các bạn cứ thử: Finder báo không xác minh được bản cài thì bản đó đã bị khoá.</p>
+    <div class="news glass" id="news" hidden role="status">
+      <span class="nk"><i aria-hidden="true"></i>Apple vừa phát hành</span>
+      <ul id="newsList"></ul>
+      <p>Apple đã công bố nhưng chưa có link tải. Bot có link là bản đó tự hiện trong danh sách bên dưới, thường trong vài tiếng.</p>
+    </div>
   </header>
 
   <section class="pick glass" aria-label="Chọn máy">
@@ -344,6 +362,7 @@ footer a{color:var(--muted)}
       <span>File tải thẳng từ server của Apple, web mình không lưu hay sửa file nào.</span>
       <span>Còn ký hay đã khoá: bot của mình hỏi thẳng Apple mỗi giờ.</span>
       <span>Bản chính thức mới nhất: bot đọc thẳng danh sách Apple dùng cho Finder, nên Apple vừa phát hành là trang có trong khoảng một giờ. Bản cũ, beta, RC và mã SHA-256 mình tham khảo thêm từ <a href="https://appledb.dev" target="_blank" rel="noopener">AppleDB</a>, tên máy từ <a href="https://ipsw.me" target="_blank" rel="noopener">IPSW.me</a>.</span>
+      <span>Apple vừa công bố bản mới mà chưa có link tải (hay gặp với beta): bot đọc <a href="https://developer.apple.com/news/releases/" target="_blank" rel="noopener">trang Releases của Apple Developer</a> để báo trước ở đầu trang, có link là bản đó tự hiện trong danh sách.</span>
       <span>Apple có thể khoá bản bất cứ lúc nào, nên trang có thể trễ tới khoảng một giờ. Finder báo không xác minh được bản cài thì bản đó vừa bị khoá.</span>
       <span>Hướng dẫn của Apple: <a href="https://developer.apple.com/support/install-beta/" target="_blank" rel="noopener">cài phần mềm beta</a> · <a href="https://support.apple.com/vi-vn/108763" target="_blank" rel="noopener">gỡ bản beta iOS, iPadOS</a> · <a href="https://support.apple.com/vi-vn/108353" target="_blank" rel="noopener">sao lưu mã hoá và không mã hoá khác nhau thế nào</a>.</span>
     </div>
@@ -545,8 +564,20 @@ footer a{color:var(--muted)}
   fetch("../videos.json", { cache: "no-cache" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(j){
     if (j && j.os){ state.vids = j.os; render(); }
   }).catch(function(){});
+  // Bản Apple đã công bố trên trang Releases của Apple Developer mà bot chưa có link tải (thường là beta)
+  function showPending(list){
+    list = (list || []).filter(function(x){ return x && x.b && x.v; });
+    $("news").hidden = !list.length;
+    if (!list.length) return;
+    $("newsList").innerHTML = list.map(function(x){
+      var link = /^https:\/\/developer\.apple\.com\//.test(x.link || "") ? x.link : "https://developer.apple.com/news/releases/";
+      return '<li><b>' + esc(x.os + " " + x.v) + '</b><code>' + esc(x.b) + '</code><span class="nd">' + esc(vnDate(x.d).slice(0, 5))
+        + '</span><a href="' + esc(link) + '" target="_blank" rel="noopener">Apple Developer ↗</a></li>';
+    }).join("");
+  }
   fetch("devices.json", { cache: "no-cache" }).then(function(r){ return r.json(); }).then(function(j){
     state.all = j.devices || [];
+    showPending(j.pending);
     (j.have || []).forEach(function(id){ state.have[id] = 1; });
     var want = decodeURIComponent((location.hash || "").slice(1)) || store("fw-dev") || "";
     if (!state.have[want]) want = "";

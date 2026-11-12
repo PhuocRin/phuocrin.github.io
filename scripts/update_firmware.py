@@ -6,6 +6,8 @@ Nguồn:
   s.mzstatic.com/version cho iPhone, iPad; mesu.apple.com cho Mac). Bản mới lên trang ngay lần chạy kế tiếp,
   không phải chờ AppleDB. Khi AppleDB có bản đó thì dùng dữ liệu AppleDB (có SHA-256, ngày phát hành).
 - Bản cũ, beta, RC, dung lượng, SHA-256: AppleDB.
+- Báo trước: đọc trang Releases của Apple Developer (developer.apple.com/news/releases). Bản Apple vừa công bố
+  mà chưa có link tải (thường là beta, chờ AppleDB) thì ghi vào "pending" để trang hiện dòng "Apple vừa phát hành".
   Link nào cũng là file trên server Apple (updates.cdn-apple.com); web không lưu file.
 - Còn ký hay đã khoá: bot hỏi thẳng server ký của Apple (gs.apple.com), không lấy số của ai.
 
@@ -257,6 +259,64 @@ def apple_feed():
     return out
 
 
+# ---------- trang Releases của Apple Developer: báo trước bản vừa ra, chưa có link ----------
+DEV_RSS = "https://developer.apple.com/news/releases/rss/releases.rss"
+PENDING_DAYS = 14
+
+
+def dev_releases():
+    """[{os, v, b, d, link}] các bản iOS/iPadOS/macOS Apple công bố trong PENDING_DAYS ngày gần đây."""
+    import xml.etree.ElementTree as ET
+    from email.utils import parsedate_to_datetime
+    with urllib.request.urlopen(urllib.request.Request(DEV_RSS, headers={"User-Agent": UA}), timeout=60) as r:
+        root = ET.fromstring(r.read())
+    cut = NOW - timedelta(days=PENDING_DAYS)
+    out = []
+    for it in root.iter("item"):
+        m = re.match(r"^(iOS|iPadOS|macOS) (\d[\w .]*?) \((\d{2}[A-Z]\d+[a-z]?)\)$", (it.findtext("title") or "").strip())
+        if not m:
+            continue
+        try:
+            when = parsedate_to_datetime(it.findtext("pubDate") or "")
+        except Exception:
+            continue
+        if when < cut:
+            continue
+        link = (it.findtext("link") or "").strip()
+        if not link.startswith("https://developer.apple.com/"):
+            link = "https://developer.apple.com/news/releases/"
+        out.append({"os": m.group(1), "v": m.group(2), "b": m.group(3),
+                    "d": when.astimezone(timezone(timedelta(hours=7))).strftime("%Y-%m-%d"), "link": link})
+    return out
+
+
+def pending_list(cache, old):
+    """Bản Apple đã công bố nhưng chưa có file nào trên trang. Đọc lỗi thì giữ danh sách cũ."""
+    have = {c["b"] for c in cache.values() if c.get("files")}
+    try:
+        rel = dev_releases()
+    except Exception as e:
+        log("không đọc được trang Releases của Apple Developer:", e)
+        rel = old or []
+    out = []
+    for r in rel:
+        if r["b"] in have:
+            continue
+        key = (r["b"], r["v"])
+        osn = r["os"]
+        # iOS và iPadOS cùng build thì gộp một dòng
+        prev = next((x for x in out if (x["b"], x["v"]) == key), None)
+        if prev:
+            if osn not in prev["os"].split("/"):
+                prev["os"] = "/".join(sorted(prev["os"].split("/") + [osn], key=lambda x: x != "iOS"))
+            continue
+        out.append(dict(r))
+    out.sort(key=lambda x: (x["d"], x["b"]), reverse=True)
+    if out:
+        log("Apple đã công bố, chưa có link:", ", ".join(f'{x["os"]} {x["v"]} ({x["b"]})' for x in out))
+    return out[:6]
+
+
 def main():
     old_index = load(os.path.join(OUT, "devices.json"), {})
     devs = devices(old_index.get("devices", []))
@@ -403,7 +463,8 @@ def main():
 
     have = sorted(w[:-5] for w in wrote)
     signed_builds = signed_list(cache)
-    payload = {"devices": devs, "have": have, "majors": majors, "signed": signed_builds}
+    payload = {"devices": devs, "have": have, "majors": majors, "signed": signed_builds,
+               "pending": pending_list(cache, old_index.get("pending"))}
     write_alert(old_index.get("signed"), signed_builds)
     # "updated" chỉ đổi khi danh sách hoặc trạng thái ký thật sự đổi, để repo không bị commit mỗi giờ
     same = all(old_index.get(k) == v for k, v in payload.items())
