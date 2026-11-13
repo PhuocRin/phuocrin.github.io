@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>RinNotch: biến tai thỏ MacBook thành khu tiện ích · Phước Rin</title>
-<meta name="description" content="RinNotch là app Mac miễn phí của Phước Rin: rê chuột lên tai thỏ là bung ra nhạc đang phát, kệ file, bộ nhớ tạm, ghi chú nhanh, hẹn giờ, kèm thông báo tai nghe, sạc, pin yếu. macOS 14 trở lên.">
+<meta name="description" content="RinNotch là app Mac miễn phí của Phước Rin: tai thỏ bung ra nhạc, kệ file, bộ nhớ tạm, Copy liên tục, dịch nhanh, xếp cửa sổ. Mac không tai thỏ vẫn dùng được.">
 <meta name="theme-color" content="#edf1f7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0b0f17" media="(prefers-color-scheme: dark)">
 <link rel="canonical" href="https://phuocrin.com/rinnotch/">
@@ -14,7 +14,7 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Phước Rin">
 <meta property="og:title" content="RinNotch: biến tai thỏ MacBook thành khu tiện ích · Phước Rin">
-<meta property="og:description" content="App Mac miễn phí: rê chuột lên tai thỏ là bung ra nhạc, kệ file, bộ nhớ tạm, ghi chú, hẹn giờ.">
+<meta property="og:description" content="App Mac miễn phí: tai thỏ bung ra nhạc, kệ file, bộ nhớ tạm, dịch nhanh, xếp cửa sổ.">
 <meta property="og:url" content="https://phuocrin.com/rinnotch/">
 <meta property="og:image" content="https://phuocrin.com/img/og-rinnotch.jpg">
 <meta property="og:image:width" content="1200">
@@ -369,7 +369,7 @@ footer a{color:var(--muted)}
     <div class="app-t">
       <span class="kicker">App Mac miễn phí</span>
       <h1>RinNotch: tai thỏ MacBook <em>bung ra</em> thành khu tiện ích</h1>
-      <p class="lede">Rê chuột lên tai thỏ là bung ra nhạc đang phát, kệ file, bộ nhớ tạm, ghi chú nhanh, hẹn giờ. Cắm sạc, kết nối AirPods hay pin yếu thì tai thỏ thả xuống báo. Mình làm app này để cái tai thỏ trên MacBook có việc để làm.</p>
+      <p class="lede">Rê chuột lên tai thỏ hoặc bấm phím tắt là bung ra nhạc đang phát, kệ file, bộ nhớ tạm, ghi chú, hẹn giờ, dịch nhanh, xếp cửa sổ. Cắm sạc, kết nối AirPods hay mất mạng thì tai thỏ thả xuống báo. Mac không có tai thỏ vẫn dùng được. Mình làm app này để cái tai thỏ trên MacBook có việc để làm.</p>
       <div class="dl">
         <a class="btn btn-solid" id="dl" href="https://github.com/PhuocRin/RinNotch/releases/latest">Tải RinNotch cho Mac</a>
         <a class="btn" href="https://github.com/PhuocRin/RinNotch" target="_blank" rel="noopener">Mã nguồn trên GitHub ↗</a>
@@ -401,14 +401,18 @@ footer a{color:var(--muted)}
   <section aria-labelledby="t-feat" style="display:grid;gap:16px">
     <h2 id="t-feat">RinNotch làm được gì</h2>
     <div class="feats">
-      <div class="feat glass"><i aria-hidden="true">🎵</i><b>Nhạc và video</b><span>Ảnh bìa, tên bài, thanh thời lượng, nút lùi / phát / tới. Đang dừng YouTube mà Apple Music hay Spotify vẫn chạy thì tự chuyển qua bài đó.</span></div>
-      <div class="feat glass"><i aria-hidden="true">🗂️</i><b>Kệ file</b><span>Kéo file thả lên tai thỏ để giữ tạm, có ảnh xem trước. Kéo chuột để chọn nhiều file, kéo ra là sao chép, giữ ⌘ khi kéo là chuyển file, có nút AirDrop.</span></div>
-      <div class="feat glass"><i aria-hidden="true">📋</i><b>Bộ nhớ tạm</b><span>20 thứ bạn copy gần nhất, bấm một dòng là copy lại. Chỉ giữ trong máy, bỏ qua mật khẩu copy từ trình quản lý mật khẩu.</span></div>
-      <div class="feat glass"><i aria-hidden="true">✍️</i><b>Ghi chú nhanh</b><span>Gõ ý tưởng ngay trên tai thỏ, ⌘ Enter là lưu thẳng vào app Notes, thư mục RinNotch, mở iPhone là thấy.</span></div>
-      <div class="feat glass"><i aria-hidden="true">⏱️</i><b>Hẹn giờ</b><span>Bấm giờ chạy từ 00:00:00 hoặc đếm ngược 1 phút tới 1 giờ. Đang chạy thì giờ hiện hai bên tai thỏ, hết giờ có chuông.</span></div>
-      <div class="feat glass"><i aria-hidden="true">🔋</i><b>Thông báo thả xuống</b><span>Kết nối AirPods (kèm % pin hai bên và hộp sạc), cắm và rút sạc, pin yếu 20% và 10%.</span></div>
-      <div class="feat glass"><i aria-hidden="true">🎙️</i><b>Sóng âm khi ghi âm</b><span>App nào đang dùng micro thì tai thỏ hiện icon app, thời gian cộng dồn qua các lần tạm dừng và sóng âm.</span></div>
-      <div class="feat glass"><i aria-hidden="true">📊</i><b>Hệ thống khi cần</b><span>CPU, RAM, tốc độ mạng, mức nhiệt của máy. Chỉ đo khi bạn mở mục này, đóng lại là dừng.</span></div>
+      <div class="feat glass"><i aria-hidden="true">📋</i><b>Bộ nhớ tạm dạng thẻ</b><span>Giữ 20 tới 200 thứ bạn copy, có ảnh xem trước, ô màu cho mã màu, tên trang cho link. Lọc theo loại hoặc theo app đã copy, tìm không cần dấu, ghim để giữ lâu dài.</span></div>
+      <div class="feat glass"><i aria-hidden="true">🔁</i><b>Copy liên tục</b><span>Nhấn <b>⌃</b> hai lần, copy nhiều thứ liên tiếp, rồi mỗi lần <b>⌘V</b> dán lần lượt từng thứ theo đúng thứ tự. Dán hết là tự tắt.</span></div>
+      <div class="feat glass"><i aria-hidden="true">🔒</i><b>Mục riêng tư</b><span>Kéo thẻ vào nút Riêng tư để cất. Chưa mở khoá thì chỉ thấy thẻ mờ, mở bằng vân tay, tự khoá lại sau 3 phút hoặc khi máy ngủ.</span></div>
+      <div class="feat glass"><i aria-hidden="true">🗂️</i><b>Kệ file</b><span>Kéo file thả lên tai thỏ để giữ tạm, lọc theo loại, chọn nhiều file, kéo ra là sao chép. Chuột phải để đổi tên, đổi ảnh sang JPG / PNG / HEIC, nén, thu nhỏ, xoá nền, gộp PDF, nén ZIP.</span></div>
+      <div class="feat glass"><i aria-hidden="true">⬇️</i><b>Tiến trình tải về</b><span>Tải bằng Safari, Chrome hay nhận AirDrop thì hai bên tai thỏ hiện % và tốc độ. Tải xong file tự nằm trên Kệ.</span></div>
+      <div class="feat glass"><i aria-hidden="true">🪟</i><b>Xếp cửa sổ</b><span>Đưa cửa sổ sang nửa màn hình, 4 góc, ⅓, ⅔, hoặc xếp nhiều cửa sổ cùng lúc: 2 cạnh nhau, 1 lớn 2 nhỏ, 3 cột, 4 góc. Nút Trả lại đưa về chỗ cũ.</span></div>
+      <div class="feat glass"><i aria-hidden="true">🌐</i><b>Dịch nhanh</b><span>Bôi đen chữ ở app bất kỳ rồi bấm <b>⌃⇧8</b>, tai thỏ hiện bản dịch Việt ⇄ Anh hoặc 10 ngôn ngữ khác. Dịch ngay trên máy bằng bộ dịch của macOS.</span></div>
+      <div class="feat glass"><i aria-hidden="true">🎵</i><b>Nhạc và video</b><span>Ảnh bìa, tên bài, thanh thời lượng bấm để tua, nút lùi / phát / tới. Đang dừng YouTube mà Apple Music hay Spotify vẫn chạy thì tự chuyển qua bài đó.</span></div>
+      <div class="feat glass"><i aria-hidden="true">🧰</i><b>Công cụ</b><span>Lấy mã màu ở bất kỳ điểm nào trên màn hình, giữ máy thức tới 4 giờ, khoá bàn phím 2 phút để lau.</span></div>
+      <div class="feat glass"><i aria-hidden="true">✍️</i><b>Ghi chú và hẹn giờ</b><span>Gõ ý tưởng ngay trên tai thỏ, ⌘ Enter là lưu vào app Notes. Bấm giờ tới phần trăm giây hoặc đếm ngược, hết giờ có chuông.</span></div>
+      <div class="feat glass"><i aria-hidden="true">🔔</i><b>Thông báo thả xuống</b><span>Kết nối AirPods kèm % pin hai bên và hộp sạc, cắm và rút sạc, pin yếu 20% và 10%, mất mạng và có mạng lại.</span></div>
+      <div class="feat glass"><i aria-hidden="true">🖥️</i><b>Mac nào cũng dùng được</b><span>Màn hình rời, iPad làm màn hình phụ, Mac mini, iMac: RinNotch hiện dạng viên thuốc giữa thanh menu. Nhiều màn hình thì đi theo màn hình có chuột.</span></div>
     </div>
   </section>
 
@@ -431,13 +435,15 @@ footer a{color:var(--muted)}
     </div>
     <div class="step">
       <h3>3. Cho phép khi được hỏi</h3>
-      <p>RinNotch không cần quyền điều khiển máy. macOS chỉ hỏi từng quyền nhỏ đúng lúc bạn dùng tới tính năng đó:</p>
+      <p>macOS chỉ hỏi từng quyền đúng lúc bạn dùng tới tính năng đó:</p>
       <div class="tbl">
+        <div><b>Trợ năng</b><span>Cho Dịch nhanh, Copy liên tục, Xếp cửa sổ và khoá bàn phím để lau. Trên macOS 27 mục này tên là <b>Điều khiển thiết bị và truy cập dữ liệu</b>.</span></div>
         <div><b>Micro</b><span>Để vẽ sóng âm khi có app đang ghi âm.</span></div>
         <div><b>Notes</b><span>Để lưu ghi chú nhanh vào app Notes.</span></div>
         <div><b>Music, Spotify</b><span>Để hiện và điều khiển bài đang phát của hai app này.</span></div>
         <div><b>Bluetooth</b><span>Để đọc % pin AirPods khi kết nối.</span></div>
       </div>
+      <p class="note-sm">Bật quyền Trợ năng: <span class="path">Cài đặt hệ thống → Quyền riêng tư &amp; Bảo mật → Trợ năng</span> (macOS 27: <span class="path">Điều khiển thiết bị và truy cập dữ liệu</span>) → bật công tắc RinNotch.</p>
       <p>Không dùng tính năng nào thì không bao giờ bị hỏi quyền đó. Các bản cập nhật sau RinNotch tự cài, không phải làm lại.</p>
     </div>
   </section>
@@ -450,43 +456,57 @@ footer a{color:var(--muted)}
       <details open>
         <summary><span aria-hidden="true">✨</span>Bắt đầu</summary>
         <ul>
-          <li>Rê chuột lên tai thỏ để mở, rê ra ngoài là tự thu lại. Máy không có tai thỏ thì rê lên giữa cạnh trên màn hình.</li>
+          <li>Rê chuột lên tai thỏ để mở, rê ra ngoài là tự thu lại. Mac không có tai thỏ thì rê lên viên thuốc giữa thanh menu.</li>
           <li>Kéo file thả lên tai thỏ là mở ngay Kệ file.</li>
-          <li><b>⌥⌘N</b> để ẩn / hiện RinNotch, <b>Esc</b> để thu tai thỏ lại.</li>
-          <li>Icon RinNotch trên thanh menu có Cài đặt, Mở mục, Kiểm tra cập nhật, Báo lỗi.</li>
+          <li>Muốn mở bằng phím thay vì rê chuột: <span class="path">icon RinNotch → Cài đặt… → Cách mở tai thỏ</span>.</li>
+          <li>Bấm nút bánh răng trên tai thỏ để mở Cài đặt, nút <b>?</b> để xem mẹo của mục đang mở.</li>
+        </ul>
+      </details>
+      <details>
+        <summary><span aria-hidden="true">⌨️</span>Phím tắt</summary>
+        <div class="tbl">
+          <div><b>⌃⇧1 → ⌃⇧9</b><span>Mở thẳng Nhạc, Kệ file, Bộ nhớ tạm, Ghi chú, Hẹn giờ, Hệ thống, Công cụ, Dịch nhanh, Cửa sổ. Bấm lại để đóng.</span></div>
+          <div><b>⌃⇧0</b><span>Mở bảng lớn chứa hết Bộ nhớ tạm, Kệ file, Ghi chú, Dịch.</span></div>
+          <div><b>1 → 9</b><span>Tai thỏ đang mở thì bấm số để chuyển mục.</span></div>
+          <div><b>⌃ hai lần</b><span>Bật / tắt Copy liên tục.</span></div>
+          <div><b>⌥⌘N · Esc</b><span>Ẩn / hiện RinNotch · thu tai thỏ lại.</span></div>
+        </div>
+        <p class="note-sm">Đổi hoặc tắt từng phím trong Cài đặt. Bộ ⌃⇧ + số được chọn vì không trùng phím của Final Cut Pro, Finder và phím mặc định của macOS.</p>
+      </details>
+      <details>
+        <summary><span aria-hidden="true">📋</span>Bộ nhớ tạm</summary>
+        <ul>
+          <li>Bấm một thẻ là chép lại. Mở bằng <b>⌃⇧3</b> thì dùng mũi tên để chọn, <b>Enter</b> để chép.</li>
+          <li>Tìm không cần dấu, gõ <b>@link</b>, <b>@image</b>, <b>@color</b>, <b>@code</b>, <b>@file</b> hoặc <b>@tên-app</b> để lọc.</li>
+          <li>Chuột phải để Ghim, Đặt tên, sửa nhanh chữ (viết hoa, bỏ dấu, nối dòng, xoá dòng trùng…), Dịch.</li>
+          <li>Kéo khung ở chỗ trống hoặc <b>⌘A</b> để chọn nhiều thẻ, rồi Chép gộp, Ghim hay Xoá một lần.</li>
+          <li><b>Riêng tư</b>: kéo thẻ vào nút Riêng tư để cất, chuột phải nút đó để khoá ngay.</li>
         </ul>
       </details>
       <details>
         <summary><span aria-hidden="true">🗂️</span>Kệ file</summary>
         <ul>
           <li>Kéo file ra là <b>sao chép</b>. Giữ <b>⌘</b> rồi mới kéo là <b>chuyển file</b>, chuyển xong file tự rời kệ.</li>
-          <li>Kéo chuột trên chỗ trống để <b>chọn nhiều file</b>, rồi kéo cả nhóm ra cùng lúc.</li>
-          <li><b>⌘ + bấm</b> để chọn thêm hoặc bỏ một file, <b>⇧ + bấm</b> để chọn liền một dãy. Bấm chỗ trống để bỏ chọn.</li>
-          <li>Bấm đúp để mở. Chuột phải: Mở, AirDrop, Sao chép, Hiện trong Finder, Chọn tất cả, Bỏ khỏi kệ.</li>
+          <li>Bấm vòng tròn góc thẻ, kéo khung ở chỗ trống hoặc <b>⌘A</b> để chọn nhiều file, rồi kéo cả nhóm ra cùng lúc.</li>
+          <li>Chuột phải: Đổi tên file, <b>Xử lý</b> (đổi định dạng ảnh, nén, thu nhỏ, xoá nền, gộp PDF, nén ZIP), AirDrop, Hiện trong Finder. File mới nằm cạnh file gốc, file gốc giữ nguyên.</li>
           <li>RinNotch chỉ nhớ vị trí file, không sao chép thêm bản nào nên không tốn dung lượng.</li>
         </ul>
       </details>
       <details>
-        <summary><span aria-hidden="true">🎵</span>Nhạc và video</summary>
+        <summary><span aria-hidden="true">🪟</span>Cửa sổ và công cụ</summary>
+        <ul>
+          <li>Mục Cửa sổ (<b>⌃⇧9</b>): bên trái chỉnh cửa sổ app đang dùng, bên phải xếp nhiều cửa sổ cùng lúc. Bấm <b>Trả lại</b> để về như cũ.</li>
+          <li>Dịch nhanh: bôi đen chữ rồi bấm <b>⌃⇧8</b>. Lần đầu cần bật quyền Trợ năng; chưa tải gói ngôn ngữ thì vào <span class="path">Cài đặt hệ thống → Chung → Ngôn ngữ &amp; Vùng → Ngôn ngữ dịch</span>.</li>
+          <li>Khoá bàn phím để lau: nhấn <b>Esc</b> 5 lần để mở sớm.</li>
+        </ul>
+      </details>
+      <details>
+        <summary><span aria-hidden="true">🎵</span>Nhạc, thông báo và hẹn giờ</summary>
         <ul>
           <li>Bấm vào thanh thời lượng để tua tới chỗ đó.</li>
-          <li>Đang phát thì tai thỏ hiện gọn hai bên, không cần mở ra. Không thích thì tắt trong Cài đặt.</li>
           <li>macOS chỉ chọn một app "Đang phát". App đó dừng mà Apple Music hoặc Spotify đang phát thì RinNotch tự chuyển qua.</li>
-        </ul>
-      </details>
-      <details>
-        <summary><span aria-hidden="true">✍️</span>Ghi chú và bộ nhớ tạm</summary>
-        <ul>
           <li>Ghi chú: <b>Enter</b> xuống dòng, <b>⌘ Enter</b> lưu vào app Notes, thư mục RinNotch.</li>
-          <li>Bộ nhớ tạm giữ 20 thứ copy gần nhất, bấm một dòng là copy lại. Thoát app là xoá hết.</li>
-        </ul>
-      </details>
-      <details>
-        <summary><span aria-hidden="true">🔔</span>Thông báo và hẹn giờ</summary>
-        <ul>
-          <li>Tai nghe, cắm / rút sạc, pin yếu và hết giờ đếm ngược đều thả xuống từ tai thỏ.</li>
-          <li>App đang ghi âm thì tai thỏ hiện sóng âm và thời gian (sóng âm cần quyền micro).</li>
-          <li>Bật / tắt từng loại trong <span class="path">icon RinNotch → Cài đặt…</span></li>
+          <li>Tai nghe, sạc, pin yếu, mất mạng, hết giờ đếm ngược đều thả xuống từ tai thỏ. Bật / tắt từng loại trong <span class="path">icon RinNotch → Cài đặt…</span></li>
         </ul>
       </details>
     </div>
@@ -496,9 +516,11 @@ footer a{color:var(--muted)}
     <span class="kicker">An toàn</span>
     <h2 id="t-safe">RinNotch có an toàn không?</h2>
     <ul>
-      <li>RinNotch <b>không</b> chụp màn hình, <b>không</b> ghi lại thao tác bàn phím (chỉ nghe đúng phím tắt ⌥⌘N để ẩn / hiện).</li>
+      <li>RinNotch <b>không</b> chụp màn hình, <b>không</b> ghi lại bàn phím. Phím tắt đăng ký với macOS nên app chỉ biết khi đúng phím đó được bấm.</li>
+      <li>Quyền Trợ năng (nếu bạn cấp) chỉ dùng khi: Dịch nhanh đọc chữ đang bôi đen; khoá bàn phím để lau; Xếp cửa sổ đặt vị trí cửa sổ khi bạn bấm nút; Copy liên tục nghe phím ⌃ và ⌘C / ⌘V để dán lần lượt. Không lưu phím nào, không gửi đi đâu.</li>
+      <li>Mục Riêng tư được mã hoá, khoá đọc nằm trong chip bảo mật của Mac, chỉ mở được sau khi quét vân tay hoặc nhập mật khẩu máy.</li>
       <li>Micro chỉ dùng để vẽ sóng âm lúc có app khác đang ghi âm. RinNotch <b>không lưu, không gửi</b> âm thanh đi đâu.</li>
-      <li>Bộ nhớ tạm và kệ file chỉ nằm trong máy bạn.</li>
+      <li>Bộ nhớ tạm, mục ghim và kệ file chỉ nằm trong máy bạn. Dịch nhanh dùng bộ dịch trên máy của macOS.</li>
       <li>Kết nối mạng: hỏi GitHub có bản mới không và tải bản mới; tải ảnh bìa bài hát từ máy chủ ảnh của Spotify khi bạn nghe Spotify. Không gửi thông tin gì của bạn.</li>
       <li>Phần đọc bài đang phát dùng cách cộng đồng tìm ra (chạy qua <span class="path">/usr/bin/perl</span> của macOS), vì từ macOS 15.4 Apple chặn app bên thứ ba đọc thẳng. Apple có thể chặn tiếp cách này ở bản macOS sau.</li>
       <li>Mỗi bản cập nhật đều được ký số, RinNotch kiểm tra chữ ký trước khi cài, sai là không cài.</li>
