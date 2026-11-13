@@ -356,6 +356,26 @@ footer a{color:var(--muted)}
 .clip figcaption{display:grid;gap:2px;padding:0 6px 4px}
 .clip figcaption b{font-size:15.5px}
 .clip figcaption span{font-size:14px;color:var(--muted)}
+.chap{display:grid;gap:14px;justify-items:center;text-align:center;padding:clamp(24px,6vw,72px) 0 8px}
+.chap h2{font-size:clamp(32px,6.2vw,58px);line-height:1.15;letter-spacing:-.04em}
+.chap h2 em{font-style:normal;background:linear-gradient(95deg,#3d8bff 0%,#8b6bff 45%,#ff6fb1 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.chap .lede{max-width:60ch;margin:0 auto}
+.reel{width:100%;max-width:920px;margin:14px auto 0;display:grid;gap:14px}
+.track{display:flex;gap:16px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding:4px 2px;scroll-padding-inline:2px}
+.track::-webkit-scrollbar{display:none}
+.slide{flex:0 0 100%;scroll-snap-align:center;margin:0;display:grid;gap:12px;min-width:0}
+.screen{border-radius:clamp(18px,3vw,28px);padding:clamp(8px,1.4vw,14px);background:linear-gradient(160deg,#1b2233,#0a0d16);box-shadow:0 30px 60px -30px rgba(20,30,70,.55),inset 0 1px 0 rgba(255,255,255,.12)}
+.screen video{width:100%;height:auto;display:block;border-radius:clamp(10px,2vw,18px);background:#000}
+.slide figcaption{display:grid;gap:2px;max-width:60ch;margin:0 auto}
+.slide figcaption b{font-size:16px}
+.slide figcaption span{font-size:14.5px;color:var(--muted)}
+.reel-nav{display:flex;justify-content:center;align-items:center;gap:8px}
+.reel-nav .dot{width:8px;height:8px;padding:0;border:0;border-radius:99px;background:var(--muted);opacity:.35;transition:width .3s,opacity .3s;cursor:pointer}
+.reel-nav .dot.on{width:26px;opacity:.9;background:var(--accent)}
+.reel-nav .rn{width:44px;height:44px;border-radius:99px;border:1px solid rgba(127,140,170,.3);background:var(--off-bg);color:var(--ink);font-size:22px;line-height:1;cursor:pointer}
+.chap.rv{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+.chap.rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.chap.rv{opacity:1;transform:none}}
 </style>
 </head>
 <body>
@@ -390,22 +410,41 @@ footer a{color:var(--muted)}
   </header>
 
 
-  <section aria-labelledby="t-real" style="display:grid;gap:16px">
-    <h2 id="t-real">Xem RinNotch chạy thật</h2>
-    <p class="lede" style="margin:0">Quay màn hình trên MacBook của mình với bản 1.3, không dựng lại. Clip tự chạy khi các bạn cuộn tới, không có tiếng.</p>
-    <div class="clips">
-      <figure class="clip glass"><video muted loop playsinline preload="none" poster="../img/rinnotch/clip/nhac.webp" width="1040" height="576" aria-label="Quay màn hình: Nhạc và video"><source src="../img/rinnotch/clip/nhac.mp4" type="video/mp4"></video><figcaption><b>Nhạc và video</b><span>Rê chuột lên là thấy bài đang phát, bấm phát / dừng ngay trên tai thỏ.</span></figcaption></figure>
-      <figure class="clip glass"><video muted loop playsinline preload="none" poster="../img/rinnotch/clip/bo-nho-tam.webp" width="1040" height="576" aria-label="Quay màn hình: Bộ nhớ tạm"><source src="../img/rinnotch/clip/bo-nho-tam.mp4" type="video/mp4"></video><figcaption><b>Bộ nhớ tạm</b><span>Thẻ có ảnh xem trước, tìm không cần dấu, lọc bằng @link, @image.</span></figcaption></figure>
-      <figure class="clip glass"><video muted loop playsinline preload="none" poster="../img/rinnotch/clip/copy-lien-tuc.webp" width="1040" height="576" aria-label="Quay màn hình: Copy liên tục"><source src="../img/rinnotch/clip/copy-lien-tuc.mp4" type="video/mp4"></video><figcaption><b>Copy liên tục</b><span>Nhấn ⌃ hai lần, copy nhiều thứ, rồi ⌘V dán lần lượt theo thứ tự.</span></figcaption></figure>
-      <figure class="clip glass"><video muted loop playsinline preload="none" poster="../img/rinnotch/clip/ipad-vien-thuoc.webp" width="960" height="540" aria-label="Quay màn hình: Mac nào cũng dùng được"><source src="../img/rinnotch/clip/ipad-vien-thuoc.mp4" type="video/mp4"></video><figcaption><b>Mac nào cũng dùng được</b><span>Quay bằng iPhone: dùng iPad làm màn hình phụ, rê chuột qua là RinNotch hiện dạng viên thuốc ở đó.</span></figcaption></figure>
-      <figure class="clip glass"><video muted loop playsinline preload="none" poster="../img/rinnotch/clip/cua-so.webp" width="1040" height="576" aria-label="Quay màn hình: Xếp cửa sổ"><source src="../img/rinnotch/clip/cua-so.mp4" type="video/mp4"></video><figcaption><b>Xếp cửa sổ</b><span>Đưa cửa sổ sang nửa màn hình, 4 góc, hoặc xếp nhiều cửa sổ cùng lúc.</span></figcaption></figure>
-      <figure class="clip glass"><video muted loop playsinline preload="none" poster="../img/rinnotch/clip/dich-nhanh.webp" width="1040" height="576" aria-label="Quay màn hình: Dịch nhanh"><source src="../img/rinnotch/clip/dich-nhanh.mp4" type="video/mp4"></video><figcaption><b>Dịch nhanh</b><span>Bôi đen đoạn tiếng Anh, bấm ⌃⇧8 là có bản dịch tiếng Việt.</span></figcaption></figure>
-      <figure class="clip glass"><video muted loop playsinline preload="none" poster="../img/rinnotch/clip/rieng-tu.webp" width="1040" height="576" aria-label="Quay màn hình: Mục riêng tư"><source src="../img/rinnotch/clip/rieng-tu.mp4" type="video/mp4"></video><figcaption><b>Mục riêng tư</b><span>Thẻ riêng tư bị làm mờ, mở bằng vân tay, khoá lại bằng chuột phải.</span></figcaption></figure>
-      <figure class="clip glass"><video muted loop playsinline preload="none" poster="../img/rinnotch/clip/ke-file.webp" width="1040" height="576" aria-label="Quay màn hình: Kệ file và Xử lý"><source src="../img/rinnotch/clip/ke-file.mp4" type="video/mp4"></video><figcaption><b>Kệ file và Xử lý</b><span>Chuột phải một file → Xử lý → đổi sang PNG, file mới nằm ngay cạnh.</span></figcaption></figure>
-      <figure class="clip glass"><video muted loop playsinline preload="none" poster="../img/rinnotch/clip/thong-bao.webp" width="840" height="466" aria-label="Quay màn hình: Thông báo thả xuống"><source src="../img/rinnotch/clip/thong-bao.mp4" type="video/mp4"></video><figcaption><b>Thông báo thả xuống</b><span>Kết nối AirPods hiện % pin hai bên và hộp sạc, cắm hay rút sạc là tai thỏ thả xuống báo.</span></figcaption></figure>
-      <figure class="clip glass"><video muted loop playsinline preload="none" poster="../img/rinnotch/clip/cong-cu.webp" width="1040" height="576" aria-label="Quay màn hình: Công cụ"><source src="../img/rinnotch/clip/cong-cu.mp4" type="video/mp4"></video><figcaption><b>Công cụ</b><span>Lấy mã màu, giữ máy thức, khoá bàn phím để lau.</span></figcaption></figure>
-      <figure class="clip glass"><video muted loop playsinline preload="none" poster="../img/rinnotch/clip/hen-gio-he-thong.webp" width="1040" height="576" aria-label="Quay màn hình: Hẹn giờ và Hệ thống"><source src="../img/rinnotch/clip/hen-gio-he-thong.mp4" type="video/mp4"></video><figcaption><b>Hẹn giờ và Hệ thống</b><span>Bấm giờ tới phần trăm giây, đếm ngược, xem CPU, RAM, pin.</span></figcaption></figure>
-    </div>
+  <section class="chap" id="c-nhac" aria-labelledby="h-nhac">
+    <span class="kicker">Nhạc</span>
+    <h2 id="h-nhac">Đang nghe gì.<br><em>Liếc lên</em> là thấy.</h2>
+    <p class="lede">Ảnh bìa, tên bài, thanh thời lượng bấm để tua, nút phát / dừng ngay trên tai thỏ. YouTube dừng mà Apple Music hay Spotify vẫn chạy thì tự chuyển qua.</p>
+    <div class="reel"><div class="track"><figure class="slide"><div class="screen"><video muted loop playsinline preload="none" poster="../img/rinnotch/clip/nhac.webp" width="1040" height="576" aria-label="Quay màn hình: Nhạc và video"><source src="../img/rinnotch/clip/nhac.mp4" type="video/mp4"></video></div><figcaption><b>Nhạc và video</b><span>Rê chuột lên là thấy bài đang phát, bấm phát / dừng ngay trên tai thỏ.</span></figcaption></figure></div></div>
+  </section>
+  <section class="chap" id="c-clip" aria-labelledby="h-clip">
+    <span class="kicker">Bộ nhớ tạm</span>
+    <h2 id="h-clip">Copy gì cũng giữ lại.<br>Ngay trên <em>tai thỏ</em>.</h2>
+    <p class="lede">Chữ, link, ảnh, mã màu, code đều thành thẻ có xem trước. Tìm không cần dấu, ghim thứ hay dùng, cất thứ riêng tư sau vân tay.</p>
+    <div class="reel multi"><div class="track"><figure class="slide"><div class="screen"><video muted loop playsinline preload="none" poster="../img/rinnotch/clip/bo-nho-tam.webp" width="1040" height="576" aria-label="Quay màn hình: Bộ nhớ tạm"><source src="../img/rinnotch/clip/bo-nho-tam.mp4" type="video/mp4"></video></div><figcaption><b>Bộ nhớ tạm</b><span>Thẻ có ảnh xem trước, tìm không cần dấu, lọc bằng @link, @image.</span></figcaption></figure><figure class="slide"><div class="screen"><video muted loop playsinline preload="none" poster="../img/rinnotch/clip/copy-lien-tuc.webp" width="1040" height="576" aria-label="Quay màn hình: Copy liên tục"><source src="../img/rinnotch/clip/copy-lien-tuc.mp4" type="video/mp4"></video></div><figcaption><b>Copy liên tục</b><span>Nhấn ⌃ hai lần, copy nhiều thứ, rồi ⌘V dán lần lượt theo thứ tự.</span></figcaption></figure><figure class="slide"><div class="screen"><video muted loop playsinline preload="none" poster="../img/rinnotch/clip/rieng-tu.webp" width="1040" height="576" aria-label="Quay màn hình: Mục riêng tư"><source src="../img/rinnotch/clip/rieng-tu.mp4" type="video/mp4"></video></div><figcaption><b>Mục riêng tư</b><span>Thẻ riêng tư bị làm mờ, mở bằng vân tay, khoá lại bằng chuột phải.</span></figcaption></figure></div><div class="reel-nav"><button class="rn prev" type="button" aria-label="Clip trước">‹</button><button class="dot" type="button" aria-label="Clip 1"></button><button class="dot" type="button" aria-label="Clip 2"></button><button class="dot" type="button" aria-label="Clip 3"></button><button class="rn next" type="button" aria-label="Clip sau">›</button></div></div>
+  </section>
+  <section class="chap" id="c-ke" aria-labelledby="h-ke">
+    <span class="kicker">Kệ file</span>
+    <h2 id="h-ke">Kéo vào giữ tạm.<br><em>Xử lý</em> ngay tại chỗ.</h2>
+    <p class="lede">Thả file lên tai thỏ, chọn nhiều file, kéo ra là sao chép. Chuột phải để đổi ảnh sang JPG / PNG / HEIC, nén, xoá nền, gộp PDF.</p>
+    <div class="reel"><div class="track"><figure class="slide"><div class="screen"><video muted loop playsinline preload="none" poster="../img/rinnotch/clip/ke-file.webp" width="1040" height="576" aria-label="Quay màn hình: Kệ file và Xử lý"><source src="../img/rinnotch/clip/ke-file.mp4" type="video/mp4"></video></div><figcaption><b>Kệ file và Xử lý</b><span>Chuột phải một file → Xử lý → đổi sang PNG, file mới nằm ngay cạnh.</span></figcaption></figure></div></div>
+  </section>
+  <section class="chap" id="c-cua-so" aria-labelledby="h-cua-so">
+    <span class="kicker">Cửa sổ và dịch</span>
+    <h2 id="h-cua-so">Xếp cửa sổ, dịch chữ.<br><em>Một phím</em> là xong.</h2>
+    <p class="lede"><b>⌃⇧9</b> xếp cửa sổ nửa màn hình, 4 góc hay nhiều cửa sổ cùng lúc. Bôi đen chữ rồi <b>⌃⇧8</b> là có bản dịch, dịch ngay trên máy.</p>
+    <div class="reel multi"><div class="track"><figure class="slide"><div class="screen"><video muted loop playsinline preload="none" poster="../img/rinnotch/clip/cua-so.webp" width="1040" height="576" aria-label="Quay màn hình: Xếp cửa sổ"><source src="../img/rinnotch/clip/cua-so.mp4" type="video/mp4"></video></div><figcaption><b>Xếp cửa sổ</b><span>Đưa cửa sổ sang nửa màn hình, 4 góc, hoặc xếp nhiều cửa sổ cùng lúc.</span></figcaption></figure><figure class="slide"><div class="screen"><video muted loop playsinline preload="none" poster="../img/rinnotch/clip/dich-nhanh.webp" width="1040" height="576" aria-label="Quay màn hình: Dịch nhanh"><source src="../img/rinnotch/clip/dich-nhanh.mp4" type="video/mp4"></video></div><figcaption><b>Dịch nhanh</b><span>Bôi đen đoạn tiếng Anh, bấm ⌃⇧8 là có bản dịch tiếng Việt.</span></figcaption></figure></div><div class="reel-nav"><button class="rn prev" type="button" aria-label="Clip trước">‹</button><button class="dot" type="button" aria-label="Clip 1"></button><button class="dot" type="button" aria-label="Clip 2"></button><button class="rn next" type="button" aria-label="Clip sau">›</button></div></div>
+  </section>
+  <section class="chap" id="c-mac" aria-labelledby="h-mac">
+    <span class="kicker">Mac nào cũng dùng</span>
+    <h2 id="h-mac">Có tai thỏ hay không.<br><em>Vẫn</em> dùng được.</h2>
+    <p class="lede">Màn hình rời, iPad làm màn hình phụ, Mac mini, iMac: RinNotch hiện dạng viên thuốc giữa thanh menu và đi theo màn hình có chuột.</p>
+    <div class="reel"><div class="track"><figure class="slide"><div class="screen"><video muted loop playsinline preload="none" poster="../img/rinnotch/clip/ipad-vien-thuoc.webp" width="960" height="540" aria-label="Quay màn hình: Mac nào cũng dùng được"><source src="../img/rinnotch/clip/ipad-vien-thuoc.mp4" type="video/mp4"></video></div><figcaption><b>Mac nào cũng dùng được</b><span>Quay bằng iPhone: dùng iPad làm màn hình phụ, rê chuột qua là RinNotch hiện dạng viên thuốc ở đó.</span></figcaption></figure></div></div>
+  </section>
+  <section class="chap" id="c-tien-ich" aria-labelledby="h-tien-ich">
+    <span class="kicker">Thông báo và tiện ích</span>
+    <h2 id="h-tien-ich">Những việc nhỏ.<br>Dùng <em>mỗi ngày</em>.</h2>
+    <p class="lede">AirPods kết nối kèm % pin, cắm hay rút sạc, mất mạng. Lấy mã màu, giữ máy thức, khoá bàn phím để lau, bấm giờ tới phần trăm giây.</p>
+    <div class="reel multi"><div class="track"><figure class="slide"><div class="screen"><video muted loop playsinline preload="none" poster="../img/rinnotch/clip/thong-bao.webp" width="840" height="466" aria-label="Quay màn hình: Thông báo thả xuống"><source src="../img/rinnotch/clip/thong-bao.mp4" type="video/mp4"></video></div><figcaption><b>Thông báo thả xuống</b><span>Kết nối AirPods hiện % pin hai bên và hộp sạc, cắm hay rút sạc là tai thỏ thả xuống báo.</span></figcaption></figure><figure class="slide"><div class="screen"><video muted loop playsinline preload="none" poster="../img/rinnotch/clip/cong-cu.webp" width="1040" height="576" aria-label="Quay màn hình: Công cụ"><source src="../img/rinnotch/clip/cong-cu.mp4" type="video/mp4"></video></div><figcaption><b>Công cụ</b><span>Lấy mã màu, giữ máy thức, khoá bàn phím để lau.</span></figcaption></figure><figure class="slide"><div class="screen"><video muted loop playsinline preload="none" poster="../img/rinnotch/clip/hen-gio-he-thong.webp" width="1040" height="576" aria-label="Quay màn hình: Hẹn giờ và Hệ thống"><source src="../img/rinnotch/clip/hen-gio-he-thong.mp4" type="video/mp4"></video></div><figcaption><b>Hẹn giờ và Hệ thống</b><span>Bấm giờ tới phần trăm giây, đếm ngược, xem CPU, RAM, pin.</span></figcaption></figure></div><div class="reel-nav"><button class="rn prev" type="button" aria-label="Clip trước">‹</button><button class="dot" type="button" aria-label="Clip 1"></button><button class="dot" type="button" aria-label="Clip 2"></button><button class="dot" type="button" aria-label="Clip 3"></button><button class="rn next" type="button" aria-label="Clip sau">›</button></div></div>
   </section>
 
   <section aria-labelledby="t-feat" style="display:grid;gap:16px">
@@ -616,12 +655,26 @@ footer a{color:var(--muted)}
 </script>
 <script>
 (function(){
-  var vs=document.querySelectorAll('.clip video'); if(!vs.length) return;
   var still=window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(still||!('IntersectionObserver' in window)){vs.forEach(function(v){v.controls=true});return}
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;
-    if(e.isIntersecting){var p=v.play();if(p&&p.catch)p.catch(function(){v.controls=true})}else v.pause()})},{threshold:.35});
-  vs.forEach(function(v){io.observe(v)});
+  var vs=document.querySelectorAll('.chap video');
+  if(still||!('IntersectionObserver' in window)){vs.forEach(function(v){v.controls=true});}
+  else{
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;
+      if(e.isIntersecting){var p=v.play();if(p&&p.catch)p.catch(function(){v.controls=true})}else v.pause()})},{threshold:.55});
+    vs.forEach(function(v){io.observe(v)});
+    var ro=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');ro.unobserve(e.target)}})},{threshold:.12});
+    document.querySelectorAll('.chap').forEach(function(c){c.classList.add('rv');ro.observe(c)});
+  }
+  document.querySelectorAll('.reel.multi').forEach(function(r){
+    var t=r.querySelector('.track'),ss=t.children,ds=r.querySelectorAll('.dot');
+    function cur(){return Math.round(t.scrollLeft/t.clientWidth)}
+    function go(i){i=(i+ss.length)%ss.length;t.scrollTo({left:ss[i].offsetLeft-t.offsetLeft,behavior:still?'auto':'smooth'})}
+    function mark(){var i=cur();ds.forEach(function(d,k){d.classList.toggle('on',k===i);d.setAttribute('aria-current',k===i?'true':'false')})}
+    ds.forEach(function(d,k){d.addEventListener('click',function(){go(k)})});
+    r.querySelector('.prev').addEventListener('click',function(){go(cur()-1)});
+    r.querySelector('.next').addEventListener('click',function(){go(cur()+1)});
+    var tm;t.addEventListener('scroll',function(){clearTimeout(tm);tm=setTimeout(mark,80)},{passive:true});mark();
+  });
 })();
 </script>
 </body>
