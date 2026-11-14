@@ -61,6 +61,8 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-body);fo
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 .aura{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+/* iOS 26+: Safari không vẽ phần tử fixed xuống dưới thanh địa chỉ nổi, làm nền màu bị cắt thành đường thẳng. Làm mờ dần đáy lớp nền trên máy cảm ứng để không còn vết cắt. */
+@media (hover:none) and (pointer:coarse){.aura{-webkit-mask-image:linear-gradient(to bottom,#000 calc(100% - 160px),transparent);mask-image:linear-gradient(to bottom,#000 calc(100% - 160px),transparent)}}
 .aura i{position:absolute;width:70vmax;height:70vmax;border-radius:50%;opacity:.55;animation:drift 28s ease-in-out infinite alternate}
 .aura i:nth-child(1){background:radial-gradient(circle,var(--aura-1) 0%,transparent 62%);top:-30vmax;left:-20vmax}
 .aura i:nth-child(2){background:radial-gradient(circle,var(--aura-2) 0%,transparent 62%);top:-10vmax;right:-30vmax;animation-duration:34s}
