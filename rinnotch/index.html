@@ -378,6 +378,14 @@ footer a{color:var(--muted)}
 .chap.rv{opacity:0;transform:translateY(28px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
 .chap.rv.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.chap.rv{opacity:1;transform:none}}
+.ytp,.screen iframe{display:block;width:100%;aspect-ratio:16/9;height:auto;border:0;padding:0;border-radius:clamp(10px,2vw,18px);background:#000;overflow:hidden}
+.ytp{position:relative;cursor:pointer}
+.ytp img{width:100%;height:100%;object-fit:cover;display:block}
+.ytp .play{position:absolute;left:50%;top:50%;width:76px;height:76px;margin:-38px 0 0 -38px;border-radius:99px;background:rgba(14,17,26,.55);-webkit-backdrop-filter:blur(14px) saturate(1.4);backdrop-filter:blur(14px) saturate(1.4);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),0 10px 30px rgba(0,0,0,.35);transition:transform .35s cubic-bezier(.3,1.18,.45,1)}
+.ytp .play::after{content:"";position:absolute;left:31px;top:24px;border-style:solid;border-width:14px 0 14px 22px;border-color:transparent transparent transparent #fff}
+.ytp:hover .play,.ytp:focus-visible .play{transform:scale(1.1)}
+@media (max-width:600px){.ytp .play{width:58px;height:58px;top:76%;margin:-29px 0 0 -29px}.ytp .play::after{left:23px;top:18px;border-width:11px 0 11px 17px}}
+.slide figcaption a{color:var(--accent);font-weight:600}
 </style>
 </head>
 <body>
@@ -411,6 +419,12 @@ footer a{color:var(--muted)}
     </div>
   </header>
 
+  <section class="chap" id="video" aria-labelledby="h-video">
+    <span class="kicker">Video</span>
+    <h2 id="h-video">Ứng dụng RinNotch<br>mình <em>tự làm</em>.</h2>
+    <p class="lede">Chưa muốn cài thì xem video trước nha.</p>
+    <div class="reel"><div class="track"><figure class="slide"><div class="screen"><button class="ytp" type="button" data-id="PtdDrlqckAo" aria-label="Phát video: Ứng dụng RinNotch mình tự làm"><img src="https://i.ytimg.com/vi/PtdDrlqckAo/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/PtdDrlqckAo/hqdefault.jpg'" width="1280" height="720" loading="lazy" alt=""><span class="play" aria-hidden="true"></span></button></div><figcaption><span><a href="https://www.youtube.com/watch?v=PtdDrlqckAo" target="_blank" rel="noopener">Xem trên YouTube ↗</a></span></figcaption></figure></div></div>
+  </section>
 
   <section class="chap" id="c-nhac" aria-labelledby="h-nhac">
     <span class="kicker">Nhạc</span>
@@ -660,7 +674,21 @@ footer a{color:var(--muted)}
     if (el.id === "dl") track("Tải RinNotch", {ban: el.textContent});
     else if (/github\.com\/PhuocRin\/RinNotch/.test(el.href)) track("RinNotch GitHub");
     else if (/#cafe$/.test(el.getAttribute("href") || "")) track("RinNotch → Cà phê");
+    else if (/youtube\.com\/watch/.test(el.href)) track("RinNotch → YouTube");
   }, true);
+  /* Video YouTube: chỉ tải trình phát khi bấm, trang nhẹ và không gửi gì cho YouTube trước đó. */
+  document.querySelectorAll(".ytp").forEach(function(b){
+    b.addEventListener("click", function(){
+      var f = document.createElement("iframe");
+      f.src = "https://www.youtube-nocookie.com/embed/" + b.getAttribute("data-id") + "?autoplay=1&rel=0&playsinline=1";
+      f.title = b.getAttribute("aria-label").replace(/^Phát video: /, "");
+      f.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+      f.allowFullscreen = true; f.referrerPolicy = "strict-origin-when-cross-origin";
+      f.width = 1280; f.height = 720;
+      b.replaceWith(f); f.focus && f.focus();
+      track("RinNotch video");
+    });
+  });
 })();
 </script>
 <script>
