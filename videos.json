@@ -1,6 +1,11 @@
 {
  "latest": [
   {
+   "id": "fenJmQL1mDY",
+   "title": "iOS 27.3 beta 2 sau vài ngày?",
+   "published": "2026-11-21T09:15:38+00:00"
+  },
+  {
    "id": "PtdDrlqckAo",
    "title": "Ứng dụng RinNotch mình tự làm",
    "published": "2026-11-19T12:00:11+00:00"
@@ -24,11 +29,6 @@
    "id": "8Rl-P-4_6fw",
    "title": "Hướng dẫn tự tạo trang web bằng AI mà ai cũng làm được",
    "published": "2026-11-11T01:30:36+00:00"
-  },
-  {
-   "id": "9X3rtAZ7f2I",
-   "title": "iPadOS 27.2.1 chính thức có gì mới?",
-   "published": "2026-11-10T06:45:23+00:00"
   }
  ],
  "tips": [
@@ -318,6 +318,12 @@
     "title": "iOS 27.3 beta 2 có gì mới?",
     "kind": "moi",
     "published": "2026-11-17T02:00:15+00:00"
+   },
+   {
+    "id": "fenJmQL1mDY",
+    "title": "iOS 27.3 beta 2 sau vài ngày?",
+    "kind": "sau",
+    "published": "2026-11-21T09:15:38+00:00"
    }
   ]
  }
