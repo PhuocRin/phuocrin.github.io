@@ -498,6 +498,20 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 #galFilter>button{flex:none;white-space:nowrap}
 @media (max-width:460px){#galFilter>button{padding-left:12px;padding-right:12px}}
 .gal-empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:40px 0}
+.gal-empty b{color:var(--ink)}
+.gal-empty .gsugg{justify-content:center;margin-top:14px}
+/* tìm kiếm (mẫu #027 bung ra, #249 lọc ngay khi gõ, #429 gợi ý, #092 không có kết quả) */
+.sheet-top .x + .x{margin-left:-4px}
+#openSearch{display:inline-flex;align-items:center;justify-content:center}
+.gsearch{display:flex;align-items:center;gap:8px;border-radius:999px;padding:0 6px 0 16px;min-height:52px;box-sizing:border-box;min-width:0;color:var(--muted)}
+.gsearch[hidden],.gsugg[hidden]{display:none}
+.gsearch input{flex:1;min-width:0;appearance:none;border:0;background:transparent;color:var(--ink);font:500 16px var(--f-body);padding:12px 0;outline:none}
+.gsearch input::placeholder{color:var(--muted)}
+.gsearch input::-webkit-search-cancel-button{display:none}
+.gqx{appearance:none;border:0;background:transparent;color:var(--accent);font:600 15px var(--f-body);min-height:44px;padding:0 12px;border-radius:999px;cursor:pointer}
+.gsugg{display:flex;flex-wrap:wrap;gap:8px}
+.gsugg button{appearance:none;min-height:38px;padding:0 14px;border-radius:999px;border:1px solid var(--glass-line);background:var(--lg-fill);color:var(--ink);font:500 14px var(--f-body);cursor:pointer;box-shadow:inset 0 1px 0 var(--glass-hi)}
+@media (hover:hover){.gsugg button:hover{border-color:var(--accent)}}
 @media (max-width:460px){#galFilter{display:flex;width:100%;box-sizing:border-box}#galFilter button{flex:1 1 auto;padding-left:6px;padding-right:6px;font-size:13px}}
 @media (max-width:370px){#galFilter button{padding-left:3px;padding-right:3px;font-size:12px}}
 .spb{position:absolute;left:8px;bottom:8px;z-index:1;font:700 10.5px var(--f-body);letter-spacing:.01em;color:#fff;padding:4px 9px;border-radius:999px;background:rgba(20,24,34,.42);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);box-shadow:inset 0 0 0 1px rgba(255,255,255,.35)}
@@ -693,7 +707,16 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     <div class="sheet-top">
       <button class="x back" type="button" id="backAll" aria-label="Trở về"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button>
       <div><h2 id="t-all">Tất cả hình nền</h2><small id="sheetCount"></small></div>
+      <button class="x" type="button" id="openSearch" aria-label="Tìm hình nền" aria-controls="gSearch" aria-expanded="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg></button>
       <button class="x" type="button" id="closeAll" aria-label="Đóng">×</button>
+    </div>
+    <div class="gsearch glass" id="gSearch" hidden>
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg>
+      <input type="search" id="gq" placeholder="Tìm: mèo, tuyết, xe, màu tím…" autocomplete="off" autocapitalize="off" spellcheck="false" enterkeyhint="search" aria-label="Tìm hình nền">
+      <button type="button" class="gqx" id="gqx" aria-label="Đóng tìm kiếm">Huỷ</button>
+    </div>
+    <div class="gsugg" id="gSugg" hidden aria-label="Gợi ý tìm kiếm">
+      <button type="button">mèo</button><button type="button">tuyết</button><button type="button">biển</button><button type="button">xe</button><button type="button">hoàng hôn</button><button type="button">tím</button><button type="button">kính</button><button type="button">Việt Nam</button>
     </div>
     <div class="glass gbar" id="galBar">
       <div class="seg" id="galFilter" role="group" aria-label="Lọc hình nền">
@@ -1032,10 +1055,21 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   }, { rootMargin: "150px 0px" }) : null;
   /* ảnh hiện mờ rồi nét dần: chỉ áp cho hình có màu nền ph */
   function blurUp(img, it){ if (!it.ph) return; img.classList.add("bu"); img.addEventListener("load", function(){ img.classList.add("ok"); }); }
+  /* chữ để tìm: tên + mô tả + chủ đề + kiểu, bỏ dấu (gõ "meo" vẫn ra "Mèo"), thêm vài từ đồng nghĩa */
+  function fold(t){ return (t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d"); }
+  var TAGN = {"thien-nhien":"thiên nhiên phong cảnh", "dong-vat":"động vật con vật thú cưng", "de-thuong":"dễ thương cute", "con-nguoi":"con người nhân vật", "xe":"xe ô tô oto car", "vu-tru":"vũ trụ không gian galaxy", "ky-ao":"kỳ ảo fantasy", "le-tet":"lễ tết giáng sinh noel christmas"};
+  var SYN = [[/cun|corgi/, " chó dog"], [/meo/, " cat"], [/bien|song|dao/, " biển nước"], [/tuyet|bang/, " mùa đông lạnh"]];
+  function searchText(it){
+    var t = [it.label, it.sub, it.loai === "kinh" ? "kính 3d trừu tượng" : "minh họa", it.vn ? "việt nam" : "", it.spatial ? "chiều sâu spatial" : ""];
+    (it.tag || "").split(" ").forEach(function(k){ if (TAGN[k]) t.push(TAGN[k]); });
+    var f = fold(t.join(" ")), lb = fold(it.label);
+    SYN.forEach(function(x){ if (x[0].test(lb)) f += fold(x[1]); });
+    return " " + f + " ";
+  }
   function buildCards(list, container, set){
     list.forEach(function(it){
       var b = document.createElement("button"); b.type = "button"; b.className = "wp"; b.dataset.set = it.loai || set; if (it.vn) b.dataset.vn = "1"; if (it.tag) b.dataset.tag = it.tag;
-      b.setAttribute("aria-label", "Xem " + it.label);
+      b.setAttribute("aria-label", "Xem " + it.label); b.dataset.q = searchText(it);
       var th = document.createElement("span"); th.className = "thumb";
       if (it.kind === "gen"){
         var c = mk(TW,TH);
@@ -1125,22 +1159,23 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     return "linear(" + pts.join(",") + ")";
   })();
   function applyGal(b){
+    var test = typeof b === "function" ? b : function(c){ return match(c, b); };
     var cards = Array.prototype.slice.call(gal.querySelectorAll(".wp")), tk = ++galBusy;
     var canAnim = !RM && typeof gal.animate === "function" && sheet.scrollTop < 400;
     if (!canAnim){
-      var n0 = 0; cards.forEach(function(c){ var ok = match(c, b); c.hidden = !ok; if (ok) n0++; });
+      var n0 = 0; cards.forEach(function(c){ var ok = test(c); c.hidden = !ok; if (ok) n0++; });
       if (sheet.scrollTop >= 400) sheet.scrollTop = 0;
-      setCount(n0); return;
+      setCount(n0); emptyState(n0); return;
     }
     var first = new Map(), leaving = [];
-    cards.forEach(function(c){ if (c.hidden) return; var r = c.getBoundingClientRect(); if (inView(r)) first.set(c, r); if (!match(c, b) && inView(r)) leaving.push(c); });
+    cards.forEach(function(c){ if (c.hidden) return; var r = c.getBoundingClientRect(); if (inView(r)) first.set(c, r); if (!test(c) && inView(r)) leaving.push(c); });
     /* hình bị lọc ra: nhòe dần, thu nhỏ rồi tan */
     var fade = leaving.map(function(c){ return c.animate([{opacity:1, transform:"scale(1)", filter:"blur(0)"},{opacity:0, transform:"scale(.9)", filter:"blur(8px)"}], {duration:190, easing:"cubic-bezier(.4,0,1,1)", fill:"forwards"}); });
     setTimeout(function(){
       if (tk !== galBusy) return;
       fade.forEach(function(a){ a.cancel(); });
-      var n = 0; cards.forEach(function(c){ var ok = match(c, b); c.hidden = !ok; if (ok) n++; });
-      setCount(n);
+      var n = 0; cards.forEach(function(c){ var ok = test(c); c.hidden = !ok; if (ok) n++; });
+      setCount(n); emptyState(n);
       var g0 = gal.getBoundingClientRect();
       cards.forEach(function(c){
         if (c.hidden) return; var r = c.getBoundingClientRect(); if (!inView(r)) return;
@@ -1164,6 +1199,56 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
       centerBtn(btn, true); applyGal(btn);
     });
   });
+  /* tìm kiếm */
+  var gSearch = document.getElementById("gSearch"), gq = document.getElementById("gq"), gSugg = document.getElementById("gSugg"), gBarWrap = document.getElementById("galBar"), oSearch = document.getElementById("openSearch");
+  var qTimer = 0, qTrack = 0, qLast = "";
+  function curBtn(){ return gBar.querySelector(':scope > button[aria-pressed="true"]') || gBar.querySelector(":scope > button"); }
+  function emptyState(n){
+    var em = gal.querySelector(".gal-empty");
+    if (!n){
+      if (!em){ em = document.createElement("div"); em.className = "gal-empty"; gal.appendChild(em); }
+      em.textContent = "";
+      var p1 = document.createElement("p"), q = gq.value.trim();
+      if (q && !gSearch.hidden){ p1.appendChild(document.createTextNode("Chưa có hình nào khớp “")); var bb = document.createElement("b"); bb.textContent = q; p1.appendChild(bb); p1.appendChild(document.createTextNode("”. Các bạn thử từ khác nha:")); }
+      else p1.textContent = "Chưa có hình nào trong nhóm này.";
+      em.appendChild(p1);
+      if (q && !gSearch.hidden){ var sg = gSugg.cloneNode(true); sg.removeAttribute("id"); sg.hidden = false; sg.querySelectorAll("button").forEach(function(x){ x.addEventListener("click", function(){ setQuery(x.textContent); }); }); em.appendChild(sg); }
+      em.hidden = false;
+    } else if (em) em.hidden = true;
+  }
+  function runSearch(){
+    var q = fold(gq.value).trim().replace(/\s+/g, " ");
+    gSugg.hidden = !!q;
+    if (q === qLast) return; qLast = q;
+    if (!q){ applyGal(curBtn()); return; }
+    var toks = q.split(" ");
+    applyGal(function(c){ var h = c.dataset.q || ""; return toks.every(function(t){ return h.indexOf(t) > -1; }); });
+    clearTimeout(qTrack); qTrack = setTimeout(function(){ if (q.length > 1 && window.umami) try { umami.track("Tìm hình nền", {q: q}); } catch(e){} }, 1500);
+  }
+  function setQuery(t){ gq.value = t; clearTimeout(qTimer); runSearch(); gq.focus(); }
+  function openSearch(){
+    if (!gSearch.hidden){ gq.focus(); return; }
+    gBarWrap.hidden = true; gSearch.hidden = false; gSugg.hidden = !!gq.value.trim(); oSearch.setAttribute("aria-expanded", "true");
+    if (!RM && gSearch.animate){
+      gSearch.animate([{opacity:0, transform:"translateX(24px) scale(.96)"},{opacity:1, transform:"none"}], {duration:520, easing:SPRING});
+      gSugg.animate([{opacity:0, transform:"translateY(-6px)"},{opacity:1, transform:"none"}], {duration:320, delay:120, easing:"ease-out", fill:"backwards"});
+    }
+    if (sheet.scrollTop > 0) sheet.scrollTop = 0;
+    gq.focus();
+    qLast = null; runSearch();
+  }
+  function closeSearch(){
+    if (gSearch.hidden) return;
+    gq.value = ""; qLast = ""; gSearch.hidden = true; gSugg.hidden = true; gBarWrap.hidden = false; oSearch.setAttribute("aria-expanded", "false");
+    segLenses.forEach(function(L){ L.refresh(); }); edges();
+    applyGal(curBtn()); oSearch.focus();
+  }
+  oSearch.addEventListener("click", function(){ if (gSearch.hidden) openSearch(); else closeSearch(); });
+  document.getElementById("gqx").addEventListener("click", closeSearch);
+  gq.addEventListener("input", function(){ clearTimeout(qTimer); qTimer = setTimeout(runSearch, 160); });
+  gq.addEventListener("keydown", function(e){ if (e.key === "Enter"){ e.preventDefault(); clearTimeout(qTimer); runSearch(); gq.blur(); } if (e.key === "Escape"){ e.stopPropagation(); closeSearch(); } });
+  gSugg.querySelectorAll("button").forEach(function(x){ x.addEventListener("click", function(){ setQuery(x.textContent); }); });
+  document.addEventListener("keydown", function(e){ if (e.key === "/" && !sheet.hidden && viewer.hidden && document.activeElement !== gq){ e.preventDefault(); openSearch(); } });
   document.addEventListener("keydown", function(e){ if (e.key === "Escape" && !sheet.hidden && viewer.hidden) goBack(1); });
 
   /* Apple-style tab lens: follows the finger smoothly (rAF), magnifies while dragging, springs back on release */
