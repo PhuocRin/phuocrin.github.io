@@ -487,14 +487,14 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 @media (max-width:360px){.me>span{min-width:0}.me small{font-size:11px;letter-spacing:0}}
 
 /* Spatial Scene: nhãn trên thẻ + lớp chủ thể đè lên đồng hồ trong trình xem */
-#galFilter button{white-space:nowrap}
-/* hàng chủ đề: chip cuộn ngang, bấm lại chip đang chọn để bỏ lọc; kết hợp với hàng Kính/Minh họa ở trên */
-.topics{display:flex;gap:8px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-inline:-16px;padding:2px 16px;scroll-padding-inline:16px;min-width:0}
-.topics::-webkit-scrollbar{display:none}
-.tp{flex:none;appearance:none;min-height:44px;box-sizing:border-box;padding:0 16px;border-radius:999px;border:1px solid var(--glass-line);background:var(--lg-fill);color:var(--ink);font:600 14px var(--f-body);white-space:nowrap;cursor:pointer;box-shadow:inset 0 1px 0 var(--glass-hi);-webkit-tap-highlight-color:transparent;transition:background .2s,color .2s,border-color .2s}
-.tp[aria-pressed="true"]{background:var(--accent);border-color:transparent;color:var(--btn-fg);padding-right:12px}
-.tp[aria-pressed="true"]::after{content:"×";margin-left:6px;font-weight:700;font-size:17px;line-height:1}
-@media (hover:hover){.tp:hover{border-color:var(--accent)}}
+/* thanh lọc một dòng: khung kính .gbar đứng yên, bên trong #galFilter cuộn ngang (mẫu #242: bấm nút nào thì nút đó tự cuộn vào giữa); mép mờ chỉ hiện ở phía còn nút */
+.gbar{border-radius:999px;overflow:hidden;min-width:0;justify-self:start;max-width:100%;box-sizing:border-box}
+#galFilter{display:flex;max-width:100%;box-sizing:border-box;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none;touch-action:pan-x pan-y;--fl:0px;--fr:0px;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 var(--fl),#000 calc(100% - var(--fr)),transparent);mask-image:linear-gradient(90deg,transparent,#000 var(--fl),#000 calc(100% - var(--fr)),transparent)}
+#galFilter::-webkit-scrollbar{display:none}
+#galFilter.fl{--fl:28px}#galFilter.fr{--fr:36px}
+#galFilter>button{flex:none;white-space:nowrap}
+@media (max-width:460px){#galFilter>button{padding-left:12px;padding-right:12px}}
 .gal-empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:40px 0}
 @media (max-width:460px){#galFilter{display:flex;width:100%;box-sizing:border-box}#galFilter button{flex:1 1 auto;padding-left:6px;padding-right:6px;font-size:13px}}
 @media (max-width:370px){#galFilter button{padding-left:3px;padding-right:3px;font-size:12px}}
@@ -693,22 +693,21 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
       <div><h2 id="t-all">Tất cả hình nền</h2><small id="sheetCount"></small></div>
       <button class="x" type="button" id="closeAll" aria-label="Đóng">×</button>
     </div>
-    <div class="seg glass" id="galFilter" aria-label="Lọc theo kiểu">
-      <button type="button" data-set="all" aria-pressed="true">Tất cả</button>
-      <button type="button" data-set="kinh" aria-pressed="false">Kính</button>
-      <button type="button" data-set="minh-hoa" aria-pressed="false">Minh họa</button>
-      <button type="button" data-set="spatial" aria-pressed="false">Chiều sâu</button>
-      <button type="button" data-set="vn" aria-pressed="false">Việt Nam</button>
-    </div>
-    <div class="topics" id="galTopic" role="group" aria-label="Lọc theo chủ đề">
-      <button type="button" class="tp" data-tag="thien-nhien" aria-pressed="false">Thiên nhiên</button>
-      <button type="button" class="tp" data-tag="dong-vat" aria-pressed="false">Động vật</button>
-      <button type="button" class="tp" data-tag="de-thuong" aria-pressed="false">Dễ thương</button>
-      <button type="button" class="tp" data-tag="con-nguoi" aria-pressed="false">Con người</button>
-      <button type="button" class="tp" data-tag="xe" aria-pressed="false">Xe</button>
-      <button type="button" class="tp" data-tag="vu-tru" aria-pressed="false">Vũ trụ</button>
-      <button type="button" class="tp" data-tag="ky-ao" aria-pressed="false">Kỳ ảo</button>
-      <button type="button" class="tp" data-tag="le-tet" aria-pressed="false">Lễ Tết</button>
+    <div class="glass gbar" id="galBar">
+      <div class="seg" id="galFilter" role="group" aria-label="Lọc hình nền">
+        <button type="button" data-set="all" aria-pressed="true">Tất cả</button>
+        <button type="button" data-tag="thien-nhien" aria-pressed="false">Thiên nhiên</button>
+        <button type="button" data-tag="dong-vat" aria-pressed="false">Động vật</button>
+        <button type="button" data-tag="de-thuong" aria-pressed="false">Dễ thương</button>
+        <button type="button" data-set="kinh" aria-pressed="false">Kính</button>
+        <button type="button" data-tag="xe" aria-pressed="false">Xe</button>
+        <button type="button" data-tag="vu-tru" aria-pressed="false">Vũ trụ</button>
+        <button type="button" data-tag="ky-ao" aria-pressed="false">Kỳ ảo</button>
+        <button type="button" data-tag="con-nguoi" aria-pressed="false">Con người</button>
+        <button type="button" data-tag="le-tet" aria-pressed="false">Lễ Tết</button>
+        <button type="button" data-set="vn" aria-pressed="false">Việt Nam</button>
+        <button type="button" data-set="spatial" aria-pressed="false">Chiều sâu</button>
+      </div>
     </div>
   </div>
   <div class="gal" id="gal"></div>
@@ -811,7 +810,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   var ITEMS = { kl: [], bcs: [] };
   /* HÌNH NỀN — mỗi hình có 4 file trong wallpapers/<bo>/: <id>_phone.jpg, <id>_desktop.jpg và thumb/<id>_phone.jpg, thumb/<id>_desktop.jpg */
   var WALLS = [
-    /* loai: "kinh" hoặc "minh-hoa" để lọc trong "Xem tất cả"; vn:true thì hiện thêm ở nút lọc "Việt Nam". tag: chủ đề cách nhau bằng dấu cách (thien-nhien, dong-vat, de-thuong, con-nguoi, xe, vu-tru, ky-ao, le-tet), khớp các chip ở hàng #galTopic; hình không thuộc chủ đề nào thì bỏ trống. Hình mới nhất đặt lên đầu. ai:true thì hiện nhãn "Ảnh AI" (ní đã chọn tắt, 12/10/2026). ph: 3 màu trên/giữa/dưới của ảnh thumb (tự tính lúc đăng hình), làm nền cho ô hình trong lúc ảnh đang tải */
+    /* loai: "kinh" hoặc "minh-hoa" để lọc trong "Xem tất cả"; vn:true thì hiện thêm ở nút lọc "Việt Nam". tag: chủ đề cách nhau bằng dấu cách (thien-nhien, dong-vat, de-thuong, con-nguoi, xe, vu-tru, ky-ao, le-tet), khớp các nút data-tag trong thanh lọc #galFilter; hình không thuộc chủ đề nào thì bỏ trống. Hình mới nhất đặt lên đầu. ai:true thì hiện nhãn "Ảnh AI" (ní đã chọn tắt, 12/10/2026). ph: 3 màu trên/giữa/dưới của ảnh thumb (tự tính lúc đăng hình), làm nền cho ô hình trong lúc ảnh đang tải */
     {bo:"bo-19", id:"cay-thong-dem-tuyet", label:"Cây Thông Đêm Tuyết", sub:"Giáng sinh · vàng đêm", loai:"minh-hoa", tag:"le-tet thien-nhien", ai:false, ph:"192d3b,3d3834,4c423f"},
     {bo:"bo-19", id:"nguoi-tuyet-den-long", label:"Người Tuyết Đèn Lồng", sub:"Giáng sinh · xanh đêm", loai:"minh-hoa", tag:"le-tet de-thuong", ai:false, ph:"1d5e7d,5e616e,6f6f76"},
     {bo:"bo-19", id:"cau-go-bien-ngoc", label:"Cầu Gỗ Biển Ngọc", sub:"Biển · xanh ngọc", loai:"minh-hoa", tag:"thien-nhien", ai:false, ph:"38718d,679598,97a598"},
@@ -1090,6 +1089,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     if (sheet.hidden) pushLv();
     sheet.hidden = false; sheet.scrollTop = 0; document.documentElement.style.overflow = "hidden";
     segLenses.forEach(function(L){ L.refresh(); });
+    edges();
     document.getElementById("closeAll").focus();
   }
   function closeAll(){ sheet.hidden = true; document.documentElement.style.overflow = ""; document.getElementById("openAll").focus(); }
@@ -1106,32 +1106,48 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   document.getElementById("openAll").addEventListener("click", openAll);
   document.getElementById("closeAll").addEventListener("click", function(){ goBack(1); });
   document.getElementById("backAll").addEventListener("click", function(){ goBack(1); });
-  /* lọc = kiểu (hàng trên) VÀ chủ đề (hàng chip); không còn hình nào thì hiện một dòng báo */
-  var galSet = "all", galTag = "";
-  function applyGal(){
-    var n = 0;
-    gal.querySelectorAll(".wp").forEach(function(c){
-      var f = galSet, ok = f === "spatial" ? c.dataset.spatial === "1" : f === "vn" ? c.dataset.vn === "1" : (f === "all" || c.dataset.set === f);
-      if (ok && galTag) ok = (" " + (c.dataset.tag || "") + " ").indexOf(" " + galTag + " ") > -1;
-      c.hidden = !ok; if (ok) n++;
-    });
-    var em = gal.querySelector(".gal-empty");
-    if (!n && !em){ em = document.createElement("p"); em.className = "gal-empty"; em.textContent = "Chưa có hình nào thuộc nhóm này. Các bạn thử bỏ bớt một bộ lọc nha."; gal.appendChild(em); }
-    if (em) em.hidden = n > 0;
-    setCount(n);
+  /* thanh lọc một dòng: nút có data-set (kiểu: kinh, vn, spatial, all) hoặc data-tag (chủ đề). Mẫu #292: hình không khớp mờ đi, hình còn lại trượt về chỗ mới (chỉ các ô đang trong màn hình, tôn trọng reduced-motion) */
+  var gBar = document.getElementById("galFilter"), galBusy = 0;
+  var RM = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function match(c, b){
+    var f = b.dataset.set, t = b.dataset.tag;
+    if (t) return (" " + (c.dataset.tag || "") + " ").indexOf(" " + t + " ") > -1;
+    return f === "spatial" ? c.dataset.spatial === "1" : f === "vn" ? c.dataset.vn === "1" : (f === "all" || c.dataset.set === f);
   }
-  document.querySelectorAll("#galFilter > button").forEach(function(btn){
+  function inView(r){ return r.bottom > -60 && r.top < innerHeight + 60; }
+  function applyGal(b){
+    var cards = Array.prototype.slice.call(gal.querySelectorAll(".wp")), tk = ++galBusy;
+    var canAnim = !RM && typeof gal.animate === "function" && sheet.scrollTop < 400;
+    if (!canAnim){
+      var n0 = 0; cards.forEach(function(c){ var ok = match(c, b); c.hidden = !ok; if (ok) n0++; });
+      if (sheet.scrollTop >= 400) sheet.scrollTop = 0;
+      setCount(n0); return;
+    }
+    var first = new Map(), leaving = [];
+    cards.forEach(function(c){ if (c.hidden) return; var r = c.getBoundingClientRect(); if (inView(r)) first.set(c, r); if (!match(c, b) && inView(r)) leaving.push(c); });
+    var fade = leaving.map(function(c){ return c.animate([{opacity:1, transform:"scale(1)"},{opacity:0, transform:"scale(.92)"}], {duration:150, easing:"ease-in", fill:"forwards"}); });
+    setTimeout(function(){
+      if (tk !== galBusy) return;
+      fade.forEach(function(a){ a.cancel(); });
+      var n = 0; cards.forEach(function(c){ var ok = match(c, b); c.hidden = !ok; if (ok) n++; });
+      setCount(n);
+      var k = 0;
+      cards.forEach(function(c){
+        if (c.hidden) return; var r = c.getBoundingClientRect(); if (!inView(r)) return;
+        var o = first.get(c);
+        if (o){ var dx = o.left - r.left, dy = o.top - r.top; if (dx || dy) c.animate([{transform:"translate(" + dx + "px," + dy + "px)"},{transform:"none"}], {duration:420, easing:"cubic-bezier(.2,.9,.25,1)"}); }
+        else c.animate([{opacity:0, transform:"translateY(14px) scale(.94)"},{opacity:1, transform:"none"}], {duration:360, delay:Math.min(k++, 12) * 28, easing:"cubic-bezier(.2,.9,.25,1)", fill:"backwards"});
+      });
+    }, leaving.length ? 150 : 0);
+  }
+  function centerBtn(b, smooth){ var left = b.offsetLeft - (gBar.clientWidth - b.offsetWidth) / 2; gBar.scrollTo({left: Math.max(0, left), behavior: smooth && !RM ? "smooth" : "auto"}); }
+  function edges(){ var m = gBar.scrollWidth - gBar.clientWidth; gBar.classList.toggle("fl", gBar.scrollLeft > 2); gBar.classList.toggle("fr", m > 2 && gBar.scrollLeft < m - 2); }
+  gBar.addEventListener("scroll", edges, {passive:true}); window.addEventListener("resize", edges);
+  gBar.querySelectorAll(":scope > button").forEach(function(btn){
     btn.addEventListener("click", function(){
-      galSet = btn.dataset.set;
-      document.querySelectorAll("#galFilter > button").forEach(function(b){ b.setAttribute("aria-pressed", b === btn ? "true" : "false"); });
-      applyGal();
-    });
-  });
-  document.querySelectorAll("#galTopic > .tp").forEach(function(btn){
-    btn.addEventListener("click", function(){
-      galTag = galTag === btn.dataset.tag ? "" : btn.dataset.tag;
-      document.querySelectorAll("#galTopic > .tp").forEach(function(b){ b.setAttribute("aria-pressed", b.dataset.tag === galTag ? "true" : "false"); });
-      applyGal();
+      if (btn.getAttribute("aria-pressed") === "true") return;
+      gBar.querySelectorAll(":scope > button").forEach(function(x){ x.setAttribute("aria-pressed", x === btn ? "true" : "false"); });
+      centerBtn(btn, true); applyGal(btn);
     });
   });
   document.addEventListener("keydown", function(e){ if (e.key === "Escape" && !sheet.hidden && viewer.hidden) goBack(1); });
@@ -1151,7 +1167,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     var cur = null, drag = null, raf = 0, pos = {x:0,y:0,w:0,h:0}, tx = 0, MAG = 1.28;
     function syncInner(){
       var cs = getComputedStyle(box);
-      inner.style.width = box.clientWidth + "px"; inner.style.height = box.clientHeight + "px";
+      inner.style.width = box.scrollWidth + "px"; inner.style.height = box.clientHeight + "px";
       inner.style.padding = cs.padding; inner.style.gap = cs.gap; inner.style.alignItems = cs.alignItems; inner.style.justifyContent = cs.justifyContent;
     }
     function apply(scale){
@@ -1176,7 +1192,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
       raf = Math.abs(dx) > 0.2 ? requestAnimationFrame(loop) : 0;
     }
     function swallow(e){ e.preventDefault(); e.stopPropagation(); }
-    box.addEventListener("pointerdown", function(e){ if (e.button) return; drag = {x0:e.clientX, id:e.pointerId, moved:false, el:null}; });
+    box.addEventListener("pointerdown", function(e){ if (e.button) return; if (e.pointerType !== "mouse" && box.scrollWidth > box.clientWidth + 1) return; drag = {x0:e.clientX, id:e.pointerId, moved:false, el:null}; });
     box.addEventListener("pointermove", function(e){
       if (!drag) return;
       if (!drag.moved){
@@ -1189,7 +1205,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
       var el = nearest(e.clientX); if (!el) return;
       var br = box.getBoundingClientRect();
       pos.w = el.offsetWidth; pos.h = el.offsetHeight; pos.y = el.offsetTop;
-      tx = Math.max(0, Math.min(box.clientWidth - pos.w, e.clientX - br.left - box.clientLeft - pos.w/2));
+      tx = Math.max(0, Math.min(box.scrollWidth - pos.w, e.clientX - br.left - box.clientLeft + box.scrollLeft - pos.w/2));
       drag.el = el;
       if (!raf) raf = requestAnimationFrame(loop);
     });
