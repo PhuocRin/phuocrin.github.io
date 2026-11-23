@@ -1117,6 +1117,13 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     return f === "spatial" ? c.dataset.spatial === "1" : f === "vn" ? c.dataset.vn === "1" : (f === "all" || c.dataset.set === f);
   }
   function inView(r){ return r.bottom > -60 && r.top < innerHeight + 60; }
+  /* lò xo kiểu iOS: tạo đường cong linear() từ công thức lò xo tắt dần (vượt nhẹ rồi dừng); trình duyệt cũ thì dùng cubic-bezier */
+  var SPRING = (function(){
+    try { if (!(window.CSS && CSS.supports("animation-timing-function", "linear(0, 1)"))) return "cubic-bezier(.2,.9,.25,1)"; } catch(e){ return "cubic-bezier(.2,.9,.25,1)"; }
+    var z = 0.78, w = 2 * Math.PI / 0.42, wd = w * Math.sqrt(1 - z * z), pts = [];
+    for (var k = 0; k <= 48; k++){ var t = k / 48 * 0.7, v = 1 - Math.exp(-z * w * t) * (Math.cos(wd * t) + (z * w / wd) * Math.sin(wd * t)); pts.push((k === 48 ? 1 : v).toFixed(4)); }
+    return "linear(" + pts.join(",") + ")";
+  })();
   function applyGal(b){
     var cards = Array.prototype.slice.call(gal.querySelectorAll(".wp")), tk = ++galBusy;
     var canAnim = !RM && typeof gal.animate === "function" && sheet.scrollTop < 400;
@@ -1127,20 +1134,25 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     }
     var first = new Map(), leaving = [];
     cards.forEach(function(c){ if (c.hidden) return; var r = c.getBoundingClientRect(); if (inView(r)) first.set(c, r); if (!match(c, b) && inView(r)) leaving.push(c); });
-    var fade = leaving.map(function(c){ return c.animate([{opacity:1, transform:"scale(1)"},{opacity:0, transform:"scale(.92)"}], {duration:150, easing:"ease-in", fill:"forwards"}); });
+    /* hình bị lọc ra: nhòe dần, thu nhỏ rồi tan */
+    var fade = leaving.map(function(c){ return c.animate([{opacity:1, transform:"scale(1)", filter:"blur(0)"},{opacity:0, transform:"scale(.9)", filter:"blur(8px)"}], {duration:190, easing:"cubic-bezier(.4,0,1,1)", fill:"forwards"}); });
     setTimeout(function(){
       if (tk !== galBusy) return;
       fade.forEach(function(a){ a.cancel(); });
       var n = 0; cards.forEach(function(c){ var ok = match(c, b); c.hidden = !ok; if (ok) n++; });
       setCount(n);
-      var k = 0;
+      var g0 = gal.getBoundingClientRect();
       cards.forEach(function(c){
         if (c.hidden) return; var r = c.getBoundingClientRect(); if (!inView(r)) return;
         var o = first.get(c);
-        if (o){ var dx = o.left - r.left, dy = o.top - r.top; if (dx || dy) c.animate([{transform:"translate(" + dx + "px," + dy + "px)"},{transform:"none"}], {duration:420, easing:"cubic-bezier(.2,.9,.25,1)"}); }
-        else c.animate([{opacity:0, transform:"translateY(14px) scale(.94)"},{opacity:1, transform:"none"}], {duration:360, delay:Math.min(k++, 12) * 28, easing:"cubic-bezier(.2,.9,.25,1)", fill:"backwards"});
+        if (o){ var dx = o.left - r.left, dy = o.top - r.top; if (dx || dy) c.animate([{transform:"translate(" + dx + "px," + dy + "px)"},{transform:"none"}], {duration:700, easing:SPRING}); }
+        else {
+          /* hình mới: từ nhòe nét dần lên, hiện lần lượt từ góc trên trái lan xuống (gợn sóng) */
+          var d = Math.min(Math.hypot(r.left - g0.left, Math.max(0, r.top - g0.top)) * 0.55, 420);
+          c.animate([{opacity:0, transform:"translateY(22px) scale(.9)", filter:"blur(10px)"},{opacity:1, transform:"none", filter:"blur(0)"}], {duration:720, delay:d, easing:SPRING, fill:"backwards"});
+        }
       });
-    }, leaving.length ? 150 : 0);
+    }, leaving.length ? 190 : 0);
   }
   function centerBtn(b, smooth){ var left = b.offsetLeft - (gBar.clientWidth - b.offsetWidth) / 2; gBar.scrollTo({left: Math.max(0, left), behavior: smooth && !RM ? "smooth" : "auto"}); }
   function edges(){ var m = gBar.scrollWidth - gBar.clientWidth; gBar.classList.toggle("fl", gBar.scrollLeft > 2); gBar.classList.toggle("fr", m > 2 && gBar.scrollLeft < m - 2); }
