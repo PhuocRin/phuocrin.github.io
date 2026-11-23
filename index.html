@@ -503,9 +503,9 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 #openSearch{display:inline-flex;align-items:center;justify-content:center}
 .gsearch{display:flex;align-items:center;gap:8px;border-radius:999px;padding:0 6px 0 16px;min-height:52px;box-sizing:border-box;min-width:0;color:var(--muted)}
 .gsearch[hidden],.gsugg[hidden]{display:none}
-.gmorph{position:fixed;z-index:80;box-sizing:border-box;display:flex;align-items:center;overflow:hidden;pointer-events:none;color:var(--muted);
-  background:var(--glass-solid);border:1px solid var(--glass-line);box-shadow:inset 0 1px 0 var(--glass-hi),0 24px 60px -30px var(--shadow)}
-.gmorph svg{flex:none}
+.lqc{position:fixed;left:0;top:0;z-index:80;pointer-events:none;transition:opacity .18s ease-out}
+.lqi{position:fixed;left:0;top:0;z-index:81;pointer-events:none;color:var(--ink);transition:opacity .18s ease-out;will-change:transform}
+.lqi svg{display:block}
 #openSearch svg{transition:opacity .15s}
 #openSearch.mopen svg{opacity:0}
 .gsearch input{flex:1;min-width:0;appearance:none;border:0;background:transparent;color:var(--ink);font:500 16px var(--f-body);padding:12px 0;outline:none}
@@ -1229,55 +1229,140 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     clearTimeout(qTrack); qTrack = setTimeout(function(){ if (q.length > 1 && window.umami) try { umami.track("Tìm hình nền", {q: q}); } catch(e){} }, 1500);
   }
   function setQuery(t){ gq.value = t; clearTimeout(qTimer); runSearch(); gq.focus(); }
-  /* hiệu ứng biến hình: một "bóng" kính tách ra từ nút kính lúp, giãn thành ô tìm kiếm (mở) hoặc co về nút (Huỷ). Bóng không dùng backdrop-filter để Safari vẽ mượt */
-  var morphing = 0;
-  function ghost(from, to, iconFrom, iconTo, open, done){
-    var g = document.createElement("div"); g.className = "gmorph"; g.setAttribute("aria-hidden", "true");
-    g.innerHTML = '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg>';
-    document.body.appendChild(g);
-    function box(r, ic, rad){ return {left:r.left + "px", top:r.top + "px", width:r.width + "px", height:r.height + "px", paddingLeft:ic + "px", borderRadius:rad}; }
-    var k = [box(from, iconFrom, "999px"), box(to, iconTo, "999px")];
-    var dur = open ? 560 : 460;
-    g.animate(k, {duration: dur, easing: SPRING, fill: "forwards"});
-    g.firstChild.animate(open ? [{transform:"scale(1.15)"},{transform:"scale(1)"}] : [{transform:"scale(1)"},{transform:"scale(1.15)"}], {duration: dur, easing: SPRING, fill: "forwards"});
-    /* hẹn giờ thay cho onfinish: chắc chắn bóng luôn được dọn, kể cả khi tab bị tạm dừng */
-    setTimeout(function(){ done(); g.style.transition = "opacity .14s ease-out"; g.style.opacity = "0"; setTimeout(function(){ g.remove(); }, 170); }, dur - 40);
-    return g;
-  }
+  /* Kính lỏng (cùng công thức phong cách 10 của Rin Studio / intro kênh): vẽ bằng WebGL các khối kính nhập nhau như giọt nước (smin),
+     viền sáng theo hướng đèn, mép tách màu, bóng đổ ngắn. Mở: giọt tách khỏi nút kính lúp, rơi xuống mép phải rồi chảy dài thành thanh tìm.
+     Huỷ: thanh co về giọt, giọt bay lên nhập lại vào nút. Không có WebGL hoặc bật Giảm chuyển động thì hiện thẳng. */
+  var LQ = (function(){
+    var FS = "precision highp float;uniform vec2 uRes;uniform float uS;uniform vec3 uA;uniform vec3 uB;uniform vec4 uR;uniform float uRr;uniform float uK;" +
+      "uniform vec3 uBg;uniform vec4 uFill;uniform float uDark;" +
+      "float sdRB(vec2 p,vec2 b,float r){r=min(r,min(b.x,b.y));vec2 q=abs(p)-b+r;return length(max(q,0.0))+min(max(q.x,q.y),0.0)-r;}" +
+      "float smin(float a,float b,float k){float h=clamp(0.5+0.5*(b-a)/k,0.0,1.0);return mix(b,a,h)-k*h*(1.0-h);}" +
+      "float F(vec2 p){float d=length(p-uA.xy)-uA.z;if(uB.z>0.5)d=smin(d,length(p-uB.xy)-uB.z,uK);if(uR.z>0.5)d=smin(d,sdRB(p-uR.xy,uR.zw,uRr),uK);return d;}" +
+      "void main(){vec2 p=vec2(gl_FragCoord.x,uRes.y-gl_FragCoord.y)/uS;float d=F(p);float ds=F(p-vec2(0.0,8.0));" +
+      "if(d>40.0&&ds>30.0){gl_FragColor=vec4(0.0);return;}" +
+      "vec2 n=normalize(vec2(F(p+vec2(1.0,0.0))-F(p-vec2(1.0,0.0)),F(p+vec2(0.0,1.0))-F(p-vec2(0.0,1.0)))+1e-6);" +
+      "float depth=max(-d,0.0);vec3 col=mix(uBg,uFill.rgb,uFill.a);" +
+      "float facing=dot(n,normalize(vec2(-0.6,-0.8)));" +
+      "float rim=exp(-depth/1.6)*(0.22+1.0*pow(max(facing,0.0),3.0)+0.55*pow(max(-facing,0.0),3.0));" +
+      "float glow=exp(-depth/7.0)*0.11*(0.6+0.7*max(facing,0.0))+exp(-depth/30.0)*0.05;" +
+      "col+=(rim*mix(0.55,1.0,uDark)+glow*mix(0.6,1.0,uDark));" +
+      "col-=exp(-depth/3.0)*pow(max(-facing,0.0),2.0)*mix(0.10,0.0,uDark);" +
+      "float fr=exp(-depth/2.6)*0.16;col+=uDark*(fr*vec3(0.55+0.45*n.x,0.05,0.55-0.45*n.x)-fr*0.3);" +
+      "col-=(1.0-uDark)*(exp(-depth/1.1)*0.16+exp(-depth/3.2)*vec3(0.10-0.08*n.x,0.13,0.10+0.08*n.x)*0.9);" +
+      "float aa=clamp(0.5-d*uS,0.0,1.0);float sh=(1.0-smoothstep(-12.0,26.0,ds))*mix(0.16,0.38,uDark);" +
+      "float a=aa+(1.0-aa)*sh;gl_FragColor=vec4(clamp(col,0.0,1.0)*aa,a);}";
+    var VS = "attribute vec2 a;void main(){gl_Position=vec4(a,0.0,1.0);}";
+    var ok = null, cv, gl, U = {}, ico;
+    function setup(){
+      if (ok !== null) return ok;
+      try {
+        cv = document.createElement("canvas"); cv.className = "lqc"; cv.setAttribute("aria-hidden", "true");
+        gl = cv.getContext("webgl", {premultipliedAlpha:true, alpha:true, antialias:false});
+        if (!gl) return (ok = false);
+        function sh(t, src){ var x = gl.createShader(t); gl.shaderSource(x, src); gl.compileShader(x); if (!gl.getShaderParameter(x, gl.COMPILE_STATUS)) throw gl.getShaderInfoLog(x); return x; }
+        var pr = gl.createProgram(); gl.attachShader(pr, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(pr, sh(gl.FRAGMENT_SHADER, FS)); gl.linkProgram(pr);
+        if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) throw "link"; gl.useProgram(pr);
+        var bf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, bf); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), gl.STATIC_DRAW);
+        var loc = gl.getAttribLocation(pr, "a"); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+        ["uRes","uS","uA","uB","uR","uRr","uK","uBg","uFill","uDark"].forEach(function(n){ U[n] = gl.getUniformLocation(pr, n); });
+        ico = document.createElement("span"); ico.className = "lqi"; ico.setAttribute("aria-hidden", "true");
+        ico.innerHTML = '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg>';
+        return (ok = true);
+      } catch(e){ return (ok = false); }
+    }
+    function rgba(c){ var m = (c || "").match(/[\d.]+/g) || [0,0,0,1]; return [m[0]/255, m[1]/255, m[2]/255, m[3] === undefined ? 1 : +m[3]]; }
+    function ease(t){ return 1 - Math.pow(1 - t, 3); }
+    function springE(t){ var z = 0.8, w = 2 * Math.PI / 0.6; return 1 - Math.exp(-z * w * t) * (Math.cos(w * Math.sqrt(1 - z*z) * t) + (z / Math.sqrt(1 - z*z)) * Math.sin(w * Math.sqrt(1 - z*z) * t)); }
+    function seg(t, a, b){ return Math.max(0, Math.min(1, (t - a) / (b - a))); }
+    /* open = true: nút -> thanh; false: thanh -> nút. btn, bar: DOMRect lúc đầu/cuối. done(): gọi khi xong */
+    function run(open, btn, bar, done){
+      var W = innerWidth, H = Math.ceil(Math.max(btn.bottom, bar.bottom) + 40), dpr = Math.min(window.devicePixelRatio || 1, 2);
+      cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); cv.style.width = W + "px"; cv.style.height = H + "px";
+      document.body.appendChild(cv); document.body.appendChild(ico); cv.style.opacity = "1";
+      gl.viewport(0, 0, cv.width, cv.height);
+      var bgc = rgba(getComputedStyle(sheet).backgroundColor), fill = rgba(getComputedStyle(gSearch).backgroundColor);
+      var dark = (bgc[0] + bgc[1] + bgc[2]) / 3 < 0.5 ? 1 : 0;
+      if (dark) fill = [Math.min(1, fill[0]), fill[1], fill[2], Math.max(fill[3], 0.09)];
+      gl.uniform2f(U.uRes, cv.width, cv.height); gl.uniform1f(U.uS, dpr);
+      gl.uniform3f(U.uBg, bgc[0], bgc[1], bgc[2]); gl.uniform4f(U.uFill, fill[0], fill[1], fill[2], fill[3]); gl.uniform1f(U.uDark, dark);
+      var ax = btn.left + btn.width / 2, ay = btn.top + btn.height / 2, ar = btn.width / 2;
+      var hh = bar.height / 2, ex = bar.right - hh, ey = bar.top + hh, full = bar.width / 2;
+      var T = open ? 820 : 640, t0 = performance.now(), ended = false;
+      function frame(now){
+        if (ended) return;
+        var t = Math.min(1, (now - t0) / T), u = open ? t : 1 - t;
+        /* u = 0: chỉ có nút; 0..0.38: giọt tách ra, rơi xuống mép phải; 0.3..1: chảy dài thành thanh */
+        var f1 = open ? ease(seg(u, 0, 0.38)) : ease(seg(u, 0, 0.42));
+        var f2 = open ? springE(seg(u, 0.3, 1) * 0.82) : ease(seg(u, 0.36, 1));
+        var bx = ax + (ex - ax) * f1, by = ay + (ey - ay) * f1, br = (ar * 0.86 + (hh - ar * 0.86) * f1) * (1 - 0.3 * Math.min(1, f2 * 1.5));
+        var hw = Math.min(full + 3, hh + (full - hh) * f2), rx = bar.right - hw;
+        gl.uniform3f(U.uA, ax, ay, ar);
+        gl.uniform3f(U.uB, bx, by, f1 > 0.001 || f2 > 0 ? br : 0);
+        gl.uniform4f(U.uR, rx, ey, f2 > 0.002 ? hw : 0, hh); gl.uniform1f(U.uRr, hh);
+        gl.uniform1f(U.uK, 14 + 30 * (1 - Math.abs(f1 - 0.5) * 2));
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+        /* kính lúp đi theo giọt rồi theo mép trái của thanh */
+        var ix = f2 > 0.002 ? Math.min(bx, rx - hw + 16 + 9.5) : bx, iy = by;
+        ico.style.transform = "translate(" + (ix - 9.5) + "px," + (iy - 9.5) + "px)";
+        ico.style.color = f2 > 0.5 ? "var(--muted)" : "var(--ink)";
+        if (t < 1) requestAnimationFrame(frame);
+        else { ended = true; done(); cv.style.opacity = "0"; ico.style.opacity = "0"; setTimeout(function(){ cv.remove(); ico.remove(); cv.style.opacity = ""; ico.style.opacity = ""; }, 180); }
+      }
+      ico.style.opacity = "1";
+      requestAnimationFrame(frame);
+      return function(){ ended = true; cv.remove(); ico.remove(); };
+    }
+    return { ok: setup, run: run };
+  })();
+  var lqStop = null, lqTok = 0, sOpen = false;
   function openSearch(){
-    if (!gSearch.hidden){ gq.focus(); return; }
+    if (sOpen){ gq.focus(); return; }
+    sOpen = true;
     if (sheet.scrollTop > 0) sheet.scrollTop = 0;
+    if (lqStop){ lqStop(); lqStop = null; }
+    gSearch.style.visibility = ""; oSearch.classList.remove("mopen");
     var b = oSearch.getBoundingClientRect();
     gBarWrap.hidden = true; gSearch.hidden = false; gSugg.hidden = !!gq.value.trim(); oSearch.setAttribute("aria-expanded", "true");
-    var anim = !RM && document.body.animate;
-    if (anim){
-      var t = gSearch.getBoundingClientRect(), tk = ++morphing;
+    if (!RM && LQ.ok()){
+      var t = gSearch.getBoundingClientRect(), tk = ++lqTok;
       gSearch.style.opacity = "0"; oSearch.classList.add("mopen");
-      ghost(b, t, (b.width - 19) / 2, 16, true, function(){
-        if (tk !== morphing) return;
-        gSearch.style.opacity = ""; oSearch.classList.remove("mopen");
-        gSearch.querySelectorAll("input,.gqx").forEach(function(x){ x.animate([{opacity:0},{opacity:1}], {duration:180, easing:"ease-out"}); });
+      lqStop = LQ.run(true, b, t, function(){
+        if (tk !== lqTok) return; lqStop = null;
+        oSearch.classList.remove("mopen");
+        gSearch.style.transition = "opacity .16s ease-out"; gSearch.style.opacity = "";
+        setTimeout(function(){ gSearch.style.transition = ""; }, 200);
       });
-      if (!gSugg.hidden) Array.prototype.forEach.call(gSugg.children, function(x, k){ x.animate([{opacity:0, transform:"translateY(-8px) scale(.92)", filter:"blur(4px)"},{opacity:1, transform:"none", filter:"blur(0)"}], {duration:460, delay:260 + k * 35, easing:SPRING, fill:"backwards"}); });
+      if (!gSugg.hidden) Array.prototype.forEach.call(gSugg.children, function(x, k){ x.animate([{opacity:0, transform:"translateY(-8px) scale(.9)", filter:"blur(4px)"},{opacity:1, transform:"none", filter:"blur(0)"}], {duration:480, delay:420 + k * 35, easing:SPRING, fill:"backwards"}); });
+    } else if (!RM && gSearch.animate){
+      gSearch.animate([{opacity:0},{opacity:1}], {duration:200, easing:"ease-out"});
     }
     gq.focus({preventScroll:true});
     qLast = null; runSearch();
   }
   function closeSearch(){
-    if (gSearch.hidden) return;
-    var t = gSearch.getBoundingClientRect(), anim = !RM && document.body.animate, tk = ++morphing;
-    gq.value = ""; qLast = ""; gSearch.hidden = true; gSearch.style.opacity = ""; gSugg.hidden = true; gBarWrap.hidden = false; oSearch.setAttribute("aria-expanded", "false");
-    segLenses.forEach(function(L){ L.refresh(); }); edges();
-    if (anim){
+    if (!sOpen) return;
+    sOpen = false;
+    if (lqStop){ lqStop(); lqStop = null; }
+    var t = gSearch.getBoundingClientRect(), tk = ++lqTok;
+    gq.value = ""; qLast = ""; gSugg.hidden = true; oSearch.setAttribute("aria-expanded", "false");
+    gq.blur(); oSearch.focus({preventScroll:true});
+    if (!RM && LQ.ok()){
       var b = oSearch.getBoundingClientRect();
-      oSearch.classList.add("mopen");
-      ghost(t, b, 16, (b.width - 19) / 2, false, function(){ if (tk === morphing) oSearch.classList.remove("mopen"); });
-      gBarWrap.animate([{opacity:0, transform:"translateY(-6px) scale(.98)", filter:"blur(4px)"},{opacity:1, transform:"none", filter:"blur(0)"}], {duration:420, delay:120, easing:SPRING, fill:"backwards"});
+      oSearch.classList.add("mopen"); gSearch.style.visibility = "hidden"; /* giữ chỗ để lưới hình không giật lên xuống */
+      lqStop = LQ.run(false, b, t, function(){
+        if (tk !== lqTok) return; lqStop = null; oSearch.classList.remove("mopen");
+        gSearch.hidden = true; gSearch.style.visibility = ""; gSearch.style.opacity = "";
+        gBarWrap.hidden = false; segLenses.forEach(function(L){ L.refresh(); }); edges();
+        gBarWrap.animate([{opacity:0, transform:"translateY(-6px) scale(.98)", filter:"blur(4px)"},{opacity:1, transform:"none", filter:"blur(0)"}], {duration:420, easing:SPRING});
+        applyGal(curBtn());
+      });
+    } else {
+      gSearch.hidden = true; gSearch.style.opacity = "";
+      gBarWrap.hidden = false; segLenses.forEach(function(L){ L.refresh(); }); edges();
+      applyGal(curBtn());
     }
-    gq.blur();
-    applyGal(curBtn());
   }
-  oSearch.addEventListener("click", function(){ if (gSearch.hidden) openSearch(); else closeSearch(); });
+  oSearch.addEventListener("click", function(){ if (sOpen) closeSearch(); else openSearch(); });
   document.getElementById("gqx").addEventListener("click", closeSearch);
   gq.addEventListener("input", function(){ clearTimeout(qTimer); qTimer = setTimeout(runSearch, 160); });
   gq.addEventListener("keydown", function(e){ if (e.key === "Enter"){ e.preventDefault(); clearTimeout(qTimer); runSearch(); gq.blur(); } if (e.key === "Escape"){ e.stopPropagation(); closeSearch(); } });
