@@ -503,6 +503,11 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
 #openSearch{display:inline-flex;align-items:center;justify-content:center}
 .gsearch{display:flex;align-items:center;gap:8px;border-radius:999px;padding:0 6px 0 16px;min-height:52px;box-sizing:border-box;min-width:0;color:var(--muted)}
 .gsearch[hidden],.gsugg[hidden]{display:none}
+.gmorph{position:fixed;z-index:80;box-sizing:border-box;display:flex;align-items:center;overflow:hidden;pointer-events:none;color:var(--muted);
+  background:var(--glass-solid);border:1px solid var(--glass-line);box-shadow:inset 0 1px 0 var(--glass-hi),0 24px 60px -30px var(--shadow)}
+.gmorph svg{flex:none}
+#openSearch svg{transition:opacity .15s}
+#openSearch.mopen svg{opacity:0}
 .gsearch input{flex:1;min-width:0;appearance:none;border:0;background:transparent;color:var(--ink);font:500 16px var(--f-body);padding:12px 0;outline:none}
 .gsearch input::placeholder{color:var(--muted)}
 .gsearch input::-webkit-search-cancel-button{display:none}
@@ -1224,22 +1229,53 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
     clearTimeout(qTrack); qTrack = setTimeout(function(){ if (q.length > 1 && window.umami) try { umami.track("Tìm hình nền", {q: q}); } catch(e){} }, 1500);
   }
   function setQuery(t){ gq.value = t; clearTimeout(qTimer); runSearch(); gq.focus(); }
+  /* hiệu ứng biến hình: một "bóng" kính tách ra từ nút kính lúp, giãn thành ô tìm kiếm (mở) hoặc co về nút (Huỷ). Bóng không dùng backdrop-filter để Safari vẽ mượt */
+  var morphing = 0;
+  function ghost(from, to, iconFrom, iconTo, open, done){
+    var g = document.createElement("div"); g.className = "gmorph"; g.setAttribute("aria-hidden", "true");
+    g.innerHTML = '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M15.5 15.5L20 20"/></svg>';
+    document.body.appendChild(g);
+    function box(r, ic, rad){ return {left:r.left + "px", top:r.top + "px", width:r.width + "px", height:r.height + "px", paddingLeft:ic + "px", borderRadius:rad}; }
+    var k = [box(from, iconFrom, "999px"), box(to, iconTo, "999px")];
+    var dur = open ? 560 : 460;
+    g.animate(k, {duration: dur, easing: SPRING, fill: "forwards"});
+    g.firstChild.animate(open ? [{transform:"scale(1.15)"},{transform:"scale(1)"}] : [{transform:"scale(1)"},{transform:"scale(1.15)"}], {duration: dur, easing: SPRING, fill: "forwards"});
+    /* hẹn giờ thay cho onfinish: chắc chắn bóng luôn được dọn, kể cả khi tab bị tạm dừng */
+    setTimeout(function(){ done(); g.style.transition = "opacity .14s ease-out"; g.style.opacity = "0"; setTimeout(function(){ g.remove(); }, 170); }, dur - 40);
+    return g;
+  }
   function openSearch(){
     if (!gSearch.hidden){ gq.focus(); return; }
-    gBarWrap.hidden = true; gSearch.hidden = false; gSugg.hidden = !!gq.value.trim(); oSearch.setAttribute("aria-expanded", "true");
-    if (!RM && gSearch.animate){
-      gSearch.animate([{opacity:0, transform:"translateX(24px) scale(.96)"},{opacity:1, transform:"none"}], {duration:520, easing:SPRING});
-      gSugg.animate([{opacity:0, transform:"translateY(-6px)"},{opacity:1, transform:"none"}], {duration:320, delay:120, easing:"ease-out", fill:"backwards"});
-    }
     if (sheet.scrollTop > 0) sheet.scrollTop = 0;
-    gq.focus();
+    var b = oSearch.getBoundingClientRect();
+    gBarWrap.hidden = true; gSearch.hidden = false; gSugg.hidden = !!gq.value.trim(); oSearch.setAttribute("aria-expanded", "true");
+    var anim = !RM && document.body.animate;
+    if (anim){
+      var t = gSearch.getBoundingClientRect(), tk = ++morphing;
+      gSearch.style.opacity = "0"; oSearch.classList.add("mopen");
+      ghost(b, t, (b.width - 19) / 2, 16, true, function(){
+        if (tk !== morphing) return;
+        gSearch.style.opacity = ""; oSearch.classList.remove("mopen");
+        gSearch.querySelectorAll("input,.gqx").forEach(function(x){ x.animate([{opacity:0},{opacity:1}], {duration:180, easing:"ease-out"}); });
+      });
+      if (!gSugg.hidden) Array.prototype.forEach.call(gSugg.children, function(x, k){ x.animate([{opacity:0, transform:"translateY(-8px) scale(.92)", filter:"blur(4px)"},{opacity:1, transform:"none", filter:"blur(0)"}], {duration:460, delay:260 + k * 35, easing:SPRING, fill:"backwards"}); });
+    }
+    gq.focus({preventScroll:true});
     qLast = null; runSearch();
   }
   function closeSearch(){
     if (gSearch.hidden) return;
-    gq.value = ""; qLast = ""; gSearch.hidden = true; gSugg.hidden = true; gBarWrap.hidden = false; oSearch.setAttribute("aria-expanded", "false");
+    var t = gSearch.getBoundingClientRect(), anim = !RM && document.body.animate, tk = ++morphing;
+    gq.value = ""; qLast = ""; gSearch.hidden = true; gSearch.style.opacity = ""; gSugg.hidden = true; gBarWrap.hidden = false; oSearch.setAttribute("aria-expanded", "false");
     segLenses.forEach(function(L){ L.refresh(); }); edges();
-    applyGal(curBtn()); oSearch.focus();
+    if (anim){
+      var b = oSearch.getBoundingClientRect();
+      oSearch.classList.add("mopen");
+      ghost(t, b, 16, (b.width - 19) / 2, false, function(){ if (tk === morphing) oSearch.classList.remove("mopen"); });
+      gBarWrap.animate([{opacity:0, transform:"translateY(-6px) scale(.98)", filter:"blur(4px)"},{opacity:1, transform:"none", filter:"blur(0)"}], {duration:420, delay:120, easing:SPRING, fill:"backwards"});
+    }
+    gq.blur();
+    applyGal(curBtn());
   }
   oSearch.addEventListener("click", function(){ if (gSearch.hidden) openSearch(); else closeSearch(); });
   document.getElementById("gqx").addEventListener("click", closeSearch);
