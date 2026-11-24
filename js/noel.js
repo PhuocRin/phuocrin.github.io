@@ -9,7 +9,6 @@
   var root = document.documentElement;
   root.classList.add("noel");
 
-  var CAP = '<svg viewBox="0 0 200 30" preserveAspectRatio="none" aria-hidden="true"><path fill="#fff" d="M4 22C2 14 10 10 18 12c2-8 16-10 22-3 6-6 18-5 22 1 8-8 24-8 30 0 6-5 18-5 22 1 6-8 22-8 28-1 8-5 20-4 24 2 8-5 24-4 28 3 6 3 4 9-2 10h-42c-2 0-3 4-7 4s-4-4-7-4H60c-2 0-2 5-7 5s-4-5-7-5H10c-5 0-6-1-6-3Z"/><path fill="#dfe8f6" d="M8 23h184c-1 1-2 2-4 2h-38c-2 0-3 4-7 4s-4-4-7-4H60c-2 0-2 5-7 5s-4-5-7-5H10c-1 0-2-1-2-2Z"/></svg>';
   var TREE = '<svg viewBox="0 0 120 162" aria-hidden="true"><defs>'
     + '<linearGradient id="nlG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5fe39c" stop-opacity=".92"/><stop offset="1" stop-color="#0c7444" stop-opacity=".9"/></linearGradient>'
     + '<linearGradient id="nlH" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient>'
@@ -35,21 +34,45 @@
     + '<path d="M156 52l-2 4M214 50l2 6" stroke="currentColor" stroke-width="2"/>'
     + '<circle cx="195" cy="18" r="6"/><path d="M186 37q0-14 9-14 10 0 10 14Z"/><path d="M190 15q4-9 13-7l5 6-4 1-3-3q-6 0-8 5Z"/><circle cx="209" cy="15" r="2.4"/>'
     + '<path d="M164 36q-2-14 8-14 10 2 10 14Z"/></g></svg>';
-  function cap(el, cls) {
-    var c = document.createElement("i"); c.className = "noel-cap" + (cls ? " " + cls : ""); c.setAttribute("aria-hidden", "true"); c.innerHTML = CAP;
-    el.appendChild(c);
-    /* nút đổi chữ bằng JS (nút tải app) sẽ xoá mất lớp tuyết: gắn lại */
-    if (window.MutationObserver) new MutationObserver(function () { if (!c.isConnected) el.appendChild(c); }).observe(el, { childList: true });
+  /* Tuyết đọng trên mọi nút (.btn), mọi tấm kính (.glass) và ô hình nền (.wp). Chừa trình xem hình nền, bảng Xem tất cả,
+     nút có thanh % (overflow hidden sẽ cắt mất tuyết), phần tử quá nhỏ (nút chấm, mũi tên) và khung có mũ Noel (.me). */
+  var SEL = ".btn, .glass, .wp, .device";
+  function want(el) {
+    if (el.closest(".viewer, .sheet, .vdl, .lens, .lens-inner, .me, .noel-cap")) return false;
+    var cs = getComputedStyle(el);
+    if (cs.display === "none" || cs.overflow !== "visible" && cs.overflowY !== "visible") return false;
+    if (el.classList.contains("device") && !el.closest(".hero")) return false;
+    return el.offsetWidth >= 60;
+  }
+  function cap(el) {
+    if (el._nc) { if (el._nc.parentNode !== el) el.appendChild(el._nc); return; }
+    if (!want(el)) return;
+    var c = document.createElement("i"); c.setAttribute("aria-hidden", "true");
+    c.className = "noel-cap" + (el.classList.contains("device") ? " noel-cap-phone" : el.offsetWidth > 420 ? " noel-cap-lg" : "");
+    el._nc = c; el.appendChild(c);
+  }
+  function capIn(root) {
+    if (root.nodeType !== 1 || root.classList.contains("noel-cap")) return;
+    if (root.matches(SEL)) cap(root);
+    var l = root.querySelectorAll(SEL); for (var i = 0; i < l.length; i++) cap(l[i]);
   }
   function decor() {
-    var dev = document.querySelector(".hero .device"); if (dev) cap(dev, "noel-cap-phone");
-    var bs = document.querySelectorAll(".hero .ctas .btn, .hero .socs .btn, .hero .chip-b, header.app .dl .btn");
-    for (var i = 0; i < bs.length; i++) cap(bs[i]);
     var st = document.querySelector(".hero .stage");
     if (st) { var t = document.createElement("div"); t.className = "noel-tree"; t.innerHTML = TREE; st.appendChild(t); }
     var hero = document.querySelector(".hero");
     if (hero && st) { var sky = document.createElement("div"); sky.className = "noel-sky"; sky.setAttribute("aria-hidden", "true");
       sky.innerHTML = '<div class="noel-sleigh">' + SLEIGH + '</div>'; hero.insertBefore(sky, hero.firstChild); }
+    capIn(document.body);
+    /* nội dung vẽ sau bằng JS (dải hình nền, video, danh sách firmware) và nút đổi chữ (nút tải app) */
+    if (!window.MutationObserver) return;
+    var q = [], raf = 0;
+    new MutationObserver(function (ms) {
+      for (var i = 0; i < ms.length; i++) {
+        var m = ms[i]; if (m.target.nodeType === 1 && m.target._nc) q.push(m.target);
+        for (var j = 0; j < m.addedNodes.length; j++) q.push(m.addedNodes[j]);
+      }
+      if (!raf) raf = requestAnimationFrame(function () { raf = 0; var l = q; q = []; for (var k = 0; k < l.length; k++) if (l[k].isConnected) capIn(l[k]); });
+    }).observe(document.body, { childList: true, subtree: true });
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", decor); else decor();
 
