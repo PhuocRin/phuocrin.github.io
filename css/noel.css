@@ -1,0 +1,46 @@
+/* Giao diện Noel. Mọi quy tắc nằm dưới html.noel (do js/noel.js bật theo ngày), ngoài mùa không ảnh hưởng gì.
+   Vẫn là Liquid Glass của web, chỉ đổi màu nền, màu nhấn, thêm tuyết, mũ Noel và dây đèn trên thanh menu. */
+
+/* Màu: đỏ Noel, xanh lá thông, vàng ánh đèn, xanh băng */
+:root.noel{
+  --accent:#c4142f;
+  --aura-1:#ffa3ad; --aura-2:#a6e6c6; --aura-3:#ffdc9a; --aura-4:#c4e2ff;
+  --noel-em:linear-gradient(95deg,#d81e3c 0%,#e89a18 48%,#178a50 100%);
+}
+@media (prefers-color-scheme:dark){:root.noel:not([data-theme="light"]){
+  --accent:#ff8a8f;
+  --aura-1:#b3122e; --aura-2:#0c6b45; --aura-3:#8f5d12; --aura-4:#1b3a85;
+  --noel-em:linear-gradient(95deg,#ff5a6e 0%,#ffcf5a 48%,#4fd890 100%);
+}}
+:root.noel[data-theme="dark"]{
+  --accent:#ff8a8f;
+  --aura-1:#b3122e; --aura-2:#0c6b45; --aura-3:#8f5d12; --aura-4:#1b3a85;
+  --noel-em:linear-gradient(95deg,#ff5a6e 0%,#ffcf5a 48%,#4fd890 100%);
+}
+
+.noel h1 em{background:var(--noel-em);-webkit-background-clip:text;background-clip:text;color:transparent}
+.noel .newb{background:linear-gradient(135deg,rgba(214,30,58,.94),rgba(23,138,80,.92));box-shadow:inset 0 1px 0 rgba(255,255,255,.6),0 4px 10px -4px rgba(160,20,40,.6)}
+.noel .orb{box-shadow:0 4px 14px -4px rgba(214,30,58,.7)}
+.noel .btn-solid{background:linear-gradient(135deg,rgba(232,52,74,.94),rgba(170,16,42,.92));
+  box-shadow:inset 0 1px 1px rgba(255,255,255,.7),inset 0 -1px 2px rgba(80,0,15,.35),0 14px 32px -12px rgba(200,30,50,.7)}
+
+/* Mũ Noel trên logo thanh menu và ảnh đại diện ở đầu trang */
+.noel .orb{position:relative}
+.noel .orb::after,.noel .me::after{content:"";position:absolute;pointer-events:none;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 34'%3E%3Cpath d='M5 25C9 12 18 3 30 6c2 1 3 3 2 5-3-2-6-1-7 2-2 4-1 9 1 12z' fill='%23d61f3a'/%3E%3Cpath d='M18 9c5-3 9-3 12-3 2 1 3 3 2 5-3-2-6-1-7 2-1 3-1 7 0 10l-6 1c-2-5-3-10-1-15z' fill='%23a3122a' opacity='.55'/%3E%3Crect x='2' y='22' width='28' height='9' rx='4.5' fill='%23fff'/%3E%3Ccircle cx='33' cy='11' r='5' fill='%23fff'/%3E%3C/svg%3E") center/contain no-repeat;filter:drop-shadow(0 2px 3px rgba(0,0,0,.22))}
+.noel .orb::after{width:22px;height:19px;left:-7px;top:-12px;transform:rotate(-22deg)}
+.noel .me::after{width:40px;height:34px;left:-6px;top:-20px;transform:rotate(-20deg)}
+@media (max-width:390px){.noel .orb::after{width:19px;height:16px;left:-6px;top:-10px}}
+
+/* Dây đèn nhỏ treo dưới thanh menu, nháy nhẹ */
+.noel .nav .glass::after{content:"";position:absolute;left:26px;right:26px;bottom:-6px;height:8px;pointer-events:none;border-radius:4px;
+  background:
+    radial-gradient(circle at 9px 4px,#ff4058 0 2.6px,transparent 3.2px) 0 0/54px 8px repeat-x,
+    radial-gradient(circle at 27px 4px,#ffc53d 0 2.6px,transparent 3.2px) 0 0/54px 8px repeat-x,
+    radial-gradient(circle at 45px 4px,#2ecf7a 0 2.6px,transparent 3.2px) 0 0/54px 8px repeat-x;
+  filter:drop-shadow(0 0 3px rgba(255,200,80,.55));animation:noelTw 2.6s ease-in-out infinite alternate}
+@keyframes noelTw{from{opacity:.55}to{opacity:1}}
+
+/* Tuyết */
+.noel-snow{position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;transition:opacity .3s}
+@media (hover:none) and (pointer:coarse){.noel-snow{-webkit-mask-image:linear-gradient(to bottom,transparent,#000 56px,#000 calc(100% - 160px),transparent);mask-image:linear-gradient(to bottom,transparent,#000 56px,#000 calc(100% - 160px),transparent)}}
+@media print{.noel-snow{display:none}}
