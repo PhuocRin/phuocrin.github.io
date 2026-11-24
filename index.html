@@ -841,6 +841,21 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   /* HÌNH NỀN — mỗi hình có 4 file trong wallpapers/<bo>/: <id>_phone.jpg, <id>_desktop.jpg và thumb/<id>_phone.jpg, thumb/<id>_desktop.jpg */
   var WALLS = [
     /* loai: "kinh" hoặc "minh-hoa" để lọc trong "Xem tất cả"; vn:true thì hiện thêm ở nút lọc "Việt Nam". tag: chủ đề cách nhau bằng dấu cách (thien-nhien, dong-vat, de-thuong, con-nguoi, xe, vu-tru, ky-ao, le-tet), khớp các nút data-tag trong thanh lọc #galFilter; hình không thuộc chủ đề nào thì bỏ trống. Hình mới nhất đặt lên đầu. ai:true thì hiện nhãn "Ảnh AI" (ní đã chọn tắt, 12/10/2026). ph: 3 màu trên/giữa/dưới của ảnh thumb (tự tính lúc đăng hình), làm nền cho ô hình trong lúc ảnh đang tải */
+    {bo:"bo-20", id:"nguoi-tuyet-mu-xanh", label:"Người Tuyết Mũ Xanh", sub:"Giáng sinh · xanh đêm", loai:"minh-hoa", tag:"le-tet de-thuong", ai:false, ph:"535d75,6c6776,9092a5"},
+    {bo:"bo-20", id:"chuot-den-long", label:"Chuột Đèn Lồng", sub:"Giáng sinh · xanh đêm", loai:"minh-hoa", tag:"dong-vat de-thuong le-tet", ai:false, ph:"3b3b44,66554f,624733"},
+    {bo:"bo-20", id:"cun-xam-nen-cam", label:"Cún Xám Nền Cam", sub:"Cún · cam", loai:"minh-hoa", tag:"dong-vat de-thuong", ai:false, ph:"d37f39,9a745d,a75b2e"},
+    {bo:"bo-20", id:"cay-vang-tau-vu-tru", label:"Cây Vàng Tàu Vũ Trụ", sub:"Vũ trụ · vàng xanh", loai:"minh-hoa", tag:"vu-tru ky-ao", ai:false, ph:"7f7470,98907f,847466"},
+    {bo:"bo-20", id:"nui-lua-trai-dat", label:"Núi Lửa Trái Đất", sub:"Vũ trụ · xanh cam", loai:"minh-hoa", tag:"vu-tru thien-nhien", ai:false, ph:"27333f,69695e,222b1d"},
+    {bo:"bo-20", id:"xe-do-rung-thu", label:"Xe Đỏ Rừng Thu", sub:"Xe · đỏ thu", loai:"minh-hoa", tag:"xe", ai:false, ph:"7c3e24,7e4939,74463b"},
+    {bo:"bo-20", id:"ho-guong-hoang-hon", label:"Hồ Gương Hoàng Hôn", sub:"Phong cảnh · hồng tím", loai:"minh-hoa", tag:"thien-nhien", ai:false, ph:"bc958f,4e4040,302923"},
+    {bo:"bo-20", id:"suoi-rung-dom-dom", label:"Suối Rừng Đom Đóm", sub:"Rừng · xanh đêm", loai:"minh-hoa", tag:"thien-nhien", ai:false, ph:"1b363c,1a3024,1d2e28"},
+    {bo:"bo-20", id:"la-xanh-nang-som", label:"Lá Xanh Nắng Sớm", sub:"Thiên nhiên · xanh lá", loai:"minh-hoa", tag:"thien-nhien", ai:false, ph:"cacf74,a1ae3e,71932d"},
+    {bo:"bo-20", id:"hoa-trang-nen-xam", label:"Hoa Trắng Nền Xám", sub:"Hoa · trắng xám", loai:"minh-hoa", tag:"thien-nhien", ai:false, ph:"b3a9a3,c7beb8,c5bbb2"},
+    {bo:"bo-20", id:"pho-tau-dien", label:"Phố Tàu Điện", sub:"Minh hoạ · xanh trời", loai:"minh-hoa", ai:false, ph:"6fb3da,9f9695,7f7270"},
+    {bo:"bo-20", id:"long-vu-thung-lung", label:"Lông Vũ Thung Lũng", sub:"Lông vũ · trắng xanh", loai:"minh-hoa", ai:false, ph:"f3ede4,dfd9c5,ece3d6"},
+    {bo:"bo-20", id:"lua-vang-kem", label:"Lụa Vàng Kem", sub:"Lụa 3D · vàng kem", loai:"kinh", ai:false, ph:"f4eee2,dfceb7,c1a98c"},
+    {bo:"bo-20", id:"lua-do-trang", label:"Lụa Đỏ Trắng", sub:"Lụa 3D · đỏ trắng", loai:"kinh", ai:false, ph:"f8f8f8,f0c2bd,e8c1bf"},
+    {bo:"bo-20", id:"man-hinh-vo", label:"Màn Hình Vỡ", sub:"Hiệu ứng · tím đen", loai:"minh-hoa", ai:false, ph:"332843,342b44,2f2341"},
     {bo:"bo-19", id:"cay-thong-dem-tuyet", label:"Cây Thông Đêm Tuyết", sub:"Giáng sinh · vàng đêm", loai:"minh-hoa", tag:"le-tet thien-nhien", ai:false, ph:"192d3b,3d3834,4c423f"},
     {bo:"bo-19", id:"nguoi-tuyet-den-long", label:"Người Tuyết Đèn Lồng", sub:"Giáng sinh · xanh đêm", loai:"minh-hoa", tag:"le-tet de-thuong", ai:false, ph:"1d5e7d,5e616e,6f6f76"},
     {bo:"bo-19", id:"cau-go-bien-ngoc", label:"Cầu Gỗ Biển Ngọc", sub:"Biển · xanh ngọc", loai:"minh-hoa", tag:"thien-nhien", ai:false, ph:"38718d,679598,97a598"},
