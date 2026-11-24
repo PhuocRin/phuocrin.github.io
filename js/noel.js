@@ -9,6 +9,50 @@
   var root = document.documentElement;
   root.classList.add("noel");
 
+  var CAP = '<svg viewBox="0 0 200 30" preserveAspectRatio="none" aria-hidden="true"><path fill="#fff" d="M4 22C2 14 10 10 18 12c2-8 16-10 22-3 6-6 18-5 22 1 8-8 24-8 30 0 6-5 18-5 22 1 6-8 22-8 28-1 8-5 20-4 24 2 8-5 24-4 28 3 6 3 4 9-2 10h-42c-2 0-3 4-7 4s-4-4-7-4H60c-2 0-2 5-7 5s-4-5-7-5H10c-5 0-6-1-6-3Z"/><path fill="#dfe8f6" d="M8 23h184c-1 1-2 2-4 2h-38c-2 0-3 4-7 4s-4-4-7-4H60c-2 0-2 5-7 5s-4-5-7-5H10c-1 0-2-1-2-2Z"/></svg>';
+  var TREE = '<svg viewBox="0 0 120 162" aria-hidden="true"><defs>'
+    + '<linearGradient id="nlG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5fe39c" stop-opacity=".92"/><stop offset="1" stop-color="#0c7444" stop-opacity=".9"/></linearGradient>'
+    + '<linearGradient id="nlH" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff" stop-opacity=".55"/><stop offset=".5" stop-color="#fff" stop-opacity="0"/></linearGradient>'
+    + '<radialGradient id="nlS"><stop offset="0" stop-color="#fff6c2"/><stop offset=".5" stop-color="#ffc93d"/><stop offset="1" stop-color="#ffb000" stop-opacity="0"/></radialGradient></defs>'
+    + '<ellipse cx="60" cy="155" rx="56" ry="7" fill="#fff" opacity=".9"/>'
+    + '<rect x="53" y="136" width="14" height="17" rx="3" fill="#8a5632"/>'
+    + ['60 70 112 134q2 6-5 6H13q-7 0-5-6Z','60 38 100 92q2 5-4 5H24q-6 0-4-5Z','60 14 88 56q2 4-3 4H35q-5 0-3-4Z'].map(function (d) {
+        return '<path d="M' + d + '" fill="url(#nlG)" stroke="rgba(255,255,255,.6)" stroke-width="1.2"/><path d="M' + d + '" fill="url(#nlH)"/>'; }).join('')
+    + '<path fill="#fff" d="M10 136q8-7 18-3 10-6 20 0 12-6 24 0 10-6 20 0 10-4 18 3q-2 4-7 4H15q-5 0-5-4Z"/>'
+    + '<path fill="#fff" d="M22 94q8-6 16-2 10-5 18 0 10-5 18 0 10-5 18 0 8-3 12 2q-1 3-6 3H26q-4 0-4-3Z"/>'
+    + '<path fill="#fff" d="M34 58q6-5 12-1 7-4 14 0 7-4 14 0 6-3 10 1-1 2-4 2H36q-3 0-2-2Z"/>'
+    + '<g stroke="rgba(255,255,255,.7)" stroke-width=".8"><circle cx="48" cy="80" r="4.2" fill="#e8344a"/><circle cx="76" cy="114" r="4.6" fill="#ffc53d"/><circle cx="38" cy="120" r="4.2" fill="#3d8bff"/><circle cx="70" cy="48" r="3.6" fill="#ffc53d"/><circle cx="90" cy="126" r="3.8" fill="#e8344a"/><circle cx="62" cy="84" r="3.4" fill="#3d8bff"/></g>'
+    + '<circle cx="60" cy="13" r="13" fill="url(#nlS)"/><path d="m60 3 2.9 6.2 6.7.8-5 4.6 1.4 6.6L60 17.8l-6 3.4 1.4-6.6-5-4.6 6.7-.8Z" fill="#ffd34d" stroke="#fff3b0" stroke-width=".8"/></svg>';
+  function deer(x) {
+    return '<g transform="translate(' + x + ' 0)"><ellipse cx="20" cy="40" rx="13" ry="5.5"/><path d="M30 37q5-7 7-13l3 1q-1 8-6 14Z"/><ellipse cx="39" cy="23" rx="5" ry="3.2" transform="rotate(-20 39 23)"/>'
+      + '<path d="M36 20q-2-6 1-10M37 14l-4-2M38 19q3-6 8-7M42 15l1-4" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>'
+      + '<path d="M28 43l9 5M25 44l7 7M13 43l-9 4M10 41l-8 1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></g>';
+  }
+  /* xe trượt bên trái, tuần lộc phía trước bên phải, bay từ trái sang phải */
+  var SLEIGH = '<svg viewBox="0 0 250 64" fill="currentColor" aria-hidden="true">' + deer(104) + deer(148) + deer(192)
+    + '<path d="M88 32 124 38M140 39h28M184 39h28" stroke="currentColor" stroke-width=".9" fill="none"/>'
+    + '<g transform="translate(-146 0)"><path d="M150 50q4-14 20-14h50q8 0 10-10l6 2q-2 18-18 22Z"/><path d="M146 56h80q8 0 12-6" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"/>'
+    + '<path d="M156 52l-2 4M214 50l2 6" stroke="currentColor" stroke-width="2"/>'
+    + '<circle cx="195" cy="18" r="6"/><path d="M186 37q0-14 9-14 10 0 10 14Z"/><path d="M190 15q4-9 13-7l5 6-4 1-3-3q-6 0-8 5Z"/><circle cx="209" cy="15" r="2.4"/>'
+    + '<path d="M164 36q-2-14 8-14 10 2 10 14Z"/></g></svg>';
+  function cap(el, cls) {
+    var c = document.createElement("i"); c.className = "noel-cap" + (cls ? " " + cls : ""); c.setAttribute("aria-hidden", "true"); c.innerHTML = CAP;
+    el.appendChild(c);
+    /* nút đổi chữ bằng JS (nút tải app) sẽ xoá mất lớp tuyết: gắn lại */
+    if (window.MutationObserver) new MutationObserver(function () { if (!c.isConnected) el.appendChild(c); }).observe(el, { childList: true });
+  }
+  function decor() {
+    var dev = document.querySelector(".hero .device"); if (dev) cap(dev, "noel-cap-phone");
+    var bs = document.querySelectorAll(".hero .ctas .btn, .hero .socs .btn, .hero .chip-b, header.app .dl .btn");
+    for (var i = 0; i < bs.length; i++) cap(bs[i]);
+    var st = document.querySelector(".hero .stage");
+    if (st) { var t = document.createElement("div"); t.className = "noel-tree"; t.innerHTML = TREE; st.appendChild(t); }
+    var hero = document.querySelector(".hero");
+    if (hero && st) { var sky = document.createElement("div"); sky.className = "noel-sky"; sky.setAttribute("aria-hidden", "true");
+      sky.innerHTML = '<div class="noel-sleigh">' + SLEIGH + '</div>'; hero.insertBefore(sky, hero.firstChild); }
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", decor); else decor();
+
   /* Tuyết rơi: canvas nằm sau nội dung (chữ luôn nằm trên, bông tuyết không đè lên dấu tiếng Việt), lọt qua các tấm kính mờ. Tắt khi người xem bật Giảm chuyển động,
      dừng khi tab ẩn hoặc đang mở trình xem hình nền / bảng Xem tất cả. */
   if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
