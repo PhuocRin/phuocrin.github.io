@@ -1,7 +1,7 @@
 /* Giao diện Noel: tự bật trong khoảng TU → DEN (giờ máy người xem), ngoài khoảng đó web giữ giao diện thường.
    Xem thử ngoài mùa: thêm ?noel=1 vào link; tắt thử: ?noel=0. Đổi ngày bật/tắt: sửa hai dòng dưới (tháng-ngày). */
 (function () {
-  var TU = "11-20", DEN = "12-31";
+  var TU = "11-20", DEN = "12-27";
   var d = new Date(), md = ("0" + (d.getMonth() + 1)).slice(-2) + "-" + ("0" + d.getDate()).slice(-2);
   var q = /[?&]noel=([01])/.exec(location.search);
   var on = q ? q[1] === "1" : (md >= TU && md <= DEN);
