@@ -158,6 +158,7 @@ footer a{color:var(--muted)}
 .sclist{display:grid;gap:16px}
 .grp{margin:14px 0 -2px;font-size:clamp(20px,3.4vw,26px)}
 .grp:first-child{margin-top:0}
+.sc+.grp{margin-top:14px}
 .sc{display:grid;gap:18px;align-items:center;padding:clamp(20px,4vw,28px)}
 @media (min-width:680px){.sc{grid-template-columns:auto minmax(0,1fr) auto}}
 .sc-ic{width:84px;height:84px;border-radius:22px;display:grid;place-items:center;color:#fff;
@@ -304,7 +305,7 @@ details p{margin:0;padding:0 16px 14px;color:var(--muted);font-size:15px}
       desc:"Bật hoặc tắt khoá màn hình chỉ với một lần bấm.",
       chips:["Màn hình khoá"],
       link:"https://www.icloud.com/shortcuts/98dafa156fe448a090da09b619d59af7" },
-    { id:"mo-cai-dat-ung-dung", icon:"caidat", nhom:"tien-ich", name:"Mở cài đặt ứng dụng", tag:"Mình làm",
+    { id:"mo-cai-dat-ung-dung", icon:"caidat", nhom:"tien-ich", ghim:true, name:"Mở cài đặt ứng dụng", tag:"Mình làm",
       desc:"Mở nhanh phần cài đặt của ứng dụng, khỏi phải lục trong Cài đặt.",
       chips:["Cài đặt"],
       link:"https://www.icloud.com/shortcuts/c86805eff75f4bfc8f58a0a13e9734bc" },
@@ -358,8 +359,9 @@ details p{margin:0;padding:0 16px 14px;color:var(--muted);font-size:15px}
       '<button type="button" class="btn" data-copy="' + esc(s.link) + '">Sao chép link</button></div>' +
     '</article>';
   }
-  $("sclist").innerHTML = NHOM.map(function(g){
-    var list = ok.filter(function(s){ return s.nhom === g.id; });
+  /* ghim:true: đứng đầu trang, trước các nhóm */
+  $("sclist").innerHTML = ok.filter(function(s){ return s.ghim; }).map(card).join("") + NHOM.map(function(g){
+    var list = ok.filter(function(s){ return s.nhom === g.id && !s.ghim; });
     return list.length ? '<h2 class="grp">' + esc(g.ten) + '</h2>' + list.map(card).join("") : "";
   }).join("");
   document.addEventListener("click", function(e){
