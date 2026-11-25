@@ -315,7 +315,11 @@ details p{margin:0;padding:0 16px 14px;color:var(--muted);font-size:15px}
     { id:"tat-ket-noi", icon:"wifi", nhom:"tien-ich", name:"Tắt kết nối", tag:"Phím tắt",
       desc:"Tắt nhanh kết nối trên iPhone chỉ với một lần bấm.",
       chips:["Kết nối"],
-      link:"https://www.icloud.com/shortcuts/0b0c35aa348b478393b5154702bcb534" }
+      link:"https://www.icloud.com/shortcuts/0b0c35aa348b478393b5154702bcb534" },
+    { id:"mo-ket-noi", icon:"wifion", nhom:"tien-ich", name:"Mở kết nối", tag:"Phím tắt",
+      desc:"Mở lại kết nối trên iPhone chỉ với một lần bấm, đi cặp với Tắt kết nối.",
+      chips:["Kết nối"],
+      link:"https://www.icloud.com/shortcuts/a8ab81a5b20844d8ab52854a9cf47622" }
   ];
   var NHOM = [ {id:"tai", ten:"Tải video, ảnh"}, {id:"tien-ich", ten:"Tiện ích iPhone"} ];  var $ = function(id){ return document.getElementById(id); };
   function esc(s){ return String(s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
@@ -334,6 +338,7 @@ details p{margin:0;padding:0 16px 14px;color:var(--muted);font-size:15px}
     khoa: '<rect x="5" y="10.5" width="14" height="10" rx="2.6"/><path d="M8.5 10.5V7.8a3.5 3.5 0 0 1 7 0v2.7"/>',
     caidat: '<circle cx="12" cy="12" r="3"/><path d="M12 2.8v2.4M12 18.8v2.4M2.8 12h2.4M18.8 12h2.4M5.5 5.5l1.7 1.7M16.8 16.8l1.7 1.7M5.5 18.5l1.7-1.7M16.8 7.2l1.7-1.7"/>',
     wifi: '<path d="M4 9.5a11.5 11.5 0 0 1 16 0"/><path d="M7 12.8a7.2 7.2 0 0 1 10 0"/><path d="M10 16a2.9 2.9 0 0 1 4 0"/><path d="M4 4l16 16"/>',
+    wifion: '<path d="M4 9.5a11.5 11.5 0 0 1 16 0"/><path d="M7 12.8a7.2 7.2 0 0 1 10 0"/><path d="M10 16a2.9 2.9 0 0 1 4 0"/><circle cx="12" cy="19" r=".6" fill="currentColor"/>',
     pin: '<rect x="2.8" y="7" width="16" height="10" rx="2.6"/><path d="M21.2 10.5v3"/><path d="m11.6 9-2.4 3.4h3.4L10.2 15"/>'
   };
   var ok = SC.filter(function(s){ return /^https:\/\/www\.icloud\.com\/shortcuts\/[0-9a-f]{32}$/.test(s.link); });
