@@ -178,9 +178,10 @@ footer a{color:var(--muted)}
 .sc p{margin:6px 0 0;color:var(--muted);max-width:56ch}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .chips span{font-size:12.5px;font-weight:600;padding:4px 11px;border-radius:999px;background:var(--off-bg)}
-.sc-vid{display:inline-flex;align-items:center;gap:7px;margin-top:10px;min-height:44px;font-size:14.5px;font-weight:700;color:var(--accent);text-decoration:none}
-.sc-vid svg{width:22px;height:22px;flex:none}
-@media (hover:hover){.sc-vid:hover{text-decoration:underline}}
+.sc-vid{margin-top:12px;padding:0 16px 0 8px}
+.sc-vid svg{width:28px;height:28px;flex:none;color:var(--accent)}
+.sc-vid small{font-weight:600;color:var(--muted);font-size:12.5px}
+@media (max-width:679px){.sc-vid{margin-left:-76px;width:calc(100% + 76px);padding:0 12px}}
 .sc-acts{display:flex;flex-wrap:wrap;gap:8px}
 .sc-acts .btn-solid{min-height:50px;padding:0 22px;font-size:15.5px}
 @media (min-width:680px){.sc-acts{flex-direction:column;align-items:stretch}}
@@ -345,6 +346,7 @@ details p{margin:0;padding:0 16px 14px;color:var(--muted);font-size:15px}
     { id:"mo-cai-dat-ung-dung", icon:"caidat", nhom:"tien-ich", ghim:true, name:"Mở cài đặt ứng dụng", tag:"Mình làm",
       desc:"Mở nhanh phần cài đặt của ứng dụng, khỏi phải lục trong Cài đặt.",
       chips:["Cài đặt"],
+      video:"PNfKEb-JBPw", t:32,
       link:"https://www.icloud.com/shortcuts/c86805eff75f4bfc8f58a0a13e9734bc" },
     { id:"gioi-han-sac", icon:"pin", nhom:"tien-ich", name:"Đặt giới hạn sạc", tag:"Mình làm",
       desc:"Chọn nhanh mức giới hạn sạc pin cho iPhone, khỏi phải vào Cài đặt tìm.",
@@ -391,6 +393,7 @@ details p{margin:0;padding:0 16px 14px;color:var(--muted);font-size:15px}
     pin: '<rect x="2.8" y="7" width="16" height="10" rx="2.6"/><path d="M21.2 10.5v3"/><path d="m11.6 9-2.4 3.4h3.4L10.2 15"/>'
   };
   var ok = SC.filter(function(s){ return /^https:\/\/www\.icloud\.com\/shortcuts\/[0-9a-f]{32}$/.test(s.link); });
+  function mmss(t){ t = t|0; return ('0' + Math.floor(t/60)).slice(-2) + ':' + ('0' + t%60).slice(-2); }
   function card(s){
     return '<article class="sc glass" id="' + esc(s.id) + '">' +
       '<div class="sc-ic ' + esc(s.nhom) + '">' + SVG + (ICONS[s.icon] || ICONS.tai) + '</svg></div>' +
@@ -398,7 +401,7 @@ details p{margin:0;padding:0 16px 14px;color:var(--muted);font-size:15px}
       '<h2>' + esc(s.name) + (s.ver ? '<small>' + esc(s.ver) + '</small>' : '') + '</h2>' +
       '<p>' + esc(s.desc) + '</p>' +
       '<div class="chips">' + (s.chips || []).map(function(c){ return '<span>' + esc(c) + '</span>'; }).join("") + '</div>' +
-      (/^[A-Za-z0-9_-]{11}$/.test(s.video || "") ? '<a class="sc-vid" href="https://www.youtube.com/watch?v=' + s.video + '" target="_blank" rel="noopener" data-umami-event="Phím tắt → Video" data-umami-event-ten="' + esc(s.name) + '"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M10 8.3v7.4l6-3.7z" fill="#fff"/></svg>Xem cách sử dụng</a>' : '') +
+      (/^[A-Za-z0-9_-]{11}$/.test(s.video || "") ? '<div><a class="btn btn-sm sc-vid" href="https://www.youtube.com/watch?v=' + s.video + (s.t > 0 ? '&t=' + (s.t|0) + 's' : '') + '" target="_blank" rel="noopener" data-umami-event="Phím tắt → Video" data-umami-event-ten="' + esc(s.name) + '"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M10 8.3v7.4l6-3.7z" fill="#fff"/></svg>Xem cách sử dụng' + (s.t > 0 ? ' <small>· phút ' + mmss(s.t) + '</small>' : '') + '</a></div>' : '') +
       '</div>' +
       '<div class="sc-acts"><a class="btn btn-solid" href="' + esc(s.link) + '" data-umami-event="Thêm phím tắt" data-umami-event-ten="' + esc(s.name + " " + (s.ver||"")) + '">Thêm phím tắt</a>' +
       '<button type="button" class="btn" data-copy="' + esc(s.link) + '">Sao chép link</button></div>' +
