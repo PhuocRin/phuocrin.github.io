@@ -855,7 +855,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   var WALLS = [
     {bo:"bo-21", id:"pho-co-dem-giang-sinh", label:"Phố Cổ Đêm Giáng Sinh", sub:"Giáng sinh · vàng ấm", loai:"minh-hoa", tag:"le-tet", ai:false, ph:"22353b,7a4826,5f3924"},
     {bo:"bo-21", id:"xe-van-cuc-quang", label:"Xe Van Dưới Cực Quang", sub:"Sa mạc · cực quang", loai:"minh-hoa", tag:"xe thien-nhien", ai:false, ph:"363f32,445943,3d3a20"},
-    {bo:"bo-21", id:"chu-tieu-hoang-hon", label:"Chú Tiểu Hoàng Hôn", sub:"Chú tiểu · cam", loai:"minh-hoa", tag:"de-thuong", ai:false, ph:"e0cab6,857b91,6f4a30"},
+    {bo:"bo-21", id:"chu-tieu-hoang-hon", label:"Chú Tiểu Hoàng Hôn", sub:"Chú tiểu · cam", loai:"minh-hoa", tag:"de-thuong", ai:false, spatial:true, clockB:46.0, ph:"e0cab6,857b91,6f4a30"},
     {bo:"bo-21", id:"vong-da-cau-may", label:"Vòng Đá Cầu Mây", sub:"Kỳ ảo · hồng", loai:"minh-hoa", tag:"ky-ao", ai:false, ph:"9f6a70,a67466,9a746f"},
     {bo:"bo-21", id:"loi-go-rung-duong-xi", label:"Lối Gỗ Rừng Dương Xỉ", sub:"Rừng · xanh lá", loai:"minh-hoa", tag:"thien-nhien", ai:false, ph:"899648,5d6034,725f49"},
     {bo:"bo-21", id:"song-kinh-tim-nhat", label:"Sóng Kính Tím Nhạt", sub:"Kính · tím", loai:"kinh", ai:false, ph:"deddf7,bfbdef,b3b0eb"},
@@ -1080,7 +1080,7 @@ a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-off
   /* HÌNH NỀN MỚI NHẤT — mỗi lần đăng video tặng hình nền, chỉ sửa khối này:
      set: bộ chứa hình ("kl" hoặc "bcs"), index: vị trí hình trong bộ, video: tên + link video tặng hình */
   /* id: tên file hình trên R2. Có id thì tự tìm vị trí, thêm hình mới vào WALLS không cần sửa index */
-  var LATEST = { set:"kl", id:"song-kinh-xanh-duong", index:0, video:{ title:"video mới trên kênh", url:"https://www.youtube.com/@phuocrin/videos" } };
+  var LATEST = { set:"kl", id:"chu-tieu-hoang-hon", index:0, video:{ title:"video mới trên kênh", url:"https://www.youtube.com/@phuocrin/videos" } };
   if (LATEST.id){ var li = ITEMS[LATEST.set].findIndex(function(it){ return it.file === IMG + LATEST.id; }); if (li >= 0) LATEST.index = li; }
   var latestItem = ITEMS[LATEST.set].splice(LATEST.index, 1)[0];
   latestItem.isNew = true; latestItem.video = LATEST.video;
