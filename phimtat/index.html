@@ -256,10 +256,22 @@ details p{margin:0;padding:0 16px 14px;color:var(--muted);font-size:15px}
     <ol class="steps">
       <li><span>Mở video hoặc bài ảnh trên TikTok, bấm nút <b>Chia sẻ</b>.</span></li>
       <li><span>Ở hàng dưới cùng, vuốt sang phải và bấm <b>Khác</b>, rồi chọn <b>Rin Tiktok V4</b>.</span></li>
-      <li><span>Chọn việc cần làm: <b>tải video HD</b>, <b>tải ảnh</b> hoặc <b>làm nhạc chuông</b>. Lần đầu chạy sẽ hiện bảng miễn trừ trách nhiệm, bấm <b>OK</b> để chạy tiếp.</span></li>
-      <li><span>Đợi vài giây, video hoặc ảnh sẽ nằm trong app <b>Ảnh</b>.</span></li>
+      <li><span>Chọn việc cần làm: <b>tải video HD</b>, <b>tải ảnh</b>, <b>làm nhạc chuông</b> hoặc <b>lưu nhạc full</b>. Lần đầu chạy sẽ hiện bảng miễn trừ trách nhiệm, bấm <b>OK</b> để chạy tiếp.</span></li>
+      <li><span>Video và ảnh nằm trong app <b>Ảnh</b>. Nhạc lưu vào app <b>Tệp</b>; riêng nhạc chuông thì cắt đoạn, đặt tên xong bảng Chia sẻ bật lên, bấm <b>Dùng làm nhạc chuông</b> là xong.</span></li>
     </ol>
     <p>Video và ảnh của người khác thì các bạn tải để xem lại thôi nha. Muốn đăng lại thì xin phép chủ video trước.</p>
+  </section>
+
+  <section class="guide glass" id="nhac-chuong">
+    <span class="kicker">Cách mình sử dụng</span>
+    <h2>Làm nhạc chuông từ video bất kỳ</h2>
+    <ol class="steps">
+      <li><span>Mở video trong <b>Ảnh</b>, hoặc giữ file video, nhạc trong <b>Tệp</b>, bấm <b>Chia sẻ</b> rồi chọn <b>Rin cài nhạc chuông</b>. Mở thẳng phím tắt cũng được, phím tắt sẽ hỏi lấy video trong Ảnh hay trong Tệp.</span></li>
+      <li><span>Chọn <b>Nhạc chuông</b> hoặc <b>Âm báo</b>, rồi kéo 2 mép vàng để chọn đoạn. Nhạc chuông phải dưới 30 giây, âm báo nên ngắn khoảng 1–5 giây.</span></li>
+      <li><span>Đặt tên, phím tắt lưu file vào Tệp rồi bật bảng Chia sẻ, bấm <b>Dùng làm nhạc chuông</b>.</span></li>
+      <li><span>Làm âm báo thì vào thêm <b>Cài đặt → Âm thanh &amp; Cảm ứng → Âm báo tin nhắn</b> (hoặc Thư mới, Báo động lịch…) rồi chọn âm vừa thêm.</span></li>
+    </ol>
+    <p>Đặt nhạc chuông từ file cần iPhone chạy <b>iOS 26</b> trở lên.</p>
   </section>
 
   <section class="guide glass" id="hoi-dap">
@@ -273,6 +285,10 @@ details p{margin:0;padding:0 16px 14px;color:var(--muted);font-size:15px}
       <details>
         <summary>Không thấy Rin Tiktok V4 trong bảng chia sẻ?</summary>
         <p>Trong bảng chia sẻ, kéo xuống dưới cùng bấm Sửa tác vụ, tìm Rin Tiktok V4 và bấm dấu + để đưa lên đầu.</p>
+      </details>
+      <details>
+        <summary>Phím tắt hỏi có cho kết nối tikwm.com không?</summary>
+        <p>Bấm <b>Luôn cho phép</b>. Rin Tiktok V4 lấy video qua tikwm.com. Lỡ bấm Không cho phép thì vào Phím tắt → giữ Rin Tiktok V4 → Chi tiết → Quyền riêng tư → Đặt lại quyền riêng tư rồi chạy lại.</p>
       </details>
       <details>
         <summary>Hôm nay tải không được nữa?</summary>
@@ -302,16 +318,16 @@ details p{margin:0;padding:0 16px 14px;color:var(--muted);font-size:15px}
   /* Danh sách phím tắt: phím tắt mới đặt lên đầu. link chỉ nhận https://www.icloud.com/shortcuts/ */
   var SC = [
     { id:"rin-tiktok", icon:"tai", nhom:"tai", name:"Rin Tiktok", ver:"V4", tag:"Mới · Mình làm",
-      desc:"Mở bài trên TikTok, bấm Chia sẻ rồi chọn phím tắt. Có nút chọn riêng: tải video HD, tải bài ảnh, hoặc lấy âm thanh làm nhạc chuông iPhone.",
-      chips:["Video HD","Bài ảnh","Nhạc chuông","Chạy từ nút Chia sẻ"],
+      desc:"Mở bài trên TikTok, bấm Chia sẻ rồi chọn phím tắt. Có nút chọn riêng: tải video HD, tải ảnh, làm nhạc chuông (cắt đoạn, đặt tên) hoặc lưu nhạc full vào Tệp.",
+      chips:["Video HD","Bài ảnh","Nhạc chuông","Nhạc full"],
       link:"https://www.icloud.com/shortcuts/a9eb37f64d5e4c87be716e5362851e27" },
     { id:"tai-video-facebook", icon:"tai", nhom:"tai", name:"Tải video Facebook", tag:"Sưu tầm",
       desc:"Tải video Facebook về iPhone. Phím tắt này mình sưu tầm, không phải mình làm, mình dùng thấy ổn nên chia sẻ lại.",
       chips:["Video","Facebook"],
       link:"https://www.icloud.com/shortcuts/7a983b3d8f4a4b8faff9aa172ab45e5e" },
     { id:"rin-cai-nhac-chuong", icon:"chuong", nhom:"tien-ich", name:"Rin cài nhạc chuông", tag:"Mới · Mình làm",
-      desc:"Cài nhạc chuông cho iPhone bằng phím tắt.",
-      chips:["Nhạc chuông"],
+      desc:"Lấy âm thanh từ video trong Ảnh, hoặc video, nhạc trong Tệp, cắt đoạn rồi làm nhạc chuông hoặc âm báo tin nhắn. Cần iOS 26 trở lên.",
+      chips:["Video trong Ảnh","Nhạc trong Tệp","Nhạc chuông","Âm báo"],
       link:"https://www.icloud.com/shortcuts/8b9352c0f1604245af8bcdc109b0c5ff" },
     { id:"man-hinh-co-chu", icon:"chu", nhom:"tien-ich", name:"Màn hình và cỡ chữ", tag:"Mình làm",
       desc:"Chỉnh nhanh màn hình và cỡ chữ trên iPhone.",
