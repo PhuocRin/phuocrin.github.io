@@ -178,6 +178,9 @@ footer a{color:var(--muted)}
 .sc p{margin:6px 0 0;color:var(--muted);max-width:56ch}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
 .chips span{font-size:12.5px;font-weight:600;padding:4px 11px;border-radius:999px;background:var(--off-bg)}
+.sc-vid{display:inline-flex;align-items:center;gap:7px;margin-top:10px;min-height:44px;font-size:14.5px;font-weight:700;color:var(--accent);text-decoration:none}
+.sc-vid svg{width:22px;height:22px;flex:none}
+@media (hover:hover){.sc-vid:hover{text-decoration:underline}}
 .sc-acts{display:flex;flex-wrap:wrap;gap:8px}
 .sc-acts .btn-solid{min-height:50px;padding:0 22px;font-size:15.5px}
 @media (min-width:680px){.sc-acts{flex-direction:column;align-items:stretch}}
@@ -320,6 +323,7 @@ details p{margin:0;padding:0 16px 14px;color:var(--muted);font-size:15px}
     { id:"rin-tiktok", icon:"tai", nhom:"tai", name:"Rin Tiktok", ver:"V4", tag:"Mới · Mình làm",
       desc:"Mở bài trên TikTok, bấm Chia sẻ rồi chọn phím tắt. Có nút chọn riêng: lưu video HD, lưu ảnh, lưu nhạc chuông (cắt đoạn, đặt tên) hoặc lưu nhạc full vào Tệp.",
       chips:["Video HD","Bài ảnh","Nhạc chuông","Nhạc full"],
+      video:"KadsvW4UFM8",
       link:"https://www.icloud.com/shortcuts/a9eb37f64d5e4c87be716e5362851e27" },
     { id:"tai-video-facebook", icon:"tai", nhom:"tai", name:"Tải video Facebook", tag:"Sưu tầm",
       desc:"Tải video Facebook về iPhone. Phím tắt này mình sưu tầm, không phải mình làm, mình dùng thấy ổn nên chia sẻ lại.",
@@ -328,6 +332,7 @@ details p{margin:0;padding:0 16px 14px;color:var(--muted);font-size:15px}
     { id:"rin-cai-nhac-chuong", icon:"chuong", nhom:"tien-ich", name:"Rin cài nhạc chuông", tag:"Mới · Mình làm",
       desc:"Lấy âm thanh từ video trong Ảnh, hoặc video, nhạc trong Tệp, cắt đoạn rồi làm nhạc chuông hoặc âm báo tin nhắn. Cần iOS 26 trở lên.",
       chips:["Video trong Ảnh","Nhạc trong Tệp","Nhạc chuông","Âm báo"],
+      video:"KadsvW4UFM8",
       link:"https://www.icloud.com/shortcuts/8b9352c0f1604245af8bcdc109b0c5ff" },
     { id:"man-hinh-co-chu", icon:"chu", nhom:"tien-ich", name:"Màn hình và cỡ chữ", tag:"Mình làm",
       desc:"Chỉnh nhanh màn hình và cỡ chữ trên iPhone.",
@@ -392,7 +397,9 @@ details p{margin:0;padding:0 16px 14px;color:var(--muted);font-size:15px}
       '<div><span class="kicker">' + esc(s.tag || "Phím tắt") + '</span>' +
       '<h2>' + esc(s.name) + (s.ver ? '<small>' + esc(s.ver) + '</small>' : '') + '</h2>' +
       '<p>' + esc(s.desc) + '</p>' +
-      '<div class="chips">' + (s.chips || []).map(function(c){ return '<span>' + esc(c) + '</span>'; }).join("") + '</div></div>' +
+      '<div class="chips">' + (s.chips || []).map(function(c){ return '<span>' + esc(c) + '</span>'; }).join("") + '</div>' +
+      (/^[A-Za-z0-9_-]{11}$/.test(s.video || "") ? '<a class="sc-vid" href="https://www.youtube.com/watch?v=' + s.video + '" target="_blank" rel="noopener" data-umami-event="Phím tắt → Video" data-umami-event-ten="' + esc(s.name) + '"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" fill="currentColor"/><path d="M10 8.3v7.4l6-3.7z" fill="#fff"/></svg>Xem cách sử dụng</a>' : '') +
+      '</div>' +
       '<div class="sc-acts"><a class="btn btn-solid" href="' + esc(s.link) + '" data-umami-event="Thêm phím tắt" data-umami-event-ten="' + esc(s.name + " " + (s.ver||"")) + '">Thêm phím tắt</a>' +
       '<button type="button" class="btn" data-copy="' + esc(s.link) + '">Sao chép link</button></div>' +
     '</article>';
