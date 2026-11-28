@@ -6,7 +6,7 @@
 <link rel="stylesheet" href="/css/noel.css?v=3">
 <script src="/js/noel.js?v=3"></script>
 <title>Tải firmware iOS, iPadOS, macOS (IPSW): chính thức, beta, RC · Phước Rin</title>
-<meta name="description" content="Tải file IPSW iOS, iPadOS, macOS cho iPhone, iPad và Mac chip Apple: bản chính thức, beta và RC. File tải thẳng từ server Apple, trạng thái còn ký kiểm tra với Apple mỗi giờ.">
+<meta name="description" content="Tải file IPSW iOS, iPadOS, macOS cho iPhone, iPad và Mac chip Apple: bản chính thức, beta và RC. File tải thẳng từ server Apple, trạng thái còn ký kiểm tra thẳng với Apple.">
 <meta name="theme-color" content="#edf1f7" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#0b0f17" media="(prefers-color-scheme: dark)">
 <link rel="canonical" href="https://phuocrin.com/firmware/">
@@ -259,12 +259,12 @@ footer a{color:var(--muted)}
   <header class="top">
     <span class="kicker">Firmware</span>
     <h1>Tải firmware <em>iOS, iPadOS, macOS</em></h1>
-    <p class="lede">Bản chính thức, beta và RC cho iPhone, iPad và Mac chip Apple. File tải thẳng từ server Apple, còn bản nào cài được thì bot của mình hỏi thẳng Apple mỗi giờ.</p>
+    <p class="lede">Bản chính thức, beta và RC cho iPhone, iPad và Mac chip Apple. File tải thẳng từ server Apple, còn bản nào cài được thì bot của mình hỏi thẳng Apple nhiều lần mỗi ngày.</p>
     <div class="facts">
-      <span class="fact glass" id="botFact"><i aria-hidden="true"></i><span id="botTxt">Bot kiểm tra với Apple mỗi giờ</span></span>
+      <span class="fact glass" id="botFact"><i aria-hidden="true"></i><span id="botTxt">Bot kiểm tra thẳng với Apple</span></span>
       <span class="fact glass">File gốc từ Apple</span>
     </div>
-    <p class="stale" id="stale" hidden>Bot chưa kiểm tra với Apple hơn 3 tiếng, trạng thái "Còn ký" bên dưới có thể đã cũ. Trước khi cài, các bạn cứ thử: Finder báo không xác minh được bản cài thì bản đó đã bị khoá.</p>
+    <p class="stale" id="stale" hidden>Trạng thái ký cập nhật lần cuối lúc <b id="staleAt"></b>. Apple có thể khoá bản bất cứ lúc nào: khi cài, Finder báo không xác minh được bản cài thì bản đó vừa bị khoá.</p>
     <div class="news glass" id="news" hidden role="status">
       <span class="nk"><i aria-hidden="true"></i>Apple vừa phát hành</span>
       <ul id="newsList"></ul>
@@ -374,10 +374,10 @@ footer a{color:var(--muted)}
     <div class="src">
       <span><b style="color:var(--ink)">Nguồn và cách mình làm</b></span>
       <span>File tải thẳng từ server của Apple, web mình không lưu hay sửa file nào.</span>
-      <span>Còn ký hay đã khoá: bot của mình hỏi thẳng Apple mỗi giờ.</span>
-      <span>Bản chính thức mới nhất: bot đọc thẳng danh sách Apple dùng cho Finder, nên Apple vừa phát hành là trang có trong khoảng một giờ. Bản cũ, beta, RC và mã SHA-256 mình tham khảo thêm từ <a href="https://appledb.dev" target="_blank" rel="noopener">AppleDB</a>, tên máy từ <a href="https://ipsw.me" target="_blank" rel="noopener">IPSW.me</a>.</span>
+      <span>Còn ký hay đã khoá: bot của mình hỏi thẳng Apple nhiều lần mỗi ngày, giờ kiểm tra gần nhất ghi ở đầu trang.</span>
+      <span>Bản chính thức mới nhất: bot đọc thẳng danh sách Apple dùng cho Finder, nên Apple vừa phát hành là trang có ở lần bot chạy kế tiếp. Bản cũ, beta, RC và mã SHA-256 mình tham khảo thêm từ <a href="https://appledb.dev" target="_blank" rel="noopener">AppleDB</a>, tên máy từ <a href="https://ipsw.me" target="_blank" rel="noopener">IPSW.me</a>.</span>
       <span>Apple vừa công bố bản mới mà chưa có link tải (hay gặp với beta): bot đọc <a href="https://developer.apple.com/news/releases/" target="_blank" rel="noopener">trang Releases của Apple Developer</a> để báo trước ở đầu trang, có link là bản đó tự hiện trong danh sách.</span>
-      <span>Apple có thể khoá bản bất cứ lúc nào, nên trang có thể trễ tới khoảng một giờ. Finder báo không xác minh được bản cài thì bản đó vừa bị khoá.</span>
+      <span>Apple có thể khoá bản bất cứ lúc nào, nên trạng thái trên trang có thể trễ vài tiếng. Finder báo không xác minh được bản cài thì bản đó vừa bị khoá.</span>
       <span>Hướng dẫn của Apple: <a href="https://developer.apple.com/support/install-beta/" target="_blank" rel="noopener">cài phần mềm beta</a> · <a href="https://support.apple.com/vi-vn/108763" target="_blank" rel="noopener">gỡ bản beta iOS, iPadOS</a> · <a href="https://support.apple.com/vi-vn/108353" target="_blank" rel="noopener">sao lưu mã hoá và không mã hoá khác nhau thế nào</a>.</span>
     </div>
   </section>
@@ -500,7 +500,7 @@ footer a{color:var(--muted)}
     }
     if (!rows.length) el.innerHTML = "Máy <b>" + esc(name) + "</b> ra mắt với bản mới hơn, không có " + osn + " để hạ về.";
     else if (on.length) el.innerHTML = "Với <b>" + esc(name) + "</b>, Apple đang còn ký: <b>" + on.map(function(r){ return esc(r.os + " " + r.v) + " (build " + esc(r.b) + ")"; }).join(", ") + "</b>. Đây là bản hạ về được lúc này, tải ở danh sách phía trên" + (on.some(function(r){ return r.kind !== "release"; }) ? ", mục Beta &amp; RC." : ".");
-    else el.innerHTML = "Với <b>" + esc(name) + "</b>, hiện Apple không còn ký bản " + osn + " nào, nên chưa hạ về được. Bot kiểm tra lại mỗi giờ.";
+    else el.innerHTML = "Với <b>" + esc(name) + "</b>, hiện Apple không còn ký bản " + osn + " nào, nên chưa hạ về được. Bot kiểm tra lại nhiều lần mỗi ngày.";
   }
 
   function guides(){
@@ -567,11 +567,11 @@ footer a{color:var(--muted)}
       .then(function(r){ return r.ok ? r.json() : null; })
       .then(function(j){
         var run = j && j.workflow_runs && j.workflow_runs[0]; if (!run) return;
-        var t = new Date(run.updated_at), age = Date.now() - t.getTime(), next = new Date(t.getTime() + 3600e3);
+        var t = new Date(run.updated_at), age = Date.now() - t.getTime();
         var today = new Date().toDateString() === t.toDateString();
-        $("botTxt").innerHTML = "Bot kiểm tra với Apple lúc <b>" + hhmm(t) + (today ? "" : ", " + t.toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit" })) + "</b>"
-          + (age < 3 * 3600e3 ? " <small>· lần tới khoảng " + hhmm(next) + "</small>" : "");
-        var old = age > 3 * 3600e3;
+        $("botTxt").innerHTML = "Bot kiểm tra với Apple lúc <b>" + hhmm(t) + (today ? "" : ", " + t.toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit" })) + "</b>";
+        var old = age > 12 * 3600e3;
+        if (old) $("staleAt").textContent = hhmm(t) + " ngày " + t.toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit" });
         $("stale").hidden = !old; $("botFact").classList.toggle("warn-f", old);
       }).catch(function(){});
   }
