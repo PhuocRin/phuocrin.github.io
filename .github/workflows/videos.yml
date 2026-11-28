@@ -1,7 +1,7 @@
 name: Cập nhật video YouTube
 on:
   schedule:
-    - cron: "17 */6 * * *"
+    - cron: "41 */3 * * *"
   workflow_dispatch:
   push:
     branches: [main]
@@ -9,7 +9,7 @@ on:
 permissions:
   contents: write
   issues: write
-  actions: read
+  actions: write
 concurrency:
   group: videos
   cancel-in-progress: false
@@ -29,12 +29,13 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add videos.json
           git commit -m "Cập nhật danh sách video"
-          git push
-      - name: Canh bot firmware (mở issue nếu quá 3 giờ chưa chạy)
+          for i in 1 2 3; do git pull --rebase -q && git push -q && exit 0; sleep 5; done
+          exit 1
+      - name: Canh bot firmware (quá 2 giờ thì chạy bù, quá 12 giờ mới báo)
         if: always()
         env:
           GH_TOKEN: ${{ github.token }}
-        run: bash scripts/canh_bao_bot.sh canh firmware.yml 3 "firmware" || true
+        run: bash scripts/canh_bao_bot.sh canh firmware.yml 2 12 "firmware" || true
       - name: Báo bot video lỗi
         if: failure()
         env:
